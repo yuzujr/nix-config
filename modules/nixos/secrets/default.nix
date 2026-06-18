@@ -41,7 +41,12 @@ in
             "ssh/vm" = mkSecret "ssh.yaml" "vm" userSecret;
             "ssh/aur" = mkSecret "ssh.yaml" "aur" userSecret;
 
-            "network/mihomo" = mkSecret "network.yaml" "mihomo" rootSecret;
+            "network/mihomo" = mkSecret "network.yaml" "mihomo" (
+                rootSecret
+                // {
+                    restartUnits = [ "mihomo.service" ];
+                }
+            );
             "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 
             "apps/gold-price-history" = mkSecret "apps.yaml" "gold-price-history" userSecret;

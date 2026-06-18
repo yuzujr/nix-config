@@ -9,7 +9,7 @@
     boot.loader.timeout = 5;
     boot.loader.systemd-boot.configurationLimit = 10;
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernelPackages = pkgs.linuxPackages_7_0;
     boot.extraModulePackages = with config.boot.kernelPackages; [
         yt6801
     ];

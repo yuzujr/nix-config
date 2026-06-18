@@ -8,6 +8,63 @@ let
                 value = desktopFile;
             }) mimeTypes
         );
+
+    kwriteMimeTypes = [
+        "application/atom+xml"
+        "application/ecmascript"
+        "application/javascript"
+        "application/json"
+        "application/ld+json"
+        "application/sql"
+        "application/toml"
+        "application/x-cmake"
+        "application/x-desktop"
+        "application/x-gettext-translation"
+        "application/x-ini"
+        "application/x-javascript"
+        "application/x-perl"
+        "application/x-php"
+        "application/x-ruby"
+        "application/x-shellscript"
+        "application/x-yaml"
+        "application/x-zerosize"
+        "application/xml"
+        "text/css"
+        "text/csv"
+        "text/ecmascript"
+        "text/javascript"
+        "text/plain"
+        "text/rust"
+        "text/x-c"
+        "text/x-c++hdr"
+        "text/x-c++src"
+        "text/x-chdr"
+        "text/x-cmake"
+        "text/x-csrc"
+        "text/x-diff"
+        "text/x-go"
+        "text/x-java"
+        "text/x-kotlin"
+        "text/x-log"
+        "text/x-lua"
+        "text/x-makefile"
+        "text/x-nix"
+        "text/x-patch"
+        "text/x-perl"
+        "text/x-python"
+        "text/x-readme"
+        "text/x-ruby"
+        "text/x-rust"
+        "text/x-sass"
+        "text/x-scss"
+        "text/x-sh"
+        "text/x-sql"
+        "text/x-systemd-unit"
+        "text/x-tex"
+        "text/x-toml"
+        "text/x-yaml"
+        "text/xml"
+    ];
 in
 {
     xdg.configFile = {
@@ -108,6 +165,7 @@ in
                 "image/x-tga"
                 "image/x-xbitmap"
             ]
+            // defaultTo "org.kde.kwrite.desktop" kwriteMimeTypes
             // defaultTo "typora.desktop" [
                 "text/markdown"
                 "text/x-markdown"

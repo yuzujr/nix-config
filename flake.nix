@@ -37,7 +37,7 @@
         };
 
         noctalia = {
-            url = "github:noctalia-dev/noctalia-shell/v5";
+            url = "github:noctalia-dev/noctalia";
         };
 
         rose-pine-doom-emacs = {

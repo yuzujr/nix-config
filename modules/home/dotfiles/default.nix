@@ -28,7 +28,6 @@ in
         "niri".source = mkSymlink "${repoRoot}/dotfiles/niri/";
         "noctalia".source = mkSymlink "${repoRoot}/dotfiles/noctalia";
         "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty";
-        "fuzzel".source = mkSymlink "${repoRoot}/dotfiles/fuzzel";
         "fastfetch".source = mkSymlink "${repoRoot}/dotfiles/fastfetch";
         "btop".source = mkSymlink "${repoRoot}/dotfiles/btop";
         "cava".source = mkSymlink "${repoRoot}/dotfiles/cava";

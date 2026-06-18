@@ -7,7 +7,7 @@ order = [ "default" ]
     radius = 20
     background_opacity = 0.93000000715255737
     capsule = true
-    end = [ "screen_recorder", "tray", "network", "bluetooth", "notifications", "volume", "brightness", "battery", "control-center" ]
+    end = [ "recorder", "tray", "network", "bluetooth", "notifications", "volume", "brightness", "battery", "control-center" ]
     shadow = true
     thickness = 40
     start = [ "workspaces", "active_window", "media" ]
@@ -39,21 +39,36 @@ behavior_order = [ "lock", "screen-off", "suspend" ]
     timeout = 900
 
 [shell]
-avatar_path = "/home/yuzujr/Pictures/Beluga.webp"
+avatar_path = "/var/lib/AccountsService/icons/yuzujr"
 font_family = "Noto Sans CJK SC"
 polkit_agent = true
 settings_show_advanced = false
 clipboard_auto_paste = "off"
     
     [shell.panel]
-    clipboard_placement = "attached"
     open_near_click_control_center = true
+    launcher_categories = false
+    launcher_session_search = true
+    transparency_mode = "soft"
     
     [shell.shadow]
     blur = 12
 
 [system.monitor]
 enabled = false
+
+[plugins]
+enabled = [ "noctalia/screen_recorder", "noctalia/translator" ]
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/official-plugins"
+    name = "official"
+
+    [[plugins.source]]
+    kind = "git"
+    location = "https://github.com/noctalia-dev/community-plugins"
+    name = "community"
 
 [theme]
 builtin = "Rosé Pine"
@@ -62,7 +77,7 @@ source = "builtin"
 
     [theme.templates]
     builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "niri", "qt" ]
-    community_ids = [ "fuzzel", "yazi" ]
+    community_ids = [ "yazi" ]
 
 [wallpaper]
 directory = "/home/yuzujr/Pictures/Wallpapers"
@@ -85,12 +100,14 @@ empty_color = "on_surface"
 occupied_color = "on_surface"
 
 [widget.active_window]
+show_empty_label = true
 icon_size = 18.0
 min_length = 0.0
 max_length = 200.0
 title_scroll = "on_hover"
 
 [widget.media]
+hide_when_no_media = true
 title_scroll = "on_hover"
 
 [widget.tray]
@@ -102,29 +119,11 @@ show_label = false
 [widget.network]
 show_label = false
 
-[widget.screen_recorder]
-type = "scripted"
-script = "scripts/screen_recorder.lua"
-directory        = ""
-filename_pattern = "recording_%Y%m%d_%H%M%S"
-video_source     = "portal"
-video_codec      = "h264"
-audio_codec      = "opus"
-audio_source     = "default_output"
-quality          = "very_high"
-frame_rate       = 60
-color_range      = "limited"
-resolution       = "original"
-show_cursor      = true
-copy_to_clipboard = false
-restore_portal   = false
-replay_enabled   = false
-replay_duration  = 30
-replay_storage   = "ram"
-hide_inactive    = false
-
 [widget.volume]
 show_label = false
+
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"
 
 [[control_center.shortcuts]]
 type = "wifi"
@@ -148,7 +147,7 @@ type = "dark_mode"
 enabled = true
 
 [location]
-address = "Changchun, CN"
+address = "Shenzhen, CN"
 
 [notification]
 background_opacity = 0.93
@@ -157,3 +156,4 @@ background_opacity = 0.93
 background_opacity = 0.93
 lock_keys = false
 position = "top_right"
+

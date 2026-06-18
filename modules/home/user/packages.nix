@@ -31,7 +31,6 @@ let
     desktop = with pkgs; [
         bluetui
         feh
-        fuzzel
         google-chrome
         gparted
         kitty
@@ -87,6 +86,8 @@ let
         appimage-run
         cliphist
         file
+        poppler-utils
+        typst
         unrar
         wev
         wl-clipboard

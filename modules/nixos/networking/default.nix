@@ -5,5 +5,6 @@
         ./ssh-client.nix
         ./sshd.nix
         ./mihomo.nix
+        ./tailscale.nix
     ];
 }
