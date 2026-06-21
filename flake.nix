@@ -85,10 +85,8 @@
                     specialArgs = {
                         inherit inputs home-manager hostname sops-nix secrets;
                         vars = hostVars;
-                        coomerPkg = coomer.packages."x86_64-linux".default; # Mac 暂不使用 linux 的包
-                        drcomClientPkg = drcom-client-cpp.packages."x86_64-linux".default;
-                        ani2xcursorPkg = ani2xcursor.packages."x86_64-linux".default;
-                        noctaliaPkg = noctalia.packages."x86_64-linux".default;
+                        # Linux-only packages (coomerPkg, drcomClientPkg, ani2xcursorPkg, noctaliaPkg)
+                        # are not passed here; modules/home/user/packages.nix uses ? null defaults
                         rosePineDoomEmacsSrc = rose-pine-doom-emacs;
                     };
                     modules = [

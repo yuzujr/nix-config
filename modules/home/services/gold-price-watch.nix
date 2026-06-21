@@ -1,5 +1,5 @@
-{ ... }:
-{
+{ lib, pkgs, ... }:
+lib.mkIf pkgs.stdenv.isLinux {
     systemd.user.services.gold-price-watch = {
         Unit = {
             Description = "Gold price watcher (USD/oz)";

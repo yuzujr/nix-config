@@ -1,8 +1,5 @@
-{
-    config,
-    ...
-}:
-{
+{ lib, pkgs, config, ... }:
+lib.mkIf pkgs.stdenv.isLinux {
     systemd.user.services.wl-clip-persist = {
         Unit = {
             Description = "Wayland clipboard persistence";

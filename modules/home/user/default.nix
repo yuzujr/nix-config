@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, pkgs, ... }:
 {
     imports = [
         ./direnv.nix
@@ -9,5 +9,6 @@
         ./xdg.nix
     ];
 
-    fonts.fontconfig.enable = false;
+    # fontconfig is Linux-only; macOS uses its own font system
+    fonts.fontconfig.enable = lib.mkIf pkgs.stdenv.isLinux false;
 }

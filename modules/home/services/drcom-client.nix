@@ -1,8 +1,5 @@
-{
-    config,
-    ...
-}:
-{
+{ lib, pkgs, config, ... }:
+lib.mkIf pkgs.stdenv.isLinux {
     systemd.user.services.drcom = {
         Unit = {
             Description = "DRCOM client";

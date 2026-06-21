@@ -1,9 +1,9 @@
 {
-    config,
     pkgs,
     lib,
     vars,
     home-manager,
+    rosePineDoomEmacsSrc,
     ...
 }:
 {
@@ -24,11 +24,14 @@
     home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = { inherit vars; };
+        extraSpecialArgs = {
+            inherit vars rosePineDoomEmacsSrc;
+        };
         users."${vars.username}" = {
             imports = [
-                ../../modules/home/dotfiles/default.nix
+                ../../modules/home
             ];
+            # macOS stateVersion — set at initial deploy, do not change
             home.stateVersion = "24.11";
             home.enableNixpkgsReleaseCheck = false;
         };

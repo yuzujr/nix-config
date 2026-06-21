@@ -1,16 +1,18 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
     programs.mpv = {
         enable = true;
 
-        scripts = with pkgs.mpvScripts; [
-            autoload
-            modernz
-            mpris
-            quality-menu
-            sponsorblock
-            thumbfast
-        ];
+        scripts = with pkgs.mpvScripts;
+            [
+                autoload
+                modernz
+                quality-menu
+                sponsorblock
+                thumbfast
+            ]
+            # mpris requires D-Bus (Linux only)
+            ++ lib.optional pkgs.stdenv.isLinux mpris;
 
         config = {
             osc = false;

@@ -35,6 +35,8 @@
             "squirrel-app"
             "google-chrome"
             "clash-verge-rev"
+            "cc-switch"
+            "codex"
             "visual-studio-code"
             "antigravity-cli"
             "wechat"

@@ -8,6 +8,7 @@
 {
     imports = [
         ./homebrew.nix
+        ./secrets.nix
     ];
 
     system.stateVersion = 4;

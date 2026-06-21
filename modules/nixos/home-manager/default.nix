@@ -27,8 +27,10 @@
                 vars
                 ;
         };
-        users.${vars.username}.imports = [
-            ../../home
-        ];
+        users.${vars.username} = {
+            imports = [ ../../home ];
+            home.stateVersion = "26.05";
+            home.enableNixpkgsReleaseCheck = false;
+        };
     };
 }

@@ -53,6 +53,13 @@ if status is-interactive
         bind \ec 'commandline | wl-copy --trim-newline'
     else if test (uname) = Darwin
         alias ff="fastfetch"
+
+        function drs --description "darwin-rebuild switch with secret inputs"
+            darwin-rebuild switch \
+                --flake $HOME/Documents/nix-config#macbook \
+                --override-input secrets path:$HOME/Documents/nix-secret \
+                $argv
+        end
     end
 
     function y

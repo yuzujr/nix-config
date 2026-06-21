@@ -1,20 +1,25 @@
 {
     pkgs,
-    coomerPkg,
-    drcomClientPkg,
-    ani2xcursorPkg,
-    noctaliaPkg,
+    lib,
+    # Linux-only custom packages; use ? null so Darwin doesn't need to pass them
+    coomerPkg ? null,
+    drcomClientPkg ? null,
+    ani2xcursorPkg ? null,
+    noctaliaPkg ? null,
     ...
 }:
 let
-    custom = [
-        coomerPkg
-        drcomClientPkg
-        ani2xcursorPkg
-        noctaliaPkg
-    ];
+    # Custom packages only built for Linux
+    linuxCustom = lib.optionals pkgs.stdenv.isLinux (
+        lib.optional (coomerPkg != null) coomerPkg
+        ++ lib.optional (drcomClientPkg != null) drcomClientPkg
+        ++ lib.optional (ani2xcursorPkg != null) ani2xcursorPkg
+        ++ lib.optional (noctaliaPkg != null) noctaliaPkg
+    );
 
-    development = with pkgs; [
+    # Development tools installed via Nix on Linux;
+    # on macOS these come from Homebrew casks/brews (see modules/darwin/homebrew.nix)
+    linuxDevelopment = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         binutils
         cc-switch
         codex
@@ -26,9 +31,10 @@ let
         nodejs
         python3
         vscode
-    ];
+    ]);
 
-    desktop = with pkgs; [
+    # Linux-only desktop apps; macOS equivalents are in Homebrew casks
+    linuxDesktop = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         bluetui
         feh
         google-chrome
@@ -47,24 +53,25 @@ let
         xwayland-satellite
         zathura
         zathuraPkgs.zathura_pdf_poppler
-    ];
+    ]);
 
-    media = with pkgs; [
+    linuxMedia = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         ffmpeg
         gpu-screen-recorder
         (obs-studio.override { browserSupport = false; })
         playerctl
-    ];
+    ]);
 
-    theming = with pkgs; [
+    linuxTheming = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         adw-gtk3
         bibata-cursors
         rose-pine-cursor
         kdePackages.qt6ct
         nwg-look
         tela-circle-icon-theme
-    ];
+    ]);
 
+    # Terminal tools available on both platforms via Nix
     terminal = with pkgs; [
         btop
         cmatrix
@@ -82,7 +89,7 @@ let
         zoxide
     ];
 
-    utilities = with pkgs; [
+    linuxUtilities = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         appimage-run
         cliphist
         file
@@ -92,14 +99,26 @@ let
         wev
         wl-clipboard
         wl-clip-persist
-    ];
+    ]);
 
-    windows = with pkgs; [
+    darwinUtilities = lib.optionals pkgs.stdenv.isDarwin (with pkgs; [
+        typst
+    ]);
+
+    linuxWindows = lib.optionals pkgs.stdenv.isLinux (with pkgs; [
         wine-staging
         winetricks
-    ];
+    ]);
 in
 {
     home.packages =
-        custom ++ development ++ desktop ++ media ++ theming ++ terminal ++ utilities ++ windows;
+        linuxCustom
+        ++ linuxDevelopment
+        ++ linuxDesktop
+        ++ linuxMedia
+        ++ linuxTheming
+        ++ terminal
+        ++ linuxUtilities
+        ++ darwinUtilities
+        ++ linuxWindows;
 }

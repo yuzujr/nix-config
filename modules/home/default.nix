@@ -1,7 +1,4 @@
-{
-    vars,
-    ...
-}:
+{ vars, ... }:
 {
     imports = [
         ./dotfiles
@@ -11,7 +8,8 @@
 
     home = {
         inherit (vars) username;
-        stateVersion = "26.05";
-        enableNixpkgsReleaseCheck = false;
+        # stateVersion is intentionally set per-host, not here.
+        # NixOS host: modules/nixos/home-manager/default.nix
+        # macOS host:  hosts/macbook/default.nix
     };
 }
