@@ -7,7 +7,7 @@
     ...
 }:
 let
-    repoRoot = if pkgs.stdenv.isDarwin then "${config.home.homeDirectory}/Documents/nixos-config" else vars.repoRoot;
+    inherit (vars) repoRoot;
     mkSymlink = config.lib.file.mkOutOfStoreSymlink;
     hasSecret =
         name:

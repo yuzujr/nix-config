@@ -61,10 +61,12 @@
             vars = import ./vars;
 
             mkNixosHost = { hostname, system ? "x86_64-linux" }:
-                nixpkgs.lib.nixosSystem {
+                let hostVars = vars // { repoRoot = "/home/${vars.username}/nixos-config"; };
+                in nixpkgs.lib.nixosSystem {
                     inherit system;
                     specialArgs = {
-                        inherit inputs home-manager hostname vars sops-nix secrets;
+                        inherit inputs home-manager hostname sops-nix secrets;
+                        vars = hostVars;
                         coomerPkg = coomer.packages.${system}.default;
                         drcomClientPkg = drcom-client-cpp.packages.${system}.default;
                         ani2xcursorPkg = ani2xcursor.packages.${system}.default;
@@ -77,10 +79,12 @@
                 };
 
             mkDarwinHost = { hostname, system ? "aarch64-darwin" }:
-                darwin.lib.darwinSystem {
+                let hostVars = vars // { repoRoot = "/Users/${vars.username}/Documents/nixos-config"; };
+                in darwin.lib.darwinSystem {
                     inherit system;
                     specialArgs = {
-                        inherit inputs home-manager hostname vars sops-nix secrets;
+                        inherit inputs home-manager hostname sops-nix secrets;
+                        vars = hostVars;
                         coomerPkg = coomer.packages."x86_64-linux".default; # Mac 暂不使用 linux 的包
                         drcomClientPkg = drcom-client-cpp.packages."x86_64-linux".default;
                         ani2xcursorPkg = ani2xcursor.packages."x86_64-linux".default;
