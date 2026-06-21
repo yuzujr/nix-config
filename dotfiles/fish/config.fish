@@ -1,3 +1,8 @@
+# Explicitly add Nix and nix-darwin paths to fish
+if not contains /run/current-system/sw/bin $PATH
+    set -gx PATH /run/current-system/sw/bin /nix/var/nix/profiles/default/bin ~/.nix-profile/bin $PATH
+end
+
 if status is-interactive
     # Init
     set fish_greeting
