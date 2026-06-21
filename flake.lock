@@ -40,6 +40,26 @@
         "type": "github"
       }
     },
+    "darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1781761792,
+        "narHash": "sha256-rCPytmKNjctLloB6UgK5CRrHSwV4b0ygxtJLPPp8R14=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "a1fa429e945becaf60468600daf649be4ba0350c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
     "drcom-client-cpp": {
       "inputs": {
         "nixpkgs": [
@@ -131,6 +151,7 @@
       "inputs": {
         "ani2xcursor": "ani2xcursor",
         "coomer": "coomer",
+        "darwin": "darwin",
         "drcom-client-cpp": "drcom-client-cpp",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

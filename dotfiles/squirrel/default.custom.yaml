@@ -1,0 +1,8 @@
+patch:
+  # 方案列表
+  schema_list:
+    - schema: rime_ice              # 雾凇拼音（全拼）
+    - schema: double_pinyin_flypy    # 小鹤双拼
+  menu:
+    page_size: 5  # 候选词个数
+ 

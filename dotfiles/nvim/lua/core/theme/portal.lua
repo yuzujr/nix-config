@@ -45,6 +45,15 @@ local function read_scheme_once()
 end
 
 function M.setup()
+  if vim.fn.has("mac") == 1 then
+    -- macOS: `defaults read -g AppleInterfaceStyle` prints "Dark" in dark mode,
+    -- and exits with error (empty output) in light mode.
+    local out = vim.fn.system({ "defaults", "read", "-g", "AppleInterfaceStyle" })
+    local bg = (out:find("Dark") ~= nil) and "dark" or "light"
+    apply(bg)
+    return
+  end
+
   if vim.fn.executable("gdbus") ~= 1 then
     return
   end

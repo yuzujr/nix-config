@@ -1,9 +1,12 @@
 {
-    description = "yuzujr's NixOS configuration";
+    description = "yuzujr's NixOS and macOS configuration";
 
     inputs = {
-        nixpkgs = {
-            url = "github:nixos/nixpkgs/nixos-unstable";
+        nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+        darwin = {
+            url = "github:LnL7/nix-darwin";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
 
         home-manager = {
@@ -47,57 +50,49 @@
     };
 
     outputs =
-        {
-            nixpkgs,
-            home-manager,
-            sops-nix,
-            secrets,
-            coomer,
-            drcom-client-cpp,
-            ani2xcursor,
-            noctalia,
-            rose-pine-doom-emacs,
-            ...
-        }:
+        inputs@{ self, nixpkgs, darwin, home-manager, sops-nix, secrets, coomer, drcom-client-cpp, ani2xcursor, noctalia, rose-pine-doom-emacs, ... }:
         let
             supportedSystems = [
                 "x86_64-linux"
+                "aarch64-darwin"
             ];
             forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
 
             vars = import ./vars;
 
-            mkHost =
-                {
-                    hostname,
-                    system ? "x86_64-linux",
-                }:
-                let
+            mkNixosHost = { hostname, system ? "x86_64-linux" }:
+                nixpkgs.lib.nixosSystem {
+                    inherit system;
                     specialArgs = {
-                        inherit
-                            home-manager
-                            hostname
-                            vars
-                            sops-nix
-                            secrets
-                            ;
+                        inherit inputs home-manager hostname vars sops-nix secrets;
                         coomerPkg = coomer.packages.${system}.default;
                         drcomClientPkg = drcom-client-cpp.packages.${system}.default;
                         ani2xcursorPkg = ani2xcursor.packages.${system}.default;
                         noctaliaPkg = noctalia.packages.${system}.default;
                         rosePineDoomEmacsSrc = rose-pine-doom-emacs;
                     };
-                in
-                nixpkgs.lib.nixosSystem {
-                    inherit system specialArgs;
                     modules = [
-                        ./hosts/laptop/default.nix
+                        ./hosts/nixos-laptop/default.nix
                     ];
                 };
 
-            mkDevShells = import ./devshells {
-                inherit nixpkgs;
-            };
+            mkDarwinHost = { hostname, system ? "aarch64-darwin" }:
+                darwin.lib.darwinSystem {
+                    inherit system;
+                    specialArgs = {
+                        inherit inputs home-manager hostname vars sops-nix secrets;
+                        coomerPkg = coomer.packages."x86_64-linux".default; # Mac 暂不使用 linux 的包
+                        drcomClientPkg = drcom-client-cpp.packages."x86_64-linux".default;
+                        ani2xcursorPkg = ani2xcursor.packages."x86_64-linux".default;
+                        noctaliaPkg = noctalia.packages."x86_64-linux".default;
+                        rosePineDoomEmacsSrc = rose-pine-doom-emacs;
+                    };
+                    modules = [
+                        ./hosts/macbook/default.nix
+                    ];
+                };
+
+            mkDevShells = import ./devshells { inherit nixpkgs; };
         in
         {
             formatter = forAllSystems (system: (mkDevShells system).formatter);
@@ -105,9 +100,11 @@
             devShells = forAllSystems (system: (mkDevShells system).devShells);
 
             nixosConfigurations = {
-                laptop = mkHost {
-                    hostname = vars.hostname;
-                };
+                nixos-laptop = mkNixosHost { hostname = vars.hostname; };
+            };
+
+            darwinConfigurations = {
+                macbook = mkDarwinHost { hostname = "macbook"; };
             };
         };
 }
