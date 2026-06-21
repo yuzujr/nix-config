@@ -6,22 +6,8 @@
     ...
 }:
 let
-    mkSecret =
-        file: key: attrs:
-        {
-            sopsFile = "${secrets}/secrets/${file}";
-            inherit key;
-        }
-        // attrs;
-
-    userSecret = {
-        mode = "0400";
-        owner = vars.username;
-    };
-    rootSecret = {
-        mode = "0400";
-        owner = "root";
-    };
+    secretLib = import ../../../lib/secrets.nix { inherit secrets vars; };
+    inherit (secretLib) mkSecret userSecret rootSecret;
 in
 {
     imports = [
@@ -33,25 +19,17 @@ in
     ];
 
     sops = {
-        age.keyFile = "/home/${vars.username}/.config/sops/age/keys.txt";
+        age.keyFile = "${vars.homeDirectory}/.config/sops/age/keys.txt";
 
-        secrets = {
-            "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
-            "ssh/gitee" = mkSecret "ssh.yaml" "gitee" userSecret;
-            "ssh/vm" = mkSecret "ssh.yaml" "vm" userSecret;
-            "ssh/aur" = mkSecret "ssh.yaml" "aur" userSecret;
-
+        secrets = secretLib.common // {
             "network/mihomo" = mkSecret "network.yaml" "mihomo" (
                 rootSecret
                 // {
                     restartUnits = [ "mihomo.service" ];
                 }
             );
-            "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 
             "apps/gold-price-history" = mkSecret "apps.yaml" "gold-price-history" userSecret;
-
-            "nix/user-conf" = mkSecret "nix.yaml" "user-conf" userSecret;
 
             "users/${vars.username}/password-hash" = mkSecret "users.yaml" "${vars.username}-password-hash" (
                 rootSecret

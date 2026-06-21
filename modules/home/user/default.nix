@@ -5,7 +5,8 @@
         ./emacs.nix
         ./git.nix
         ./mpv.nix
-        ./packages.nix
+        ../packages
+        ./ssh.nix
         ./xdg.nix
     ];
 

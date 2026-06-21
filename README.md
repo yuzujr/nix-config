@@ -1,44 +1,69 @@
 # nix-config
 
-NixOS + Home Manager flake for my desktop setup (`niri` + Plasma 6), daily apps, and dotfiles.
+NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 
-## What this flake provides
+## Outputs
 
-- `nixosConfigurations.laptop`
-  - Personal laptop setup.
+- `nixosConfigurations.nixos-laptop`
+- `darwinConfigurations.macbook`
+- `devShells.{x86_64-linux,aarch64-darwin}.*`
 
-## Repository layout
+## Layout
 
 ```text
 .
-├── devshells/               # Development shell definitions exposed by the root flake
-├── flake.nix                # Inputs, outputs, host variants
-├── hosts/laptop/            # Host entrypoint + generated hardware config
-├── modules/home/            # Home Manager modules
-├── modules/nixos/           # system modules
-├── secrets/placeholder/     # Empty placeholder for private secrets input
-├── vars/                    # username/hostname/repoRoot
-└── dotfiles/                # User dotfiles linked by Home Manager
+├── devshells/               # Flake dev shells
+├── dotfiles/                # Files linked by Home Manager
+├── hosts/
+│   ├── macbook/             # Darwin host entrypoint
+│   └── nixos-laptop/        # NixOS host entrypoint and hardware config
+├── lib/                     # Shared helper functions
+├── modules/
+│   ├── darwin/              # nix-darwin modules
+│   ├── home/                # Shared Home Manager modules
+│   └── nixos/               # NixOS modules
+├── secrets/placeholder/     # Public placeholder for the private secrets input
+├── vars/                    # Shared user and host variables
+├── flake.lock
+└── flake.nix
 ```
 
-## Prerequisites
+## Secrets
 
-- NixOS with flakes enabled.
-- `git`.
-
-## Setup
-
-Adjust `username`, `hostname` and `repoRoot` in `vars/default.nix`.
-
-## Build and switch
+Private secrets are provided through the `secrets` flake input. Local rebuilds usually override it:
 
 ```bash
-sudo nixos-rebuild switch --flake .#laptop --override-input secrets path:/path/to/nixos-secrets
+--override-input secrets path:/Users/yuzujr/Documents/nix-secret
 ```
 
-## Development shells
+The public placeholder at `secrets/placeholder` only keeps the flake evaluable without the private repo.
 
-The root flake exposes these shell aliases:
+## Package Policy
+
+- NixOS: system and user packages are managed with Nix/Home Manager.
+- macOS: applications and CLI tools are managed with Homebrew where practical.
+- Home Manager is shared across platforms for dotfiles and user configuration such as Git and SSH.
+- Emacs on macOS remains managed by Nix/Home Manager so its plugin set stays declarative.
+
+## Rebuild
+
+macOS:
+
+```bash
+sudo darwin-rebuild switch \
+  --flake .#macbook \
+  --override-input secrets path:/Users/yuzujr/Documents/nix-secret
+```
+
+NixOS:
+
+```bash
+sudo nixos-rebuild switch \
+  --flake .#nixos-laptop \
+  --override-input secrets path:/path/to/nix-secret
+```
+
+## Development Shells
 
 ```bash
 nix develop .#gcc-cpp-env

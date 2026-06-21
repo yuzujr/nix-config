@@ -1,4 +1,4 @@
-# Homebrew (macOS) — must come before Nix so brew-managed tools are found
+# Homebrew (macOS); Nix paths are prepended below so Nix-managed CLI tools win.
 if test -d /opt/homebrew/bin  # Apple Silicon
     set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
 else if test -d /usr/local/bin  # Intel
@@ -40,7 +40,7 @@ if status is-interactive
                     set -e argv[1]
             end
 
-            nh os $mode --update $argv /home/yuzujr/nix-config#laptop \
+            nh os $mode --update $argv /home/yuzujr/nix-config#nixos-laptop \
                 -- --override-input secrets path:/home/yuzujr/nix-secret
         end
 
@@ -62,7 +62,7 @@ if status is-interactive
         alias ff="fastfetch"
 
         function drs --description "darwin-rebuild switch with secret inputs"
-            darwin-rebuild switch \
+            sudo darwin-rebuild switch \
                 --flake $HOME/Documents/nix-config#macbook \
                 --override-input secrets path:$HOME/Documents/nix-secret \
                 $argv

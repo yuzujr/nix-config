@@ -1,5 +1,5 @@
 { pkgs, lib, ... }:
-{
+lib.mkIf pkgs.stdenv.isLinux {
     programs.mpv = {
         enable = true;
 
@@ -10,9 +10,9 @@
                 quality-menu
                 sponsorblock
                 thumbfast
+                mpris
             ]
-            # mpris requires D-Bus (Linux only)
-            ++ lib.optional pkgs.stdenv.isLinux mpris;
+            ;
 
         config = {
             osc = false;

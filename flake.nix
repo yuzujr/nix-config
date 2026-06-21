@@ -61,7 +61,12 @@
             vars = import ./vars;
 
             mkNixosHost = { hostname, system ? "x86_64-linux" }:
-                let hostVars = vars // { repoRoot = "/home/${vars.username}/nix-config"; };
+                let
+                    homeDirectory = "/home/${vars.username}";
+                    hostVars = vars // {
+                        inherit homeDirectory;
+                        repoRoot = "${homeDirectory}/nix-config";
+                    };
                 in nixpkgs.lib.nixosSystem {
                     inherit system;
                     specialArgs = {
@@ -79,14 +84,19 @@
                 };
 
             mkDarwinHost = { hostname, system ? "aarch64-darwin" }:
-                let hostVars = vars // { repoRoot = "/Users/${vars.username}/Documents/nix-config"; };
+                let
+                    homeDirectory = "/Users/${vars.username}";
+                    hostVars = vars // {
+                        inherit homeDirectory;
+                        repoRoot = "${homeDirectory}/Documents/nix-config";
+                    };
                 in darwin.lib.darwinSystem {
                     inherit system;
                     specialArgs = {
                         inherit inputs home-manager hostname sops-nix secrets;
                         vars = hostVars;
                         # Linux-only packages (coomerPkg, drcomClientPkg, ani2xcursorPkg, noctaliaPkg)
-                        # are not passed here; modules/home/user/packages.nix uses ? null defaults
+                        # are not passed here; modules/home/packages/linux.nix uses ? null defaults.
                         rosePineDoomEmacsSrc = rose-pine-doom-emacs;
                     };
                     modules = [

@@ -13,10 +13,9 @@
         home-manager.nixosModules.home-manager
     ];
 
-    home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        backupFileExtension = "home-manager.backup";
+    home-manager = (import ../../../lib/home-manager.nix {
+        inherit vars;
+        homeStateVersion = "26.05";
         extraSpecialArgs = {
             inherit
                 ani2xcursorPkg
@@ -24,13 +23,9 @@
                 drcomClientPkg
                 noctaliaPkg
                 rosePineDoomEmacsSrc
-                vars
                 ;
         };
-        users.${vars.username} = {
-            imports = [ ../../home ];
-            home.stateVersion = "26.05";
-            home.enableNixpkgsReleaseCheck = false;
-        };
+    }) // {
+        backupFileExtension = "home-manager.backup";
     };
 }
