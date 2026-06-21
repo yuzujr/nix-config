@@ -61,7 +61,7 @@
             vars = import ./vars;
 
             mkNixosHost = { hostname, system ? "x86_64-linux" }:
-                let hostVars = vars // { repoRoot = "/home/${vars.username}/nixos-config"; };
+                let hostVars = vars // { repoRoot = "/home/${vars.username}/nix-config"; };
                 in nixpkgs.lib.nixosSystem {
                     inherit system;
                     specialArgs = {
@@ -79,7 +79,7 @@
                 };
 
             mkDarwinHost = { hostname, system ? "aarch64-darwin" }:
-                let hostVars = vars // { repoRoot = "/Users/${vars.username}/Documents/nixos-config"; };
+                let hostVars = vars // { repoRoot = "/Users/${vars.username}/Documents/nix-config"; };
                 in darwin.lib.darwinSystem {
                     inherit system;
                     specialArgs = {

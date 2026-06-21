@@ -28,8 +28,8 @@ if status is-interactive
                     set -e argv[1]
             end
 
-            nh os $mode --update $argv /home/yuzujr/nixos-config#laptop \
-                -- --override-input secrets path:/home/yuzujr/nixos-secrets
+            nh os $mode --update $argv /home/yuzujr/nix-config#laptop \
+                -- --override-input secrets path:/home/yuzujr/nix-secret
         end
 
         function ff --wraps fastfetch --description "fastfetch with GNOME light/dark config"
