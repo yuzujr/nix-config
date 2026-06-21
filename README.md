@@ -1,4 +1,4 @@
-# nixos-config
+# nix-config
 
 NixOS + Home Manager flake for my desktop setup (`niri` + Plasma 6), daily apps, and dotfiles.
 
