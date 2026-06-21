@@ -1,3 +1,10 @@
+# Homebrew (macOS) — must come before Nix so brew-managed tools are found
+if test -d /opt/homebrew/bin  # Apple Silicon
+    set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
+else if test -d /usr/local/bin  # Intel
+    set -gx PATH /usr/local/bin /usr/local/sbin $PATH
+end
+
 # Explicitly add Nix and nix-darwin paths to fish
 if not contains /run/current-system/sw/bin $PATH
     set -gx PATH /run/current-system/sw/bin /nix/var/nix/profiles/default/bin ~/.nix-profile/bin $PATH
