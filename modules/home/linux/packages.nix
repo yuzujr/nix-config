@@ -101,14 +101,6 @@ let
     ];
 in
 {
-    home.packages = lib.optionals pkgs.stdenv.isLinux (
-        terminal
-        ++ custom
-        ++ development
-        ++ desktop
-        ++ media
-        ++ theming
-        ++ utilities
-        ++ windows
-    );
+    home.packages =
+        terminal ++ custom ++ development ++ desktop ++ media ++ theming ++ utilities ++ windows;
 }

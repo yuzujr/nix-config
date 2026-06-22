@@ -89,6 +89,7 @@
               ("TAB" . dired-find-file)
               ("<backtab>" . dired-up-directory))
   :custom
+  (dired-use-ls-dired nil)
   (dired-kill-when-opening-new-dired-buffer t))
 
 (use-package dired-x

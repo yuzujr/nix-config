@@ -1,18 +1,16 @@
-{ pkgs, lib, ... }:
-lib.mkIf pkgs.stdenv.isLinux {
+{ pkgs, ... }:
+{
     programs.mpv = {
         enable = true;
 
-        scripts = with pkgs.mpvScripts;
-            [
-                autoload
-                modernz
-                quality-menu
-                sponsorblock
-                thumbfast
-                mpris
-            ]
-            ;
+        scripts = with pkgs.mpvScripts; [
+            autoload
+            modernz
+            quality-menu
+            sponsorblock
+            thumbfast
+            mpris
+        ];
 
         config = {
             osc = false;

@@ -6,9 +6,8 @@
             autoUpdate = true;
             cleanup = "zap";
         };
-        taps = [];
+        taps = [ ];
         brews = [
-            "fish"
             "duf"
             "dust"
             "fd"
@@ -33,6 +32,8 @@
             "clash-verge-rev"
             "cc-switch"
             "codex"
+            "codebuddy-cn"
+            "linearmouse"
             "visual-studio-code"
             "antigravity-cli"
             "wechat"

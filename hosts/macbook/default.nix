@@ -1,4 +1,5 @@
 {
+    pkgs,
     vars,
     ...
 }:
@@ -14,5 +15,6 @@
     users.users."${vars.username}" = {
         name = vars.username;
         home = vars.homeDirectory;
+        shell = pkgs.fish;
     };
 }

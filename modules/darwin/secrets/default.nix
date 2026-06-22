@@ -7,6 +7,7 @@
 }:
 let
     secretLib = import ../../../lib/secrets.nix { inherit secrets vars; };
+    inherit (secretLib) mkSecret userSecret;
 in
 {
     imports = [
@@ -20,6 +21,16 @@ in
     sops = {
         age.keyFile = "${vars.homeDirectory}/.config/sops/age/keys.txt";
 
-        secrets = secretLib.common;
+        secrets = {
+            "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
+            "ssh/gitee" = mkSecret "ssh.yaml" "gitee" userSecret;
+            "ssh/gongfeng" = mkSecret "ssh.yaml" "gongfeng" userSecret;
+            "ssh/vm" = mkSecret "ssh.yaml" "vm" userSecret;
+            "ssh/aur" = mkSecret "ssh.yaml" "aur" userSecret;
+
+            "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
+
+            "nix/user-conf" = mkSecret "nix.yaml" "user-conf" userSecret;
+        };
     };
 }

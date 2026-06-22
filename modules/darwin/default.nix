@@ -1,7 +1,7 @@
 { ... }:
 {
     imports = [
-        ./core
+        ./shell.nix
         ./home-manager
         ./homebrew
         ./secrets
@@ -9,5 +9,10 @@
 
     system.stateVersion = 4;
 
-    # System settings (Dock, etc.) can be added here
+    # Do not manage nix daemon as we are using Determinate Systems installer.
+    nix.enable = false;
+
+    nixpkgs.config.allowUnfree = true;
+
+    programs.fish.enable = true;
 }

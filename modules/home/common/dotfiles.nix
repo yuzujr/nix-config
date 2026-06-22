@@ -25,11 +25,17 @@ let
         "starship.toml".source = mkSymlink "${repoRoot}/dotfiles/starship.toml";
         "fastfetch".source = mkSymlink "${repoRoot}/dotfiles/fastfetch";
         "btop".source = mkSymlink "${repoRoot}/dotfiles/btop";
-    } // (if pkgs.stdenv.isDarwin then {
-        "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty-darwin";
-    } else {
-        "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty";
-    });
+    }
+    // (
+        if pkgs.stdenv.isDarwin then
+            {
+                "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty-darwin";
+            }
+        else
+            {
+                "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty";
+            }
+    );
 
     # Linux (NixOS) 专有配置
     linuxConfigFiles = {
@@ -63,13 +69,18 @@ in
 {
     home.file = {
         ".local/bin".source = mkSymlink "${repoRoot}/dotfiles/local/bin";
-    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
-        "Library/Rime/squirrel.custom.yaml".source = mkSymlink "${repoRoot}/dotfiles/squirrel/squirrel.custom.yaml";
-        "Library/Rime/default.custom.yaml".source = mkSymlink "${repoRoot}/dotfiles/squirrel/default.custom.yaml";
-        "Library/Rime/double_pinyin_flypy.custom.yaml".source = mkSymlink "${repoRoot}/dotfiles/squirrel/double_pinyin_flypy.custom.yaml";
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+        "Library/Rime/squirrel.custom.yaml".source =
+            mkSymlink "${repoRoot}/dotfiles/squirrel/squirrel.custom.yaml";
+        "Library/Rime/default.custom.yaml".source =
+            mkSymlink "${repoRoot}/dotfiles/squirrel/default.custom.yaml";
+        "Library/Rime/double_pinyin_flypy.custom.yaml".source =
+            mkSymlink "${repoRoot}/dotfiles/squirrel/double_pinyin_flypy.custom.yaml";
     };
 
-    xdg.configFile = commonConfigFiles
+    xdg.configFile =
+        commonConfigFiles
         // lib.optionalAttrs pkgs.stdenv.isLinux linuxConfigFiles
         // lib.optionalAttrs (hasSecret "apps/gold-price-history") {
             "gold-price/gold-price-history.conf" = {
@@ -92,21 +103,23 @@ in
         "fcitx5/rime".source = mkSymlink "${repoRoot}/dotfiles/fcitx5/rime";
     };
 
-    home.activation.niriProfileLinks = lib.mkIf pkgs.stdenv.isLinux (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        profiles_dir="$HOME/.config/niri/profiles"
-        mkdir -p "$profiles_dir"
+    home.activation.niriProfileLinks = lib.mkIf pkgs.stdenv.isLinux (
+        lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+            profiles_dir="$HOME/.config/niri/profiles"
+            mkdir -p "$profiles_dir"
 
-        create_if_missing() {
-          local target="$1"
-          local link="$2"
-          if [ -e "$link" ] || [ -L "$link" ]; then
-            return 0
-          fi
-          ln -s "$target" "$link"
-        }
+            create_if_missing() {
+              local target="$1"
+              local link="$2"
+              if [ -e "$link" ] || [ -L "$link" ]; then
+                return 0
+              fi
+              ln -s "$target" "$link"
+            }
 
-        create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
-        create_if_missing "normal/outputs.kdl" "$profiles_dir/current-outputs.kdl"
-        create_if_missing "normal/startup.kdl" "$profiles_dir/current-startup.kdl"
-    '');
+            create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
+            create_if_missing "normal/outputs.kdl" "$profiles_dir/current-outputs.kdl"
+            create_if_missing "normal/startup.kdl" "$profiles_dir/current-startup.kdl"
+        ''
+    );
 }

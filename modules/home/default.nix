@@ -1,9 +1,7 @@
 { vars, ... }:
 {
     imports = [
-        ./dotfiles
-        ./services
-        ./user
+        ./common
     ];
 
     home = {

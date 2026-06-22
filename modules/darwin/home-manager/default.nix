@@ -9,11 +9,19 @@
         home-manager.darwinModules.home-manager
     ];
 
-    home-manager = import ../../../lib/home-manager.nix {
-        inherit vars;
-        homeStateVersion = "24.11";
+    home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
         extraSpecialArgs = {
-            inherit rosePineDoomEmacsSrc;
+            inherit vars rosePineDoomEmacsSrc;
+        };
+        users.${vars.username} = {
+            imports = [
+                ../../home
+                ../../home/darwin
+            ];
+            home.stateVersion = "26.05";
+            home.enableNixpkgsReleaseCheck = false;
         };
     };
 }

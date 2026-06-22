@@ -1,6 +1,22 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
 ;; ----------------------------
+;; Nix Profile PATH
+;; ----------------------------
+;; GUI Emacs on macOS does not inherit the shell PATH, so Nix-installed
+;; binaries (direnv, etc.) are invisible.  Prepend the Nix profile
+;; directories to exec-path early so everything downstream sees them.
+(dolist (profile-dir
+         (reverse
+          (list
+           (expand-file-name "~/.nix-profile/bin")
+           "/etc/profiles/per-user/yuzujr/bin"
+           "/nix/var/nix/profiles/default/bin"
+           "/run/current-system/sw/bin")))
+  (add-to-list 'exec-path profile-dir))
+
+
+;; ----------------------------
 ;; Performance: Startup GC threshold
 ;; ----------------------------
 ;; Defer garbage collection during startup

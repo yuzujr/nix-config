@@ -1,6 +1,5 @@
 {
     pkgs,
-    lib,
     rosePineDoomEmacsSrc,
     ...
 }:
@@ -11,8 +10,6 @@
 
     programs.emacs = {
         enable = true;
-        # emacs-pgtk is Wayland/pgtk-only; use the native GTK build on macOS
-        package = if pkgs.stdenv.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
         extraPackages =
             epkgs: with epkgs; [
                 ace-window

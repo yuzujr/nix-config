@@ -1,3 +1,10 @@
+# sops-nix: tell sops CLI where the age key is (fish doesn't read hm-session-vars.sh)
+set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
+
+# Default editor (used by sops, git, crontab, etc.)
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+
 # Homebrew (macOS); Nix paths are prepended below so Nix-managed CLI tools win.
 if test -d /opt/homebrew/bin  # Apple Silicon
     set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH

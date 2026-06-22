@@ -50,7 +50,20 @@
     };
 
     outputs =
-        inputs@{ self, nixpkgs, darwin, home-manager, sops-nix, secrets, coomer, drcom-client-cpp, ani2xcursor, noctalia, rose-pine-doom-emacs, ... }:
+        inputs@{
+            self,
+            nixpkgs,
+            darwin,
+            home-manager,
+            sops-nix,
+            secrets,
+            coomer,
+            drcom-client-cpp,
+            ani2xcursor,
+            noctalia,
+            rose-pine-doom-emacs,
+            ...
+        }:
         let
             supportedSystems = [
                 "x86_64-linux"
@@ -60,17 +73,28 @@
 
             vars = import ./vars;
 
-            mkNixosHost = { hostname, system ? "x86_64-linux" }:
+            mkNixosHost =
+                {
+                    hostname,
+                    system ? "x86_64-linux",
+                }:
                 let
                     homeDirectory = "/home/${vars.username}";
                     hostVars = vars // {
                         inherit homeDirectory;
                         repoRoot = "${homeDirectory}/nix-config";
                     };
-                in nixpkgs.lib.nixosSystem {
+                in
+                nixpkgs.lib.nixosSystem {
                     inherit system;
                     specialArgs = {
-                        inherit inputs home-manager hostname sops-nix secrets;
+                        inherit
+                            inputs
+                            home-manager
+                            hostname
+                            sops-nix
+                            secrets
+                            ;
                         vars = hostVars;
                         coomerPkg = coomer.packages.${system}.default;
                         drcomClientPkg = drcom-client-cpp.packages.${system}.default;
@@ -83,17 +107,28 @@
                     ];
                 };
 
-            mkDarwinHost = { hostname, system ? "aarch64-darwin" }:
+            mkDarwinHost =
+                {
+                    hostname,
+                    system ? "aarch64-darwin",
+                }:
                 let
                     homeDirectory = "/Users/${vars.username}";
                     hostVars = vars // {
                         inherit homeDirectory;
                         repoRoot = "${homeDirectory}/Documents/nix-config";
                     };
-                in darwin.lib.darwinSystem {
+                in
+                darwin.lib.darwinSystem {
                     inherit system;
                     specialArgs = {
-                        inherit inputs home-manager hostname sops-nix secrets;
+                        inherit
+                            inputs
+                            home-manager
+                            hostname
+                            sops-nix
+                            secrets
+                            ;
                         vars = hostVars;
                         # Linux-only packages (coomerPkg, drcomClientPkg, ani2xcursorPkg, noctaliaPkg)
                         # are not passed here; modules/home/packages/linux.nix uses ? null defaults.

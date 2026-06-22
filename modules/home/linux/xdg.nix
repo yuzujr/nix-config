@@ -66,8 +66,7 @@ let
         "text/xml"
     ];
 in
-# XDG mime/desktop/userDirs are Linux-specific (freedesktop.org specs)
-lib.mkIf pkgs.stdenv.isLinux {
+{
     xdg.configFile = {
         "autostart/nm-applet.desktop".text = ''
             [Desktop Entry]
