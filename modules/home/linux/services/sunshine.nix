@@ -1,10 +1,9 @@
 {
-    lib,
     pkgs,
     config,
     ...
 }:
-lib.mkIf pkgs.stdenv.isLinux {
+{
     systemd.user.services.sunshine = {
         Unit = {
             Description = "Self-hosted game stream host for Moonlight";

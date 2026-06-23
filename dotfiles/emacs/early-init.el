@@ -75,6 +75,27 @@
 ;; Detect color scheme
 (require 'dbus nil t)
 
+(defun rc/early-macos-color-scheme ()
+  "Return the current macOS color scheme, or nil when unavailable.
+
+macOS `defaults read -g AppleInterfaceStyle` prints `Dark` in dark
+mode, and exits non-zero with empty output in light mode."
+  (when (eq system-type 'darwin)
+    (let ((defaults-bin
+           (or (and (file-executable-p "/usr/bin/defaults")
+                    "/usr/bin/defaults")
+               (executable-find "defaults"))))
+      (when defaults-bin
+        (condition-case nil
+            (with-temp-buffer
+              (process-file defaults-bin nil (current-buffer) nil
+                            "read" "-g" "AppleInterfaceStyle")
+              (goto-char (point-min))
+              (if (search-forward "Dark" nil t)
+                  'dark
+                'light))
+          (error nil))))))
+
 (defun rc/early-portal-color-scheme ()
   "Return the current portal color scheme, or nil when unavailable."
   (when (featurep 'dbusbind)
@@ -96,8 +117,14 @@
            (t nil)))
       (error nil))))
 
+(defun rc/early-system-color-scheme ()
+  "Return the current desktop color scheme, or nil when unavailable."
+  (if (eq system-type 'darwin)
+      (rc/early-macos-color-scheme)
+    (rc/early-portal-color-scheme)))
+
 (defvar rc/initial-color-scheme
-  (or (rc/early-portal-color-scheme) 'dark)
+  (or (rc/early-system-color-scheme) 'dark)
   "Desktop color scheme captured once during startup.")
 
 ;; ----------------------------

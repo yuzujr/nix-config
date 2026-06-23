@@ -55,20 +55,26 @@ if status is-interactive
     alias df="duf -only local"
     alias diff="delta"
 
-    # Functions
-    if test (uname) = Linux
-        function nhs --description "nh with secret inputs: nhs [switch|build|test|boot]"
-            set -l mode switch
-            switch $argv[1]
-                case switch build test boot
-                    set mode $argv[1]
-                    set -e argv[1]
-            end
+    # Nix rebuild helper (works on Linux with NixOS and macOS with nix-darwin)
+    function nhs --description "nh with secret inputs: nhs [switch|build|test|boot]"
+        set -l mode switch
+        switch $argv[1]
+            case switch build test boot
+                set mode $argv[1]
+                set -e argv[1]
+        end
 
+        if test (uname) = Darwin
+            nh darwin $mode --update $argv /Users/yuzujr/Documents/nix-config#macbook \
+                -- --override-input secrets path:$HOME/Documents/nix-secret
+        else
             nh os $mode --update $argv /home/yuzujr/nix-config#nixos-laptop \
                 -- --override-input secrets path:/home/yuzujr/nix-secret
         end
+    end
 
+    # Functions
+    if test (uname) = Linux
         function ff --wraps fastfetch --description "fastfetch with GNOME light/dark config"
             set -l light ~/.config/fastfetch/config-light.jsonc
             set -l dark ~/.config/fastfetch/config-dark.jsonc
@@ -86,12 +92,6 @@ if status is-interactive
     else if test (uname) = Darwin
         alias ff="fastfetch"
 
-        function drs --description "darwin-rebuild switch with secret inputs"
-            sudo darwin-rebuild switch \
-                --flake $HOME/Documents/nix-config#macbook \
-                --override-input secrets path:$HOME/Documents/nix-secret \
-                $argv
-        end
     end
 
     function y

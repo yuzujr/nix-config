@@ -27,7 +27,7 @@ let
         "btop".source = mkSymlink "${repoRoot}/dotfiles/btop";
     }
     // (
-        if pkgs.stdenv.isDarwin then
+        if vars.isDarwin then
             {
                 "kitty".source = mkSymlink "${repoRoot}/dotfiles/kitty-darwin";
             }
@@ -70,7 +70,7 @@ in
     home.file = {
         ".local/bin".source = mkSymlink "${repoRoot}/dotfiles/local/bin";
     }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    // lib.optionalAttrs vars.isDarwin {
         "Library/Rime/squirrel.custom.yaml".source =
             mkSymlink "${repoRoot}/dotfiles/squirrel/squirrel.custom.yaml";
         "Library/Rime/default.custom.yaml".source =
@@ -81,7 +81,7 @@ in
 
     xdg.configFile =
         commonConfigFiles
-        // lib.optionalAttrs pkgs.stdenv.isLinux linuxConfigFiles
+        // lib.optionalAttrs (!vars.isDarwin) linuxConfigFiles
         // lib.optionalAttrs (hasSecret "apps/gold-price-history") {
             "gold-price/gold-price-history.conf" = {
                 source = mkSymlink osConfig.sops.secrets."apps/gold-price-history".path;
@@ -98,12 +98,12 @@ in
             };
         };
 
-    xdg.dataFile = lib.optionalAttrs pkgs.stdenv.isLinux {
+    xdg.dataFile = lib.optionalAttrs (!vars.isDarwin) {
         "konsole".source = mkSymlink "${repoRoot}/dotfiles/konsole";
         "fcitx5/rime".source = mkSymlink "${repoRoot}/dotfiles/fcitx5/rime";
     };
 
-    home.activation.niriProfileLinks = lib.mkIf pkgs.stdenv.isLinux (
+    home.activation.niriProfileLinks = lib.mkIf (!vars.isDarwin) (
         lib.hm.dag.entryAfter [ "writeBoundary" ] ''
             profiles_dir="$HOME/.config/niri/profiles"
             mkdir -p "$profiles_dir"

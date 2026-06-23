@@ -1,8 +1,14 @@
 {
     pkgs,
+    vars,
     rosePineDoomEmacsSrc,
     ...
 }:
+
+let
+    emacsPkg = if vars.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
+in
+
 {
     home.packages = [ pkgs.cmark-gfm ];
 
@@ -10,10 +16,12 @@
 
     programs.emacs = {
         enable = true;
+        package = emacsPkg;
         extraPackages =
             epkgs: with epkgs; [
                 ace-window
                 avy
+                benchmark-init
                 consult
                 corfu
                 corfu-prescient

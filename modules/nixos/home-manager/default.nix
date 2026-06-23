@@ -30,7 +30,6 @@
         users.${vars.username} = {
             imports = [
                 ../../home
-                ../../home/linux
             ];
             home.stateVersion = "26.05";
             home.enableNixpkgsReleaseCheck = false;

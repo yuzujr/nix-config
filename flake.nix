@@ -117,6 +117,7 @@
                     hostVars = vars // {
                         inherit homeDirectory;
                         repoRoot = "${homeDirectory}/Documents/nix-config";
+                        isDarwin = true;
                     };
                 in
                 darwin.lib.darwinSystem {
@@ -130,8 +131,6 @@
                             secrets
                             ;
                         vars = hostVars;
-                        # Linux-only packages (coomerPkg, drcomClientPkg, ani2xcursorPkg, noctaliaPkg)
-                        # are not passed here; modules/home/packages/linux.nix uses ? null defaults.
                         rosePineDoomEmacsSrc = rose-pine-doom-emacs;
                     };
                     modules = [

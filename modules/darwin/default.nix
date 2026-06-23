@@ -1,7 +1,6 @@
 { ... }:
 {
     imports = [
-        ./shell.nix
         ./home-manager
         ./homebrew
         ./secrets
