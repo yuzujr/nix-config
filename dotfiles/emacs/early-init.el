@@ -1,19 +1,11 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
 
-;; ----------------------------
-;; Nix Profile PATH
-;; ----------------------------
-;; GUI Emacs on macOS does not inherit the shell PATH, so Nix-installed
-;; binaries (direnv, etc.) are invisible.  Prepend the Nix profile
-;; directories to exec-path early so everything downstream sees them.
-(dolist (profile-dir
-         (reverse
-          (list
-           (expand-file-name "~/.nix-profile/bin")
-           "/etc/profiles/per-user/yuzujr/bin"
-           "/nix/var/nix/profiles/default/bin"
-           "/run/current-system/sw/bin")))
-  (add-to-list 'exec-path profile-dir))
+;; GUI Emacs on macOS does not inherit the shell PATH.
+(when-let ((nix-profile (getenv "NIX_PROFILES")))
+  (dolist (profile (reverse (split-string nix-profile)))
+    (let ((bindir (expand-file-name "bin" profile)))
+      (when (file-directory-p bindir)
+        (add-to-list 'exec-path bindir)))))
 
 
 ;; ----------------------------
@@ -75,7 +67,7 @@
 ;; Detect color scheme
 (require 'dbus nil t)
 
-(defun rc/early-macos-color-scheme ()
+(defun rc/macos-color-scheme ()
   "Return the current macOS color scheme, or nil when unavailable.
 
 macOS `defaults read -g AppleInterfaceStyle` prints `Dark` in dark
@@ -96,7 +88,7 @@ mode, and exits non-zero with empty output in light mode."
                 'light))
           (error nil))))))
 
-(defun rc/early-portal-color-scheme ()
+(defun rc/portal-color-scheme ()
   "Return the current portal color scheme, or nil when unavailable."
   (when (featurep 'dbusbind)
     (condition-case nil
@@ -117,14 +109,14 @@ mode, and exits non-zero with empty output in light mode."
            (t nil)))
       (error nil))))
 
-(defun rc/early-system-color-scheme ()
+(defun rc/system-color-scheme ()
   "Return the current desktop color scheme, or nil when unavailable."
   (if (eq system-type 'darwin)
-      (rc/early-macos-color-scheme)
-    (rc/early-portal-color-scheme)))
+      (rc/macos-color-scheme)
+    (rc/portal-color-scheme)))
 
 (defvar rc/initial-color-scheme
-  (or (rc/early-system-color-scheme) 'dark)
+  (or (rc/system-color-scheme) 'dark)
   "Desktop color scheme captured once during startup.")
 
 ;; ----------------------------

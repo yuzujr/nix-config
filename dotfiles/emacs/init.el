@@ -34,7 +34,7 @@
 ;; Restore GC threshold after startup
 (add-hook 'emacs-startup-hook
           (lambda ()
-            (setq gc-cons-threshold (* 128 1024 1024)  ; 128MB
+            (setq gc-cons-threshold (* 128 1024 1024)
                   gc-cons-percentage 0.2)))
 
 ;;; init.el ends here
