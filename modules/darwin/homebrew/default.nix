@@ -8,10 +8,12 @@
         };
         taps = [ ];
         brews = [
+            "cmake"
             "duf"
             "dust"
             "fd"
             "ripgrep"
+            "rustup"
             "starship"
             "zoxide"
             "eza"
@@ -22,6 +24,7 @@
             "prettier"
             "node"
             "neovim"
+            "xcodes"
         ];
         casks = [
             "kitty"
@@ -33,6 +36,7 @@
             "cc-switch"
             "codex"
             "codebuddy-cn"
+            "claude-code"
             "linearmouse"
             "visual-studio-code"
             "antigravity-cli"

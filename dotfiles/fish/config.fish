@@ -5,16 +5,39 @@ set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
-# Homebrew (macOS); Nix paths are prepended below so Nix-managed CLI tools win.
+# ---- PATH ----
+# All prepends are guarded by `contains` so this file is idempotent
+# (safe to re-source, no duplicates). Effective priority on macOS:
+#   ~/.local/bin > rustup (brew) > Homebrew > Nix/nix-darwin > system
+
+# Homebrew (macOS)
 if test -d /opt/homebrew/bin  # Apple Silicon
-    set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
+    if not contains -- /opt/homebrew/bin $PATH
+        set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
+    end
 else if test -d /usr/local/bin  # Intel
-    set -gx PATH /usr/local/bin /usr/local/sbin $PATH
+    if not contains -- /usr/local/bin $PATH
+        set -gx PATH /usr/local/bin /usr/local/sbin $PATH
+    end
 end
 
-# Explicitly add Nix and nix-darwin paths to fish
-if not contains /run/current-system/sw/bin $PATH
-    set -gx PATH /run/current-system/sw/bin /nix/var/nix/profiles/default/bin ~/.nix-profile/bin $PATH
+# rustup (Homebrew): proxies live in opt/rustup/bin, not /opt/homebrew/bin
+if test -d /opt/homebrew/opt/rustup/bin
+    if not contains -- /opt/homebrew/opt/rustup/bin $PATH
+        set -gx PATH /opt/homebrew/opt/rustup/bin $PATH
+    end
+end
+
+# User-local binaries
+if test -d $HOME/.local/bin
+    if not contains -- $HOME/.local/bin $PATH
+        set -gx PATH $HOME/.local/bin $PATH
+    end
+end
+
+# Nix and nix-darwin (usually injected by path_helper; ensure presence as fallback)
+if not contains -- /run/current-system/sw/bin $PATH
+    set -gx PATH /run/current-system/sw/bin /nix/var/nix/profiles/default/bin $HOME/.nix-profile/bin $PATH
 end
 
 if status is-interactive
@@ -22,11 +45,6 @@ if status is-interactive
     set fish_greeting
     starship init fish | source
     zoxide init fish --cmd cd | source
-
-    # env
-    if not contains -- $HOME/.local/bin $PATH
-        set -gx PATH $HOME/.local/bin $PATH
-    end
 
     # Alias
     alias vim="nvim"

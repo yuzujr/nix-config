@@ -1,10 +1,14 @@
-{ ... }:
+{ vars, ... }:
 {
     programs.git = {
         # macOS uses system git instead of Nix-managed git to avoid duplicated packaging
         package = null;
 
         settings = {
+            user = {
+                name = vars.gitTencent.name;
+                email = vars.gitTencent.email;
+            };
             interactive.diffFilter = "delta --color-only";
             pager = {
                 blame = "delta";

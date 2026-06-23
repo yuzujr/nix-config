@@ -4,15 +4,14 @@
         enable = true;
         enableDefaultConfig = false;
         settings = {
-            "github.com" = {
-                User = "git";
-                IdentityFile = "/run/secrets/ssh/github";
-                IdentitiesOnly = true;
+            # devcloud (managed by Tencent devcloud tooling, see ~/.ssh/devcloud_config)
+            "*.devcloud.woa.com" = {
+                Include = "~/.ssh/devcloud_config";
             };
 
-            "gitee.com" = {
-                User = "git";
-                IdentityFile = "/run/secrets/ssh/gitee";
+            "aur.archlinux.org" = {
+                User = "aur";
+                IdentityFile = "/run/secrets/ssh/aur";
                 IdentitiesOnly = true;
             };
 
@@ -22,22 +21,23 @@
                 IdentitiesOnly = true;
             };
 
+            "gitee.com" = {
+                User = "git";
+                IdentityFile = "/run/secrets/ssh/gitee";
+                IdentitiesOnly = true;
+            };
+
+            "github.com" = {
+                User = "git";
+                IdentityFile = "/run/secrets/ssh/github";
+                IdentitiesOnly = true;
+            };
+
             vm = {
                 HostName = "192.168.166.128";
                 User = "yuzujr";
                 IdentityFile = "/run/secrets/ssh/vm";
                 IdentitiesOnly = true;
-            };
-
-            "aur.archlinux.org" = {
-                User = "aur";
-                IdentityFile = "/run/secrets/ssh/aur";
-                IdentitiesOnly = true;
-            };
-
-            # devcloud (managed by Tencent devcloud tooling, see ~/.ssh/devcloud_config)
-            "*.devcloud.woa.com" = {
-                Include = "~/.ssh/devcloud_config";
             };
         };
     };
