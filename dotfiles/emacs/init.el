@@ -1,6 +1,14 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
 ;; ----------------------------
+;; Benchmark Init
+;; ----------------------------
+;; Profile startup time for each `require' and `load' call.
+;; (require 'benchmark-init)
+;; (require 'benchmark-init-modes)
+;; (benchmark-init/activate)
+
+;; ----------------------------
 ;; Init Helpers
 ;; ----------------------------
 (eval-and-compile
@@ -36,5 +44,8 @@
           (lambda ()
             (setq gc-cons-threshold (* 128 1024 1024)
                   gc-cons-percentage 0.2)))
+
+;; Show benchmark results after init completes.
+;; (add-hook 'emacs-startup-hook #'benchmark-init/deactivate)
 
 ;;; init.el ends here

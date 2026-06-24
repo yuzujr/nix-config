@@ -46,6 +46,8 @@
 
 (use-package corfu-popupinfo
   :after corfu
+  :custom
+  (corfu-popupinfo-delay '(0.5 . 0.1))
   :config
   (corfu-popupinfo-mode 1))
 
@@ -55,15 +57,41 @@
   (yas-snippet-dirs (list (expand-file-name "snippets/" user-emacs-directory)))
   :hook (prog-mode . yas-minor-mode)
   :config
-  (require 'yasnippet-snippets)
   (make-directory (car yas-snippet-dirs) t)
   (yas-reload-all))
 
-;; Bridge yasnippet → completion-at-point so snippets appear in corfu.
+;; Icons in corfu — distinguish snippet/function/variable etc. at a glance.
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  (kind-icon-extra-space t)
+  (kind-icon-default-style
+   '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.85 :scale 0.8))
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+;; Cape — additional completion backends & yasnippet bridge.
 (use-package cape
   :after corfu
   :config
-  (add-to-list 'completion-at-point-functions #'cape-yasnippet))
+  ;; Append yasnippet triggers as low-priority fallback.
+  (add-hook 'after-change-major-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'prog-mode)
+                (add-hook 'completion-at-point-functions
+                          #'rc/yasnippet-capf -1 'local))))
+  ;; Resolve TAB conflict: corfu wins when its popup is visible,
+  ;; otherwise yasnippet field navigation takes over.
+  (with-eval-after-load 'yasnippet
+    (define-key yas-keymap (kbd "TAB")
+      (lambda ()
+        (interactive)
+        (if-let ((frame (and (boundp 'corfu--frame) corfu--frame))
+                 (_ (frame-live-p frame))
+                 (_ (frame-visible-p frame)))
+            (corfu-insert)
+          (yas-next-field-or-maybe-expand))))))
 
 ;; Persist minibuffer history across sessions.
 (use-package savehist

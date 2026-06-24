@@ -93,8 +93,11 @@
 (use-package eglot
   :ensure nil
   :hook ((python-ts-mode . eglot-ensure)
+         (python-mode . eglot-ensure)
          (c-ts-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
          (c++-ts-mode . eglot-ensure)
+         (c++-mode . eglot-ensure)
          (rust-ts-mode . eglot-ensure)
          (rust-mode . eglot-ensure)
          (nix-ts-mode . eglot-ensure)

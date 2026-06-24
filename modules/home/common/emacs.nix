@@ -47,12 +47,12 @@ in
                 rust-mode
                 sideline
                 sideline-flymake
+                kind-icon
                 treesit-auto
                 vertico
                 vertico-prescient
                 which-key
                 yasnippet
-                yasnippet-snippets
             ];
     };
 }
