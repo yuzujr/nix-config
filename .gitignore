@@ -1,3 +1,5 @@
 .direnv/
 .antigravitycli/
+.archon/
+.env
 .codex

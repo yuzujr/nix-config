@@ -7,15 +7,6 @@
 ;; Keep IPC throughput high for LSP payloads.
 (setq read-process-output-max (* 1024 1024))
 
-;; Eglot uses yasnippet to expand snippet-style LSP completions.
-(use-package yasnippet
-  :custom
-  (yas-snippet-dirs (list (expand-file-name "snippets/" user-emacs-directory)))
-  :hook (prog-mode . yas-minor-mode)
-  :config
-  (make-directory (car yas-snippet-dirs) t)
-  (yas-reload-all))
-
 (use-package xref
   :ensure nil
   :bind (("C-c d" . xref-find-definitions)

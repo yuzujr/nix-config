@@ -49,6 +49,22 @@
   :config
   (corfu-popupinfo-mode 1))
 
+;; Yasnippet — snippet expansion system, bridged to capf for corfu.
+(use-package yasnippet
+  :custom
+  (yas-snippet-dirs (list (expand-file-name "snippets/" user-emacs-directory)))
+  :hook (prog-mode . yas-minor-mode)
+  :config
+  (require 'yasnippet-snippets)
+  (make-directory (car yas-snippet-dirs) t)
+  (yas-reload-all))
+
+;; Bridge yasnippet → completion-at-point so snippets appear in corfu.
+(use-package cape
+  :after corfu
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-yasnippet))
+
 ;; Persist minibuffer history across sessions.
 (use-package savehist
   :custom

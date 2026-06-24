@@ -24,6 +24,7 @@ in
                 benchmark-init
                 consult
                 corfu
+                cape
                 corfu-prescient
                 direnv
                 diff-hl
@@ -51,6 +52,7 @@ in
                 vertico-prescient
                 which-key
                 yasnippet
+                yasnippet-snippets
             ];
     };
 }
