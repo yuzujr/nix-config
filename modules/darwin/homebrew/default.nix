@@ -36,6 +36,7 @@
             "cc-switch"
             "codex"
             "codebuddy-cn"
+            "cursor"
             "claude-code"
             "linearmouse"
             "visual-studio-code"
