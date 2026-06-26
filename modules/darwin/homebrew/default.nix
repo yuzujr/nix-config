@@ -25,6 +25,12 @@
             "node"
             "neovim"
             "xcodes"
+
+            # tencent
+            "xcode-build-server"
+            "clang-format"
+            "ruby@3.4"
+            "libyaml"
         ];
         casks = [
             "kitty"
