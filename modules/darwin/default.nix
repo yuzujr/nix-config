@@ -4,7 +4,6 @@
         ./home-manager
         ./homebrew
         ./secrets
-        ./system
     ];
 
     system.stateVersion = 4;
