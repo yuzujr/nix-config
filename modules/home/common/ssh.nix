@@ -21,6 +21,14 @@
                 IdentitiesOnly = true;
             };
 
+            "dtm" = {
+                HostName = "21.214.137.243";
+                Port = 36000;
+                User = "jasonxzhai";
+                IdentityFile = "/run/secrets/ssh/dtm";
+                IdentitiesOnly = true;
+            };
+
             "gitee.com" = {
                 User = "git";
                 IdentityFile = "/run/secrets/ssh/gitee";

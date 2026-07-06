@@ -8,6 +8,7 @@
         };
         taps = [ ];
         brews = [
+            "aria2"
             "cmake"
             "duf"
             "dust"
@@ -41,6 +42,7 @@
             "clash-verge-rev"
             "cc-switch"
             "codex"
+            "codex-app"
             "codebuddy-cn"
             "cursor"
             "claude-code"
