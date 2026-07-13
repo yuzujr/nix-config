@@ -1,3 +1,11 @@
+# ============================================================
+#  Environment
+# ============================================================
+# All PATH prepends are guarded by `contains` so this file is
+# idempotent (safe to re-source, no duplicates). Effective
+# priority on macOS:
+#   ~/.local/bin > rustup (brew) > Homebrew > Nix/nix-darwin > system
+
 # sops-nix: tell sops CLI where the age key is (fish doesn't read hm-session-vars.sh)
 set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
 
@@ -5,19 +13,10 @@ set -gx SOPS_AGE_KEY_FILE $HOME/.config/sops/age/keys.txt
 set -gx EDITOR nvim
 set -gx VISUAL nvim
 
-# ---- PATH ----
-# All prepends are guarded by `contains` so this file is idempotent
-# (safe to re-source, no duplicates). Effective priority on macOS:
-#   ~/.local/bin > rustup (brew) > Homebrew > Nix/nix-darwin > system
-
-# Homebrew (macOS)
-if test -d /opt/homebrew/bin  # Apple Silicon
-    if not contains -- /opt/homebrew/bin $PATH
-        set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
-    end
-else if test -d /usr/local/bin  # Intel
-    if not contains -- /usr/local/bin $PATH
-        set -gx PATH /usr/local/bin /usr/local/sbin $PATH
+# User-local binaries
+if test -d $HOME/.local/bin
+    if not contains -- $HOME/.local/bin $PATH
+        set -gx PATH $HOME/.local/bin $PATH
     end
 end
 
@@ -28,16 +27,21 @@ if test -d /opt/homebrew/opt/rustup/bin
     end
 end
 
-# User-local binaries
-if test -d $HOME/.local/bin
-    if not contains -- $HOME/.local/bin $PATH
-        set -gx PATH $HOME/.local/bin $PATH
+# Homebrew (Apple Silicon macOS)
+if test -d /opt/homebrew/bin
+    if not contains -- /opt/homebrew/bin $PATH
+        set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin $PATH
     end
 end
 
 # Nix and nix-darwin (usually injected by path_helper; ensure presence as fallback)
 if not contains -- /run/current-system/sw/bin $PATH
     set -gx PATH /run/current-system/sw/bin /nix/var/nix/profiles/default/bin $HOME/.nix-profile/bin $PATH
+end
+
+# background_agent_cli
+if not contains -- /Users/yuzujr/background_agent_cli/bin $PATH
+    set -gx PATH /Users/yuzujr/background_agent_cli/bin $PATH
 end
 
 if status is-interactive

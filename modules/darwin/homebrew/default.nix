@@ -26,6 +26,7 @@
             "node"
             "neovim"
             "xcodes"
+            "xcodegen"
 
             # tencent
             "xcode-build-server"
