@@ -1,7 +1,7 @@
 { ... }:
 {
     services.openssh = {
-        enable = false;
-        openFirewall = false;
+        enable = true;
+        openFirewall = true;
     };
 }
