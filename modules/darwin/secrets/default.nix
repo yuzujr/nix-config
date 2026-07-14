@@ -23,11 +23,9 @@ in
 
         secrets = {
             "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
-            "ssh/gitee" = mkSecret "ssh.yaml" "gitee" userSecret;
             "ssh/gongfeng" = mkSecret "ssh.yaml" "gongfeng" userSecret;
             "ssh/dtm" = mkSecret "ssh.yaml" "dtm" userSecret;
-            "ssh/vm" = mkSecret "ssh.yaml" "vm" userSecret;
-            "ssh/aur" = mkSecret "ssh.yaml" "aur" userSecret;
+            "ssh/vps" = mkSecret "ssh.yaml" "vps" userSecret;
 
             "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 

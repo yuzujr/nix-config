@@ -9,12 +9,6 @@
                 Include = "~/.ssh/devcloud_config";
             };
 
-            "aur.archlinux.org" = {
-                User = "aur";
-                IdentityFile = "/run/secrets/ssh/aur";
-                IdentitiesOnly = true;
-            };
-
             "git.woa.com" = {
                 User = "git";
                 IdentityFile = "/run/secrets/ssh/gongfeng";
@@ -22,16 +16,10 @@
             };
 
             "dtm" = {
+                User = "jasonxzhai";
                 HostName = "21.214.137.243";
                 Port = 36000;
-                User = "jasonxzhai";
                 IdentityFile = "/run/secrets/ssh/dtm";
-                IdentitiesOnly = true;
-            };
-
-            "gitee.com" = {
-                User = "git";
-                IdentityFile = "/run/secrets/ssh/gitee";
                 IdentitiesOnly = true;
             };
 
@@ -41,11 +29,17 @@
                 IdentitiesOnly = true;
             };
 
-            vm = {
-                HostName = "192.168.166.128";
-                User = "yuzujr";
-                IdentityFile = "/run/secrets/ssh/vm";
+            "vps" = {
+                User = "ubuntu";
+                HostName = "123.207.16.35";
+                IdentityFile = "/run/secrets/ssh/vps";
                 IdentitiesOnly = true;
+            };
+
+            "home" = {
+                HostName = "laptop-nixos";
+                User = "yuzujr";
+                ProxyJump = "ubuntu@123.207.16.35";
             };
         };
     };
