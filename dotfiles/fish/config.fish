@@ -72,7 +72,7 @@ if status is-interactive
             nh darwin $mode --show-activation-logs $argv /Users/yuzujr/Documents/nix-config#macbook \
                 -- --override-input secrets path:$HOME/Documents/nix-secret
         else
-            nh os $mode $argv /home/yuzujr/nix-config#nixos-laptop \
+            nh os $mode $argv /home/yuzujr/nix-config#laptop-nixos \
                 -- --override-input secrets path:/home/yuzujr/nix-secret
         end
     end

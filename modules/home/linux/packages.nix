@@ -1,14 +1,11 @@
 {
-    lib,
+    inputs,
     pkgs,
-    # Linux-only custom packages; use ? null so Darwin doesn't need to pass them.
-    coomerPkg ? null,
-    drcomClientPkg ? null,
-    ani2xcursorPkg ? null,
-    noctaliaPkg ? null,
     ...
 }:
 let
+    system = pkgs.stdenv.hostPlatform.system;
+
     terminal = with pkgs; [
         btop
         cmatrix
@@ -26,11 +23,12 @@ let
         zoxide
     ];
 
-    custom =
-        lib.optional (coomerPkg != null) coomerPkg
-        ++ lib.optional (drcomClientPkg != null) drcomClientPkg
-        ++ lib.optional (ani2xcursorPkg != null) ani2xcursorPkg
-        ++ lib.optional (noctaliaPkg != null) noctaliaPkg;
+    custom = [
+        inputs.coomer.packages.${system}.default
+        inputs.drcom-client-cpp.packages.${system}.default
+        inputs.ani2xcursor.packages.${system}.default
+        inputs.noctalia.packages.${system}.default
+    ];
 
     development = with pkgs; [
         binutils

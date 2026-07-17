@@ -1,10 +1,10 @@
 { ... }:
 {
     imports = [
+        ../shared/home-manager.nix
         ./core
         ./desktop
         ./hardware
-        ./home-manager
         ./networking
         ./secrets
         ./virtualization

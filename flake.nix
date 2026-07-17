@@ -54,14 +54,6 @@
             self,
             nixpkgs,
             darwin,
-            home-manager,
-            sops-nix,
-            secrets,
-            coomer,
-            drcom-client-cpp,
-            ani2xcursor,
-            noctalia,
-            rose-pine-doom-emacs,
             ...
         }:
         let
@@ -80,30 +72,18 @@
                 }:
                 let
                     homeDirectory = "/home/${vars.username}";
-                    hostVars = vars // {
-                        inherit homeDirectory;
-                        repoRoot = "${homeDirectory}/nix-config";
-                    };
                 in
                 nixpkgs.lib.nixosSystem {
                     inherit system;
                     specialArgs = {
-                        inherit
-                            inputs
-                            home-manager
-                            hostname
-                            sops-nix
-                            secrets
-                            ;
-                        vars = hostVars;
-                        coomerPkg = coomer.packages.${system}.default;
-                        drcomClientPkg = drcom-client-cpp.packages.${system}.default;
-                        ani2xcursorPkg = ani2xcursor.packages.${system}.default;
-                        noctaliaPkg = noctalia.packages.${system}.default;
-                        rosePineDoomEmacsSrc = rose-pine-doom-emacs;
+                        inherit inputs hostname;
+                        vars = vars // {
+                            inherit homeDirectory;
+                            repoRoot = "${homeDirectory}/nix-config";
+                        };
                     };
                     modules = [
-                        ./hosts/nixos-laptop/default.nix
+                        ./hosts/${hostname}
                     ];
                 };
 
@@ -114,27 +94,19 @@
                 }:
                 let
                     homeDirectory = "/Users/${vars.username}";
-                    hostVars = vars // {
-                        inherit homeDirectory;
-                        repoRoot = "${homeDirectory}/Documents/nix-config";
-                        isDarwin = true;
-                    };
                 in
                 darwin.lib.darwinSystem {
                     inherit system;
                     specialArgs = {
-                        inherit
-                            inputs
-                            home-manager
-                            hostname
-                            sops-nix
-                            secrets
-                            ;
-                        vars = hostVars;
-                        rosePineDoomEmacsSrc = rose-pine-doom-emacs;
+                        inherit inputs hostname;
+                        vars = vars // {
+                            inherit homeDirectory;
+                            repoRoot = "${homeDirectory}/Documents/nix-config";
+                            isDarwin = true;
+                        };
                     };
                     modules = [
-                        ./hosts/macbook/default.nix
+                        ./hosts/${hostname}
                     ];
                 };
 
@@ -146,7 +118,7 @@
             devShells = forAllSystems (system: (mkDevShells system).devShells);
 
             nixosConfigurations = {
-                nixos-laptop = mkNixosHost { hostname = vars.hostname; };
+                laptop-nixos = mkNixosHost { hostname = vars.hostname; };
             };
 
             darwinConfigurations = {

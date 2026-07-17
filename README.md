@@ -4,7 +4,7 @@ NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 
 ## Outputs
 
-- `nixosConfigurations.nixos-laptop`
+- `nixosConfigurations.laptop-nixos`
 - `darwinConfigurations.macbook`
 - `devShells.{x86_64-linux,aarch64-darwin}.*`
 
@@ -15,13 +15,14 @@ NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 ├── devshells/               # Flake dev shells
 ├── dotfiles/                # Files linked by Home Manager
 ├── hosts/
-│   ├── macbook/             # Darwin host entrypoint
-│   └── nixos-laptop/        # NixOS host entrypoint and hardware config
+│   ├── laptop-nixos/        # NixOS host entrypoint and hardware config
+│   └── macbook/             # Darwin host entrypoint
 ├── lib/                     # Shared helper functions
 ├── modules/
 │   ├── darwin/              # nix-darwin modules
 │   ├── home/                # Shared Home Manager modules
-│   └── nixos/               # NixOS modules
+│   ├── nixos/               # NixOS modules
+│   └── shared/              # Modules shared by NixOS and nix-darwin
 ├── secrets/placeholder/     # Public placeholder for the private secrets input
 ├── vars/                    # Shared user and host variables
 ├── flake.lock
@@ -59,7 +60,7 @@ NixOS:
 
 ```bash
 sudo nixos-rebuild switch \
-  --flake .#nixos-laptop \
+  --flake .#laptop-nixos \
   --override-input secrets path:/path/to/nix-secret
 ```
 

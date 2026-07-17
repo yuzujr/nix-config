@@ -2,14 +2,15 @@
 order = [ "default" ]
 
     [bar.default]
+    thickness = 45
+    scale = 1.10
     margin_edge = 10
     margin_ends = 10
     radius = 20
-    background_opacity = 0.93000000715255737
+    background_opacity = 0.93
     capsule = true
     end = [ "recorder", "tray", "network", "bluetooth", "notifications", "volume", "brightness", "battery", "control-center" ]
     shadow = true
-    thickness = 40
     start = [ "workspaces", "active_window", "media" ]
 
 [brightness]

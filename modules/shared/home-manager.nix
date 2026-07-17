@@ -1,16 +1,16 @@
 {
-    ani2xcursorPkg,
-    coomerPkg,
-    drcomClientPkg,
-    home-manager,
-    noctaliaPkg,
-    rosePineDoomEmacsSrc,
+    inputs,
     vars,
     ...
 }:
 {
     imports = [
-        home-manager.nixosModules.home-manager
+        (
+            if vars.isDarwin then
+                inputs.home-manager.darwinModules.home-manager
+            else
+                inputs.home-manager.nixosModules.home-manager
+        )
     ];
 
     home-manager = {
@@ -18,18 +18,11 @@
         useUserPackages = true;
         backupFileExtension = "home-manager.backup";
         extraSpecialArgs = {
-            inherit
-                ani2xcursorPkg
-                coomerPkg
-                drcomClientPkg
-                noctaliaPkg
-                rosePineDoomEmacsSrc
-                vars
-                ;
+            inherit inputs vars;
         };
         users.${vars.username} = {
             imports = [
-                ../../home
+                ../home
             ];
             home.stateVersion = "26.05";
             home.enableNixpkgsReleaseCheck = false;

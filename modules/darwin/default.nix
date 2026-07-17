@@ -1,7 +1,7 @@
 { ... }:
 {
     imports = [
-        ./home-manager
+        ../shared/home-manager.nix
         ./homebrew
         ./secrets
     ];

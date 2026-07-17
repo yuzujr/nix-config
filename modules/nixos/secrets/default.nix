@@ -1,17 +1,19 @@
 {
     pkgs,
-    sops-nix,
-    secrets,
+    inputs,
     vars,
     ...
 }:
 let
-    secretLib = import ../../../lib/secrets.nix { inherit secrets vars; };
+    secretLib = import ../../../lib/secrets.nix {
+        inherit (inputs) secrets;
+        inherit vars;
+    };
     inherit (secretLib) mkSecret userSecret rootSecret;
 in
 {
     imports = [
-        sops-nix.nixosModules.sops
+        inputs.sops-nix.nixosModules.sops
     ];
 
     environment.systemPackages = [

@@ -1,7 +1,7 @@
 {
     pkgs,
     vars,
-    rosePineDoomEmacsSrc,
+    inputs,
     ...
 }:
 
@@ -12,7 +12,7 @@ in
 {
     home.packages = [ pkgs.cmark-gfm ];
 
-    xdg.dataFile."emacs/themes/rose-pine-doom-emacs".source = rosePineDoomEmacsSrc;
+    xdg.dataFile."emacs/themes/rose-pine-doom-emacs".source = inputs.rose-pine-doom-emacs;
 
     programs.emacs = {
         enable = true;
