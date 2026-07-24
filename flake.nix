@@ -68,6 +68,7 @@
             mkNixosHost =
                 {
                     hostname,
+                    repoSubdir,
                     system ? "x86_64-linux",
                 }:
                 let
@@ -79,7 +80,7 @@
                         inherit inputs hostname;
                         vars = vars // {
                             inherit homeDirectory;
-                            repoRoot = "${homeDirectory}/nix-config";
+                            repoRoot = "${homeDirectory}/${repoSubdir}";
                         };
                     };
                     modules = [
@@ -90,6 +91,7 @@
             mkDarwinHost =
                 {
                     hostname,
+                    repoSubdir,
                     system ? "aarch64-darwin",
                 }:
                 let
@@ -101,7 +103,7 @@
                         inherit inputs hostname;
                         vars = vars // {
                             inherit homeDirectory;
-                            repoRoot = "${homeDirectory}/Documents/nix-config";
+                            repoRoot = "${homeDirectory}/${repoSubdir}";
                             isDarwin = true;
                         };
                     };
@@ -118,11 +120,17 @@
             devShells = forAllSystems (system: (mkDevShells system).devShells);
 
             nixosConfigurations = {
-                laptop-nixos = mkNixosHost { hostname = vars.hostname; };
+                laptop-nixos = mkNixosHost {
+                    hostname = "laptop-nixos";
+                    repoSubdir = "nix-config";
+                };
             };
 
             darwinConfigurations = {
-                macbook = mkDarwinHost { hostname = "macbook"; };
+                macbook = mkDarwinHost {
+                    hostname = "macbook";
+                    repoSubdir = "Documents/nix-config";
+                };
             };
         };
 }

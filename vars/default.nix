@@ -1,6 +1,5 @@
 rec {
     username = "yuzujr";
-    hostname = "laptop-nixos";
 
     isDarwin = false;
 
