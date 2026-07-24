@@ -38,8 +38,7 @@
 
             "home" = {
                 HostName = "laptop-nixos";
-                User = "yuzujr";
-                ProxyJump = "ubuntu@123.207.16.35";
+                ProxyJump = "vps";
             };
         };
     };

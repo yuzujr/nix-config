@@ -27,6 +27,8 @@ in
             # Common secrets
             "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
 
+            "ssh/vps" = mkSecret "ssh.yaml" "vps" userSecret;
+
             "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 
             "nix/user-conf" = mkSecret "nix.yaml" "user-conf" userSecret;

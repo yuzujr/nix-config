@@ -68,7 +68,7 @@ let
     media = with pkgs; [
         ffmpeg
         gpu-screen-recorder
-        (obs-studio.override { browserSupport = false; })
+        obs-studio
         playerctl
     ];
 
