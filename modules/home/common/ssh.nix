@@ -39,6 +39,9 @@
             "home" = {
                 HostName = "laptop-nixos";
                 ProxyJump = "vps";
+                User = "yuzujr";
+                IdentityFile = "/run/secrets/ssh/home";
+                IdentitiesOnly = true;
             };
         };
     };

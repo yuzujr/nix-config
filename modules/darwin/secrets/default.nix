@@ -28,6 +28,7 @@ in
             "ssh/gongfeng" = mkSecret "ssh.yaml" "gongfeng" userSecret;
             "ssh/dtm" = mkSecret "ssh.yaml" "dtm" userSecret;
             "ssh/vps" = mkSecret "ssh.yaml" "vps" userSecret;
+            "ssh/home" = mkSecret "ssh.yaml" "home" userSecret;
 
             "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 
