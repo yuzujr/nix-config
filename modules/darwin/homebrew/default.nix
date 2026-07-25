@@ -9,6 +9,7 @@
         taps = [ ];
         brews = [
             "aria2"
+            "btop"
             "cmake"
             "duf"
             "dust"
