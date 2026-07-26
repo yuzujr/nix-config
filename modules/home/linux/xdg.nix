@@ -1,13 +1,6 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 let
-    defaultTo =
-        desktopFile: mimeTypes:
-        builtins.listToAttrs (
-            map (mimeType: {
-                name = mimeType;
-                value = desktopFile;
-            }) mimeTypes
-        );
+    defaultTo = desktopFile: mimeTypes: lib.genAttrs mimeTypes (_: desktopFile);
 
     kwriteMimeTypes = [
         "application/atom+xml"

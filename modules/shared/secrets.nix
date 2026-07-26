@@ -1,21 +1,15 @@
+# sops scaffolding and the secrets shared by both platforms. Platform-specific
+# secrets (and the sops-nix module import) live in modules/{nixos,darwin}/secrets.nix.
 {
     pkgs,
-    inputs,
     vars,
+    secretsLib,
     ...
 }:
 let
-    secretLib = import ../../../lib/secrets.nix {
-        inherit (inputs) secrets;
-        inherit vars;
-    };
-    inherit (secretLib) mkSecret userSecret;
+    inherit (secretsLib) mkSecret userSecret;
 in
 {
-    imports = [
-        inputs.sops-nix.darwinModules.sops
-    ];
-
     environment.systemPackages = [
         pkgs.sops
     ];
@@ -25,10 +19,8 @@ in
 
         secrets = {
             "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
-            "ssh/gongfeng" = mkSecret "ssh.yaml" "gongfeng" userSecret;
-            "ssh/dtm" = mkSecret "ssh.yaml" "dtm" userSecret;
+
             "ssh/vps" = mkSecret "ssh.yaml" "vps" userSecret;
-            "ssh/home" = mkSecret "ssh.yaml" "home" userSecret;
 
             "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
 

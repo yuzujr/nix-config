@@ -1,8 +1,9 @@
-{ pkgs, ... }:
 {
-    home.packages = with pkgs; [ nh ];
-
     imports = [
+        ../common
+        ./dotfiles.nix
         ./git.nix
+        ./packages.nix
+        ./ssh.nix
     ];
 }

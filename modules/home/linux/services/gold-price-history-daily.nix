@@ -1,4 +1,3 @@
-{ ... }:
 {
     systemd.user.services.gold-price-history-daily = {
         Unit = {

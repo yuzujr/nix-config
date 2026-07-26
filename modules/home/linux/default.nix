@@ -1,10 +1,12 @@
-{ ... }:
 {
     imports = [
+        ../common
+        ./dotfiles.nix
         ./git.nix
         ./mpv.nix
-        ./xdg.nix
         ./packages.nix
+        ./plasma.nix
         ./services
+        ./xdg.nix
     ];
 }

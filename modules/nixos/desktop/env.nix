@@ -1,4 +1,3 @@
-{ ... }:
 {
     environment.sessionVariables = {
         XDG_ICON_THEME = "Tela-circle";
@@ -8,6 +7,5 @@
         XCURSOR_SIZE = "32";
         EDITOR = "nvim";
         NIXOS_OZONE_WL = "1";
-        KWIN_DRM_DEVICES = "/dev/dri/by-path/pci-0000\\:01\\:00.0-card:/dev/dri/by-path/pci-0000\\:06\\:00.0-card";
     };
 }

@@ -1,9 +1,0 @@
-[Libinput][1133][16543][Logitech G502 X LS]
-PointerAcceleration=-0.600
-
-[Libinput][2362][597][UNIW0001:00 093A:0255 Touchpad]
-NaturalScroll=true
-
-[Mouse]
-cursorSize=32
-cursorTheme=BreezeX-RosePineDawn-Linux

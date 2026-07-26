@@ -1,20 +1,14 @@
 {
-    config,
-    ...
-}:
-{
+    services.wl-clip-persist = {
+        enable = true;
+        systemdTargets = "niri.service";
+    };
+
+    # Keep the stricter lifecycle of the previous hand-rolled unit: die with
+    # niri on an abrupt crash (PartOf only covers explicit stop/restart) and
+    # back off a full second between restarts.
     systemd.user.services.wl-clip-persist = {
-        Unit = {
-            Description = "Wayland clipboard persistence";
-            PartOf = [ "niri.service" ];
-            After = [ "niri.service" ];
-            BindsTo = [ "niri.service" ];
-        };
-        Service = {
-            ExecStart = "${config.home.profileDirectory}/bin/wl-clip-persist --clipboard regular";
-            Restart = "on-failure";
-            RestartSec = 1;
-        };
-        Install.WantedBy = [ "niri.service" ];
+        Unit.BindsTo = [ "niri.service" ];
+        Service.RestartSec = 1;
     };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 let
     python = pkgs.python312;
 in

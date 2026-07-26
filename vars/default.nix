@@ -1,15 +1,17 @@
-rec {
+let
     username = "yuzujr";
-
-    isDarwin = false;
+in
+{
+    inherit username;
 
     git = {
-        name = username;
-        email = "15568103056@163.com";
-    };
-
-    gitTencent = {
-        name = "jasonxzhai";
-        email = "jasonxzhai@tencent.com";
+        personal = {
+            name = username;
+            email = "15568103056@163.com";
+        };
+        work = {
+            name = "jasonxzhai";
+            email = "jasonxzhai@tencent.com";
+        };
     };
 }

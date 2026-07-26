@@ -1,14 +1,11 @@
 {
     pkgs,
-    vars,
     inputs,
     ...
 }:
-
 let
-    emacsPkg = if vars.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
+    emacsPkg = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
 in
-
 {
     home.packages = [ pkgs.cmark-gfm ];
 

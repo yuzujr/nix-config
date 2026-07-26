@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.mkShell.override { stdenv = pkgs.clangStdenv; } {
     packages = [
         pkgs.cmake

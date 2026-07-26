@@ -1,18 +1,11 @@
+# Home Manager settings shared by both platforms. The platform module import
+# and the per-platform entrypoint are wired in modules/{nixos,darwin}/home.nix.
 {
     inputs,
     vars,
     ...
 }:
 {
-    imports = [
-        (
-            if vars.isDarwin then
-                inputs.home-manager.darwinModules.home-manager
-            else
-                inputs.home-manager.nixosModules.home-manager
-        )
-    ];
-
     home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
@@ -21,9 +14,6 @@
             inherit inputs vars;
         };
         users.${vars.username} = {
-            imports = [
-                ../home
-            ];
             home.stateVersion = "26.05";
             home.enableNixpkgsReleaseCheck = false;
         };

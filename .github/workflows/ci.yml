@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    name: Format, lint, flake check, NixOS eval
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Check formatting
+        run: |
+          nix fmt
+          git diff --exit-code
+      - name: Dead code lint
+        run: nix run nixpkgs#deadnix -- --fail --exclude hosts/laptop-nixos/hardware-configuration.nix -- .
+      - name: Flake check
+        run: nix flake check
+      - name: Evaluate NixOS system
+        run: nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
+
+  darwin:
+    name: Darwin eval
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - name: Evaluate darwin system
+        run: nix eval .#darwinConfigurations.macbook.system.drvPath

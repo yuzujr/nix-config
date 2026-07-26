@@ -1,12 +1,12 @@
-{ ... }:
 {
     imports = [
-        ../shared/home-manager.nix
+        ../shared/base.nix
         ./core
         ./desktop
         ./hardware
+        ./home.nix
         ./networking
-        ./secrets
-        ./virtualization
+        ./secrets.nix
+        ./vmware.nix
     ];
 }

@@ -1,46 +1,27 @@
-{ ... }:
+{
+    osConfig ? { },
+    ...
+}:
+let
+    # Resolve identity files from the OS sops declarations, falling back to the
+    # sops-nix default layout when evaluated without an OS config.
+    secretPath = name: osConfig.sops.secrets.${name}.path or "/run/secrets/${name}";
+in
 {
     programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
         settings = {
-            # devcloud (managed by Tencent devcloud tooling, see ~/.ssh/devcloud_config)
-            "*.devcloud.woa.com" = {
-                Include = "~/.ssh/devcloud_config";
-            };
-
-            "git.woa.com" = {
-                User = "git";
-                IdentityFile = "/run/secrets/ssh/gongfeng";
-                IdentitiesOnly = true;
-            };
-
-            "dtm" = {
-                User = "jasonxzhai";
-                HostName = "21.214.137.243";
-                Port = 36000;
-                IdentityFile = "/run/secrets/ssh/dtm";
-                IdentitiesOnly = true;
-            };
-
             "github.com" = {
                 User = "git";
-                IdentityFile = "/run/secrets/ssh/github";
+                IdentityFile = secretPath "ssh/github";
                 IdentitiesOnly = true;
             };
 
             "vps" = {
                 User = "ubuntu";
                 HostName = "123.207.16.35";
-                IdentityFile = "/run/secrets/ssh/vps";
-                IdentitiesOnly = true;
-            };
-
-            "home" = {
-                HostName = "laptop-nixos";
-                ProxyJump = "vps";
-                User = "yuzujr";
-                IdentityFile = "/run/secrets/ssh/home";
+                IdentityFile = secretPath "ssh/vps";
                 IdentitiesOnly = true;
             };
         };

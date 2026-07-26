@@ -1,4 +1,3 @@
-{ ... }:
 {
     homebrew = {
         enable = true;
@@ -6,7 +5,6 @@
             autoUpdate = true;
             cleanup = "zap";
         };
-        taps = [ ];
         brews = [
             "aria2"
             "btop"
@@ -58,8 +56,5 @@
             "tencent-meeting"
             "neteasemusic"
         ];
-        masApps = {
-            # "App Name" = 123456;
-        };
     };
 }

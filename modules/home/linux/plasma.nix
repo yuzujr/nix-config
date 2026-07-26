@@ -1,0 +1,224 @@
+# Declarative KDE config via plasma-manager (merge semantics: declared keys
+# are enforced on each activation, everything else in the files is left alone).
+# Nested kconfig groups like [Colors:Header][Inactive] are written "A/B".
+{ inputs, ... }:
+{
+    imports = [ inputs.plasma-manager.homeModules.plasma-manager ];
+
+    programs.plasma = {
+        enable = true;
+
+        configFile = {
+            kdeglobals = {
+                "ColorEffects:Disabled" = {
+                    ChangeSelectionColor = "";
+                    Color = "27,25,40";
+                    ColorAmount = 0;
+                    ColorEffect = 0;
+                    ContrastAmount = "0.65";
+                    ContrastEffect = 1;
+                    Enable = "";
+                    IntensityAmount = "0.1";
+                    IntensityEffect = 2;
+                };
+
+                "ColorEffects:Inactive" = {
+                    ChangeSelectionColor = true;
+                    Color = "38,35,58";
+                    ColorAmount = "0.025";
+                    ColorEffect = 2;
+                    ContrastAmount = "0.1";
+                    ContrastEffect = 2;
+                    Enable = false;
+                    IntensityAmount = 0;
+                    IntensityEffect = 0;
+                };
+
+                "Colors:Button" = {
+                    BackgroundAlternate = "31,29,47";
+                    BackgroundNormal = "46,43,71";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Complementary" = {
+                    BackgroundAlternate = "31,29,47";
+                    BackgroundNormal = "25,23,36";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "249,235,233";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Header" = {
+                    BackgroundAlternate = "25,23,36";
+                    BackgroundNormal = "38,35,58";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Header/Inactive" = {
+                    BackgroundAlternate = "38,35,58";
+                    BackgroundNormal = "25,23,36";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Selection" = {
+                    BackgroundAlternate = "31,29,47";
+                    BackgroundNormal = "235,188,186";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "25,23,36";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "160,8,51";
+                    ForegroundNeutral = "14,49,63";
+                    ForegroundNormal = "25,23,36";
+                    ForegroundPositive = "14,49,63";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Tooltip" = {
+                    BackgroundAlternate = "25,23,36";
+                    BackgroundNormal = "38,35,58";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:View" = {
+                    BackgroundAlternate = "38,35,58";
+                    BackgroundNormal = "25,23,36";
+                    DecorationFocus = "249,235,233";
+                    DecorationHover = "25,23,36";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                "Colors:Window" = {
+                    BackgroundAlternate = "206,43,36";
+                    BackgroundNormal = "38,35,58";
+                    DecorationFocus = "235,188,186";
+                    DecorationHover = "235,188,186";
+                    ForegroundActive = "235,188,186";
+                    ForegroundInactive = "144,140,170";
+                    ForegroundLink = "156,207,216";
+                    ForegroundNegative = "235,111,146";
+                    ForegroundNeutral = "49,116,143";
+                    ForegroundNormal = "224,222,244";
+                    ForegroundPositive = "49,116,143";
+                    ForegroundVisited = "9,20,23";
+                };
+
+                General = {
+                    ColorScheme = "Noctalia";
+                    Name = "noctalia";
+                    XftAntialias = true;
+                    XftHintStyle = "hintslight";
+                    XftSubPixel = "vbgr";
+                    fixed = "Hack,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                    font = "Noto Sans CJK SC,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                    menuFont = "Noto Sans CJK SC,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                    smallestReadableFont = "Noto Sans CJK SC,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                    toolBarFont = "Noto Sans CJK SC,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                };
+
+                Icons.Theme = "Tela-circle";
+
+                KDE = {
+                    contrast = 4;
+                    frameContrast = "0.2";
+                };
+
+                "KFileDialog Settings" = {
+                    "Allow Expansion" = false;
+                    "Automatically select filename extension" = true;
+                    "Breadcrumb Navigation" = false;
+                    "Decoration position" = 2;
+                    "Show Full Path" = false;
+                    "Show Inline Previews" = true;
+                    "Show Preview" = false;
+                    "Show Speedbar" = true;
+                    "Show hidden files" = false;
+                    "Sort by" = "Name";
+                    "Sort directories first" = true;
+                    "Sort hidden files last" = false;
+                    "Sort reversed" = false;
+                    "Speedbar Width" = 130;
+                    "View Style" = "DetailTree";
+                };
+
+                WM = {
+                    activeBackground = "206,43,36";
+                    activeBlend = "249,235,233";
+                    activeFont = "Noto Sans CJK SC,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0";
+                    activeForeground = "249,235,233";
+                    inactiveBackground = "25,23,36";
+                    inactiveBlend = "144,140,170";
+                    inactiveForeground = "144,140,170";
+                };
+            };
+
+            kcminputrc = {
+                "Libinput/1133/16543/Logitech G502 X LS".PointerAcceleration = "-0.600";
+                "Libinput/2362/597/UNIW0001:00 093A:0255 Touchpad".NaturalScroll = true;
+                Mouse = {
+                    cursorSize = 32;
+                    cursorTheme = "BreezeX-RosePineDawn-Linux";
+                };
+            };
+
+            kxkbrc.Layout = {
+                DisplayNames = "";
+                LayoutList = "us";
+                Options = "ctrl:nocaps";
+                Use = true;
+                VariantList = "";
+            };
+        };
+    };
+}

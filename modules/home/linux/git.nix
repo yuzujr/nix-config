@@ -3,8 +3,8 @@
     programs.git = {
         settings = {
             user = {
-                name = vars.git.name;
-                email = vars.git.email;
+                name = vars.git.personal.name;
+                email = vars.git.personal.email;
             };
         };
     };

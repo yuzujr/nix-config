@@ -1,4 +1,3 @@
-{ ... }:
 {
     systemd.user.services.gold-price-watch = {
         Unit = {

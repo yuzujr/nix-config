@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs }:
 pkgs.mkShell {
     packages = [
         pkgs.rustc

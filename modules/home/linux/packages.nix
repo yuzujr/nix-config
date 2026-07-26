@@ -91,7 +91,6 @@ let
         unrar
         wev
         wl-clipboard
-        wl-clip-persist
     ];
 
     windows = with pkgs; [

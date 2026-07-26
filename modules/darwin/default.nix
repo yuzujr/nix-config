@@ -1,17 +1,10 @@
-{ ... }:
 {
     imports = [
-        ../shared/home-manager.nix
-        ./homebrew
-        ./secrets
+        ../shared/base.nix
+        ./home.nix
+        ./homebrew.nix
+        ./nix.nix
+        ./secrets.nix
+        ./users.nix
     ];
-
-    system.stateVersion = 4;
-
-    # Do not manage nix daemon as we are using Determinate Systems installer.
-    nix.enable = false;
-
-    nixpkgs.config.allowUnfree = true;
-
-    programs.fish.enable = true;
 }

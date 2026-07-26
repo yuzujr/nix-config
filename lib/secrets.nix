@@ -1,5 +1,5 @@
 { secrets, vars }:
-rec {
+{
     mkSecret =
         file: key: attrs:
         {

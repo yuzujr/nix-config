@@ -1,48 +1,45 @@
 { pkgs, ... }:
+let
+    audio = with pkgs; [
+        alsa-firmware
+        alsa-ucm-conf
+    ];
+
+    hardware = with pkgs; [
+        brightnessctl
+        dconf
+        ddcutil
+        pciutils
+    ];
+
+    storage = with pkgs; [
+        efibootmgr
+        exfatprogs
+        parted
+    ];
+
+    network = with pkgs; [
+        curl
+        inetutils
+        openssh
+        wget
+    ];
+
+    nixTools = with pkgs; [
+        nh
+        nix-tree
+    ];
+
+    utility = with pkgs; [
+        git
+        glib
+        jq
+        tree
+        unzip
+        vim
+        zip
+    ];
+in
 {
-    environment.systemPackages =
-        with pkgs;
-        let
-            firmware = [
-                alsa-firmware
-                alsa-ucm-conf
-                bluez
-                glib
-            ];
-
-            hardware = [
-                brightnessctl
-                dconf
-                ddcutil
-                pciutils
-            ];
-
-            storage = [
-                efibootmgr
-                exfatprogs
-                parted
-            ];
-
-            network = [
-                curl
-                inetutils
-                openssh
-                wget
-            ];
-
-            nix = [
-                nh
-                nix-tree
-            ];
-
-            utility = [
-                git
-                jq
-                tree
-                unzip
-                vim
-                zip
-            ];
-        in
-        firmware ++ hardware ++ storage ++ network ++ nix ++ utility;
+    environment.systemPackages = audio ++ hardware ++ storage ++ network ++ nixTools ++ utility;
 }

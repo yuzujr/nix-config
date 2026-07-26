@@ -1,4 +1,3 @@
-{ ... }:
 {
     imports = [
         ./audio.nix
@@ -6,8 +5,10 @@
         ./fonts.nix
         ./greetd.nix
         ./input.nix
+        ./niri.nix
         ./packages.nix
+        ./plasma.nix
         ./portal.nix
-        ./wm.nix
+        ./services.nix
     ];
 }

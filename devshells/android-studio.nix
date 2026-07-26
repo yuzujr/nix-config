@@ -1,18 +1,4 @@
-{
-    nixpkgs,
-    system,
-    ...
-}:
-let
-    pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfreePredicate =
-            pkg:
-            builtins.elem (nixpkgs.lib.getName pkg) [
-                "android-studio"
-            ];
-    };
-in
+{ pkgs }:
 pkgs.mkShell {
     packages = [
         pkgs.android-tools

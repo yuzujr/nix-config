@@ -5,7 +5,7 @@
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
         darwin = {
-            url = "github:LnL7/nix-darwin";
+            url = "github:nix-darwin/nix-darwin";
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
@@ -17,6 +17,12 @@
         sops-nix = {
             url = "github:Mic92/sops-nix";
             inputs.nixpkgs.follows = "nixpkgs";
+        };
+
+        plasma-manager = {
+            url = "github:nix-community/plasma-manager";
+            inputs.nixpkgs.follows = "nixpkgs";
+            inputs.home-manager.follows = "home-manager";
         };
 
         secrets = {
@@ -51,7 +57,6 @@
 
     outputs =
         inputs@{
-            self,
             nixpkgs,
             darwin,
             ...
@@ -65,72 +70,50 @@
 
             vars = import ./vars;
 
-            mkNixosHost =
+            # Each host declares its platform via nixpkgs.hostPlatform in its own
+            # module tree, so no system argument is passed to the builders here.
+            mkHost =
                 {
                     hostname,
                     repoSubdir,
-                    system ? "x86_64-linux",
+                    isDarwin ? false,
                 }:
                 let
-                    homeDirectory = "/home/${vars.username}";
+                    builder = if isDarwin then darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
+                    homeDirectory = "${if isDarwin then "/Users" else "/home"}/${vars.username}";
+                    hostVars = vars // {
+                        inherit homeDirectory;
+                        repoRoot = "${homeDirectory}/${repoSubdir}";
+                    };
                 in
-                nixpkgs.lib.nixosSystem {
-                    inherit system;
+                builder {
                     specialArgs = {
-                        inherit inputs hostname;
-                        vars = vars // {
-                            inherit homeDirectory;
-                            repoRoot = "${homeDirectory}/${repoSubdir}";
+                        inherit inputs;
+                        vars = hostVars;
+                        secretsLib = import ./lib/secrets.nix {
+                            inherit (inputs) secrets;
+                            vars = hostVars;
                         };
                     };
-                    modules = [
-                        ./hosts/${hostname}
-                    ];
+                    modules = [ ./hosts/${hostname} ];
                 };
 
-            mkDarwinHost =
-                {
-                    hostname,
-                    repoSubdir,
-                    system ? "aarch64-darwin",
-                }:
-                let
-                    homeDirectory = "/Users/${vars.username}";
-                in
-                darwin.lib.darwinSystem {
-                    inherit system;
-                    specialArgs = {
-                        inherit inputs hostname;
-                        vars = vars // {
-                            inherit homeDirectory;
-                            repoRoot = "${homeDirectory}/${repoSubdir}";
-                            isDarwin = true;
-                        };
-                    };
-                    modules = [
-                        ./hosts/${hostname}
-                    ];
-                };
-
-            mkDevShells = import ./devshells { inherit nixpkgs; };
+            devshellsFor = forAllSystems (system: import ./devshells { inherit nixpkgs system; });
         in
         {
-            formatter = forAllSystems (system: (mkDevShells system).formatter);
+            formatter = forAllSystems (system: devshellsFor.${system}.formatter);
 
-            devShells = forAllSystems (system: (mkDevShells system).devShells);
+            devShells = forAllSystems (system: devshellsFor.${system}.devShells);
 
-            nixosConfigurations = {
-                laptop-nixos = mkNixosHost {
-                    hostname = "laptop-nixos";
-                    repoSubdir = "nix-config";
-                };
+            nixosConfigurations.laptop-nixos = mkHost {
+                hostname = "laptop-nixos";
+                repoSubdir = "nix-config";
             };
 
-            darwinConfigurations = {
-                macbook = mkDarwinHost {
-                    hostname = "macbook";
-                    repoSubdir = "Documents/nix-config";
-                };
+            darwinConfigurations.macbook = mkHost {
+                hostname = "macbook";
+                repoSubdir = "Documents/nix-config";
+                isDarwin = true;
             };
         };
 }

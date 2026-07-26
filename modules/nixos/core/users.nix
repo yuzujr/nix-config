@@ -1,6 +1,5 @@
 {
     config,
-    lib,
     pkgs,
     vars,
     ...
@@ -29,7 +28,4 @@ in
             "i2c"
         ];
     };
-
-    # Disable Home Manager auto-activation at boot; run it manually when needed.
-    systemd.services."home-manager-${username}".wantedBy = lib.mkForce [ ];
 }

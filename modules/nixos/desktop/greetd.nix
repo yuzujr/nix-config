@@ -1,9 +1,13 @@
 {
     config,
+    lib,
     pkgs,
     vars,
     ...
 }:
+let
+    sessionsDir = "${config.services.displayManager.sessionData.desktops}/share";
+in
 {
     services.greetd = {
         enable = true;
@@ -11,12 +15,17 @@
             terminal.vt = 1;
 
             initial_session = {
-                command = "${pkgs.niri}/bin/niri-session";
+                command = lib.getExe' config.programs.niri.package "niri-session";
                 user = vars.username;
             };
 
             default_session = {
-                command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-session --sessions ${config.services.displayManager.sessionData.desktops}/share/wayland-sessions --xsessions ${config.services.displayManager.sessionData.desktops}/share/xsessions";
+                command = lib.concatStringsSep " " [
+                    (lib.getExe pkgs.tuigreet)
+                    "--time --remember --remember-session"
+                    "--sessions ${sessionsDir}/wayland-sessions"
+                    "--xsessions ${sessionsDir}/xsessions"
+                ];
                 user = "greeter";
             };
         };
