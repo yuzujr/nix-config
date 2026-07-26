@@ -26,7 +26,6 @@
             "neovim"
             "xcodes"
             "xcodegen"
-            "zellij"
 
             # tencent
             "xcode-build-server"

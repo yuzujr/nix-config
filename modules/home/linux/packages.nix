@@ -21,7 +21,6 @@ let
         starship
         yazi
         zoxide
-        zellij
     ];
 
     custom = [

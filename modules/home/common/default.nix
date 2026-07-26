@@ -5,5 +5,6 @@
         ./emacs.nix
         ./git.nix
         ./ssh.nix
+        ./tmux.nix
     ];
 }
