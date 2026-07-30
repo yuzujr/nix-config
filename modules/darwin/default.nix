@@ -5,6 +5,7 @@
         ./homebrew.nix
         ./nix.nix
         ./secrets.nix
+        ./spotlight.nix
         ./users.nix
     ];
 }
