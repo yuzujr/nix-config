@@ -78,32 +78,6 @@ in
             comment = "QQ";
         };
 
-        code = {
-            name = "Visual Studio Code";
-            genericName = "Text Editor";
-            comment = "Code Editing. Redefined.";
-            exec = "code --ozone-platform-hint=auto %F";
-            icon = "vscode";
-            terminal = false;
-            startupNotify = true;
-            categories = [
-                "Utility"
-                "TextEditor"
-                "Development"
-                "IDE"
-            ];
-            settings = {
-                Keywords = "vscode";
-                StartupWMClass = "Code";
-                Version = "1.5";
-            };
-            actions.new-empty-window = {
-                name = "New Empty Window";
-                exec = "code --new-window %F";
-                icon = "vscode";
-            };
-        };
-
         typora = {
             name = "Typora";
             genericName = "Markdown Editor";

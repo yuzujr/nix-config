@@ -41,7 +41,6 @@ let
         neovim
         nodejs
         python3
-        vscode
     ];
 
     desktop = with pkgs; [
@@ -51,7 +50,6 @@ let
         gparted
         kitty
         libnotify
-        libreoffice-fresh
         networkmanagerapplet
         pavucontrol
         qq
@@ -68,7 +66,9 @@ let
     media = with pkgs; [
         ffmpeg
         gpu-screen-recorder
-        obs-studio
+        # Drop the CEF/Chromium browser source (~2 GB) from the closure; kept
+        # for everything else (recording, replay buffer, streaming).
+        (obs-studio.override { browserSupport = false; })
         playerctl
     ];
 
@@ -92,12 +92,7 @@ let
         wl-clipboard
     ];
 
-    windows = with pkgs; [
-        wine-staging
-        winetricks
-    ];
 in
 {
-    home.packages =
-        terminal ++ custom ++ development ++ desktop ++ media ++ theming ++ utilities ++ windows;
+    home.packages = terminal ++ custom ++ development ++ desktop ++ media ++ theming ++ utilities;
 }
