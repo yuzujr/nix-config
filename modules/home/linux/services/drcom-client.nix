@@ -12,8 +12,8 @@
         Service = {
             ExecStart = "${config.home.profileDirectory}/bin/drcom_client -c ${config.xdg.configHome}/drcom-client-cpp/drcom-jlu.conf";
         };
-        Install.WantedBy = [
-            # "default.target"
-        ];
+        # Deliberately not enabled at boot: start drcom manually when on the
+        # campus network.
+        Install = { };
     };
 }

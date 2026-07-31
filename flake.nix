@@ -57,6 +57,7 @@
 
     outputs =
         inputs@{
+            self,
             nixpkgs,
             darwin,
             ...
@@ -104,6 +105,25 @@
             formatter = forAllSystems (system: devshellsFor.${system}.formatter);
 
             devShells = forAllSystems (system: devshellsFor.${system}.devShells);
+
+            # Evaluation checks for both hosts. The system derivation is only
+            # forced by name (never built), so `nix flake check` proves the
+            # host configurations evaluate without building either machine.
+            checks = forAllSystems (
+                system:
+                let
+                    pkgs = nixpkgs.legacyPackages.${system};
+                    mkEvalCheck =
+                        name: drv:
+                        pkgs.runCommand "eval-check-${name}" { } ''
+                            echo "evaluated: ${drv.name}" > $out
+                        '';
+                in
+                {
+                    nixos = mkEvalCheck "nixos" self.outputs.nixosConfigurations.laptop-nixos.config.system.build.toplevel;
+                    darwin = mkEvalCheck "darwin" self.outputs.darwinConfigurations.macbook.system;
+                }
+            );
 
             nixosConfigurations.laptop-nixos = mkHost {
                 hostname = "laptop-nixos";

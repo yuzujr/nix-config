@@ -4,14 +4,16 @@
 
 NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 
-CI checks formatting, dead code, and that both host configurations evaluate.
-The placeholder secrets under `secrets/placeholder` keep the flake fully
-evaluable without the private repo, so CI needs no secrets.
+CI checks formatting, dead code, and that both host configurations evaluate
+(now via the flake's `checks` output, so `nix flake check` covers the same
+locally). The placeholder secrets under `secrets/placeholder` keep the flake
+fully evaluable without the private repo, so CI needs no secrets.
 
 ## Outputs
 
 - `nixosConfigurations.laptop-nixos`
 - `darwinConfigurations.macbook`
+- `checks.<system>.{nixos,darwin}` (evaluation checks for both hosts, run by `nix flake check`)
 - `devShells.<system>.default` (cross-platform: nixd + nixfmt wrapper)
 - `devShells.x86_64-linux.{android-studio,clang-cpp,gcc-cpp,python,qt,rust}`
 - `formatter.{x86_64-linux,aarch64-darwin}` (nixfmt --indent 4, used by `nix fmt`)
@@ -64,6 +66,36 @@ without the private repo. Secrets shared by both platforms are declared in
 - macOS: applications and CLI tools are managed with Homebrew where practical.
 - Home Manager is shared across platforms for dotfiles and user configuration such as Git and SSH.
 - Emacs on macOS remains managed by Nix/Home Manager so its plugin set stays declarative.
+
+## Verification
+
+Both configurations should evaluate before a rebuild, and a refactor that is
+meant to be a no-op should produce the same system derivation.
+
+```bash
+# Evaluate both hosts (pure eval: proves the config is consistent, builds nothing).
+nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
+nix eval .#darwinConfigurations.macbook.system.drvPath
+
+# Full local check suite — formatting, dev shells, and (via `checks`) the
+# evaluation of both hosts above. This is what CI's `checks` job runs.
+nix flake check
+```
+
+For a no-op refactor, diff the system derivation hashes before and after.
+Because `git+file:` flake refs use the working copy when the tree is dirty,
+evaluate a baseline from a clean worktree:
+
+```bash
+git worktree add /tmp/nix-config-baseline HEAD
+nix eval \
+  --override-input secrets path:/path/to/nix-secret \
+  /tmp/nix-config-baseline#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
+```
+
+Real rebuilds need `--override-input secrets path:/path/to/nix-secret` to use
+the private secrets repo; the placeholder under `secrets/placeholder` keeps the
+flake evaluable (and CI green) without it.
 
 ## Rebuild
 

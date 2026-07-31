@@ -24,7 +24,9 @@
         };
 
         Install = {
-            # WantedBy = [ "graphical-session.target" ];
+            # Not enabled by default: Sunshine is started manually. The
+            # ExecCondition above still gates the "normal" niri profile in
+            # case this is ever wanted by a target.
         };
     };
 }

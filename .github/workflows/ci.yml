@@ -7,11 +7,12 @@ on:
 
 jobs:
   checks:
-    name: Format, lint, flake check, NixOS eval
+    name: Format, lint, flake check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Check formatting
         run: |
           nix fmt
@@ -19,15 +20,16 @@ jobs:
       - name: Dead code lint
         run: nix run nixpkgs#deadnix -- --fail --exclude hosts/laptop-nixos/hardware-configuration.nix -- .
       - name: Flake check
+        # Evaluates both host configurations via the `checks` output, then
+        # builds the checks and dev shells.
         run: nix flake check
-      - name: Evaluate NixOS system
-        run: nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
 
   darwin:
     name: Darwin eval
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/nix-installer-action@v22
+      - uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Evaluate darwin system
         run: nix eval .#darwinConfigurations.macbook.system.drvPath

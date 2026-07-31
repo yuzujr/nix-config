@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # Keep GitHub Actions pins fresh. flake.lock is not a native dependabot
+  # ecosystem; it is updated by .github/workflows/update-flake-lock.yml.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
