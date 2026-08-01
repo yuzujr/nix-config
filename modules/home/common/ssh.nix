@@ -19,8 +19,8 @@ in
             };
 
             "vps" = {
-                User = "ubuntu";
-                HostName = "123.207.16.35";
+                User = "yuzujr";
+                HostName = "106.53.172.179";
                 IdentityFile = secretPath "ssh/vps";
                 IdentitiesOnly = true;
             };
