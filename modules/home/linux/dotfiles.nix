@@ -31,6 +31,7 @@ in
             "nwg-look"
             "plasma-workspace/env/10-unset-qt-platformtheme.sh"
             "qt6ct"
+            "termway"
             "zathura"
             "fcitx5/config"
             "fcitx5/profile"

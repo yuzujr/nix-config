@@ -1,0 +1,61 @@
+# Every action is an argv array: no shell is involved unless explicitly used.
+
+[[actions]]
+name = "terminal"
+description = "Open Kitty"
+command = ["kitty", "--single-instance"]
+
+[[actions]]
+name = "launcher"
+description = "Toggle the Noctalia application launcher"
+command = ["noctalia", "msg", "panel-toggle", "launcher"]
+
+[[actions]]
+name = "clipboard"
+description = "Toggle the Noctalia clipboard"
+command = ["noctalia", "msg", "panel-toggle", "clipboard"]
+
+[[actions]]
+name = "files"
+description = "Open Dolphin"
+command = ["dolphin"]
+
+[[actions]]
+name = "browser"
+description = "Open Google Chrome"
+command = ["google-chrome"]
+
+[[actions]]
+name = "overview"
+description = "Toggle the niri overview"
+command = ["niri", "msg", "action", "toggle-overview"]
+
+[[actions]]
+name = "close-window"
+description = "Close the focused niri window"
+command = ["niri", "msg", "action", "close-window"]
+
+[[actions]]
+name = "toggle-floating"
+description = "Toggle the focused niri window between floating and tiling"
+command = ["niri", "msg", "action", "toggle-window-floating"]
+
+[[actions]]
+name = "fullscreen"
+description = "Toggle fullscreen on the focused niri window"
+command = ["niri", "msg", "action", "fullscreen-window"]
+
+[[actions]]
+name = "maximize-column"
+description = "Toggle the maximized niri column"
+command = ["niri", "msg", "action", "maximize-column"]
+
+[[actions]]
+name = "workspace-up"
+description = "Focus the niri workspace above"
+command = ["niri", "msg", "action", "focus-workspace-up"]
+
+[[actions]]
+name = "workspace-down"
+description = "Focus the niri workspace below"
+command = ["niri", "msg", "action", "focus-workspace-down"]
