@@ -58,6 +58,7 @@ if status is-interactive
     alias du="dust"
     alias df="duf -only local"
     alias diff="delta"
+    alias ff="fastfetch"
 
     # Nix rebuild helper (works on Linux with NixOS and macOS with nix-darwin)
     function nhs --description "nh with secret inputs: nhs [switch|build|test|boot]"
@@ -79,22 +80,9 @@ if status is-interactive
 
     # Functions
     if test (uname) = Linux
-        function ff --wraps fastfetch --description "fastfetch with GNOME light/dark config"
-            set -l light ~/.config/fastfetch/config-light.jsonc
-            set -l dark ~/.config/fastfetch/config-dark.jsonc
-
-            set -l cs (dconf read /org/gnome/desktop/interface/color-scheme 2>/dev/null)
-
-            if string match -q "*prefer-dark*" -- $cs
-                command fastfetch --config $dark
-            else
-                command fastfetch --config $light
-            end
-        end
-
         bind \ec 'commandline | wl-copy --trim-newline'
     else if test (uname) = Darwin
-        alias ff="fastfetch"
+        bind \ec 'printf %s "$(commandline)" | pbcopy'
 
     end
 

@@ -12,8 +12,8 @@
   "display": {
     "separator": " ",
     "color": {
-      "title": "#073642",
-      "output": "#002b36"
+      "title": "default",
+      "output": "default"
     }
   },
   "modules": [
@@ -21,83 +21,83 @@
     {
       "type": "os",
       "key": "OS",
-      "keyColor": "#268bd2"
+      "keyColor": "blue"
     },
     {
       "type": "kernel",
-      "key": " ├   KER ",
-      "keyColor": "#268bd2"
+      "key": " ├ 󰒋  KER ",
+      "keyColor": "blue"
     },
     {
       "type": "title",
       "key": " ├   USR ",
-      "keyColor": "#268bd2"
+      "keyColor": "blue"
     },
     {
       "type": "uptime",
       "key": " └   UPT ",
-      "keyColor": "#268bd2"
+      "keyColor": "blue"
     },
     "break",
     "break",
     {
       "type": "wm",
       "key": "WM",
-      "keyColor": "#6c71c4"
+      "keyColor": "magenta"
     },
     {
       "type": "de",
       "key": " ├ 󱈹  DES ",
-      "keyColor": "#6c71c4"
+      "keyColor": "magenta"
     },
     {
       "type": "shell",
       "key": " ├   SHE ",
-      "keyColor": "#6c71c4"
+      "keyColor": "magenta"
     },
     {
       "type": "terminal",
       "key": " ├   TER ",
-      "keyColor": "#6c71c4"
+      "keyColor": "magenta"
     },
     {
       "type": "terminalfont",
       "key": " └   TFO ",
-      "keyColor": "#6c71c4"
+      "keyColor": "magenta"
     },
     "break",
     "break",
     {
       "type": "host",
-      "key": "PC ",
-      "keyColor": "#d33682"
+      "key": "HW",
+      "keyColor": "cyan"
     },
     {
       "type": "cpu",
       "key": " ├   CPU ",
-      "keyColor": "#d33682"
+      "keyColor": "cyan"
     },
     {
       "type": "memory",
       "key": " ├   MEM ",
-      "keyColor": "#d33682"
+      "keyColor": "cyan"
     },
     {
       "type": "gpu",
       "key": " ├ 󰢮  GPU ",
       "format": "{1} {2}",
-      "keyColor": "#d33682"
+      "keyColor": "cyan"
     },
     {
       "type": "display",
       "key": " ├   MON ",
       "format": "{name} {width}x{height}@{refresh-rate} ",
-      "keyColor": "#d33682"
+      "keyColor": "cyan"
     },
     {
       "type": "disk",
       "key": " └ 󰋊  DIS ",
-      "keyColor": "#d33682"
+      "keyColor": "cyan"
     },
     "break",
     "break",
