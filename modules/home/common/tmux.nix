@@ -22,6 +22,7 @@
             set -g renumber-windows on
 
             set -g set-clipboard on
+            set -g allow-passthrough on
             set -as terminal-features ",xterm*:RGB"
 
             unbind '"'
