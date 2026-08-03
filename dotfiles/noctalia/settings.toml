@@ -45,15 +45,10 @@ font_family = "Noto Sans CJK SC"
 polkit_agent = true
 settings_show_advanced = false
 clipboard_auto_paste = "off"
-    
+
     [shell.panel]
     open_near_click_control_center = true
-    launcher_categories = false
-    launcher_session_search = true
     transparency_mode = "soft"
-    
-    [shell.shadow]
-    blur = 12
 
 [system.monitor]
 enabled = false
@@ -96,7 +91,6 @@ directory = "/home/yuzujr/Pictures/Wallpapers"
 enabled = true
 
 [widget.workspaces]
-display = "none"
 empty_color = "on_surface"
 occupied_color = "on_surface"
 
@@ -155,6 +149,5 @@ background_opacity = 0.93
 
 [osd]
 background_opacity = 0.93
-lock_keys = false
 position = "top_right"
 
