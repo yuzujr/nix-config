@@ -12,6 +12,7 @@
             "duf"
             "dust"
             "fd"
+            "herdr"
             "ripgrep"
             "rustup"
             "starship"
@@ -34,6 +35,7 @@
             "libyaml"
         ];
         casks = [
+            "adrive"
             "kitty"
             "font-maple-mono-nf-cn"
             "font-lxgw-wenkai"
@@ -46,7 +48,6 @@
             "codebuddy-cn"
             "cursor"
             "claude-code"
-            "linearmouse"
             "visual-studio-code"
             "antigravity-cli"
             "wechat"
