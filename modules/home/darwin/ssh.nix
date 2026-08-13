@@ -1,11 +1,5 @@
 # Work hosts and the way back home; their secrets are only declared on darwin.
-{
-    osConfig ? { },
-    ...
-}:
-let
-    secretPath = name: osConfig.sops.secrets.${name}.path or "/run/secrets/${name}";
-in
+{ secretPath, ... }:
 {
     programs.ssh.settings = {
         # devcloud (managed by Tencent devcloud tooling, see ~/.ssh/devcloud_config)

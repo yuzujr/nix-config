@@ -17,19 +17,15 @@ jobs:
         run: |
           nix fmt
           git diff --exit-code
+      - name: Workflow lint
+        run: nix run nixpkgs#actionlint -- .github/workflows/ci.yml
+      - name: Nix lint
+        run: nix run nixpkgs#statix -- check --ignore hosts/laptop-nixos/hardware-configuration.nix .
       - name: Dead code lint
         run: nix run nixpkgs#deadnix -- --fail --exclude hosts/laptop-nixos/hardware-configuration.nix -- .
+      - name: Shell lint
+        run: nix run nixpkgs#shellcheck -- dotfiles/local/bin/*
       - name: Flake check
         # Evaluates both host configurations via the `checks` output, then
         # builds the checks and dev shells.
         run: nix flake check
-
-  darwin:
-    name: Darwin eval
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: DeterminateSystems/nix-installer-action@v22
-      - uses: DeterminateSystems/magic-nix-cache-action@v14
-      - name: Evaluate darwin system
-        run: nix eval .#darwinConfigurations.macbook.system.drvPath

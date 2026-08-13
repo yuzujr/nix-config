@@ -276,7 +276,7 @@ run_once() {
 
 print_status() {
   local config_exists state_exists last_price_text anchor_price_text
-  local csv_today_file csv_today_link csv_today_exists csv_today_rows csv_today_last_line csv_today_link_target csv_today_link_exists
+  local csv_today_file csv_today_exists csv_today_rows csv_today_last_line
 
   config_exists="no"
   state_exists="no"
@@ -302,17 +302,10 @@ print_status() {
   fi
 
   csv_today_file="$WATCH_CSV_DIR/$(date +%F).csv"
-  csv_today_link="$WATCH_CSV_DIR/today.csv"
   csv_today_exists="no"
-  csv_today_link_exists="no"
   csv_today_rows="0"
   csv_today_last_line="none"
-  csv_today_link_target="missing"
   [[ -f "$csv_today_file" ]] && csv_today_exists="yes"
-  [[ -L "$csv_today_link" ]] && csv_today_link_exists="yes"
-  if [[ "$csv_today_link_exists" == "yes" ]]; then
-    csv_today_link_target="$(readlink "$csv_today_link")"
-  fi
   if [[ "$csv_today_exists" == "yes" ]]; then
     csv_today_rows="$(awk 'END{ if (NR>1) print NR-1; else print 0 }' "$csv_today_file")"
     if (( csv_today_rows > 0 )); then

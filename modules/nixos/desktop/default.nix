@@ -8,7 +8,6 @@
         ./niri.nix
         ./packages.nix
         ./plasma.nix
-        ./portal.nix
         ./services.nix
     ];
 }

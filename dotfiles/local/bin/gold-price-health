@@ -38,12 +38,10 @@ is_positive_price() {
 }
 
 load_watch_config() {
-  API_URL="https://api.gold-api.com/price/XAU"
   CHECK_INTERVAL=300
   ABS_HIGH=""
   ABS_LOW=""
   REL_CHANGE_PCT=""
-  NOTIFY_TITLE="Gold Price Alert"
   WATCH_CSV_ENABLED=1
   WATCH_CSV_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/gold-price-history"
 
@@ -113,21 +111,14 @@ print_history_csv_summary() {
 }
 
 print_watcher_csv_summary() {
-  local today_file today_link today_exists link_exists link_target rows last_line
+  local today_file today_exists rows last_line
 
   today_file="$WATCH_CSV_DIR/$(date +%F).csv"
-  today_link="$WATCH_CSV_DIR/today.csv"
   today_exists="no"
-  link_exists="no"
-  link_target="missing"
   rows="0"
   last_line="none"
 
   [[ -f "$today_file" ]] && today_exists="yes"
-  [[ -L "$today_link" ]] && link_exists="yes"
-  if [[ "$link_exists" == "yes" ]]; then
-    link_target="$(readlink "$today_link")"
-  fi
 
   if [[ "$today_exists" == "yes" ]]; then
     rows="$(awk 'END{ if (NR>1) print NR-1; else print 0 }' "$today_file")"

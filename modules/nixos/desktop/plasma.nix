@@ -12,12 +12,20 @@
     ];
 
     # Keep Plasma installed, but disable KDE's crash handler entirely.
-    systemd.services."drkonqi-coredump-processor@".enable = false;
-    systemd.user.sockets."drkonqi-coredump-launcher".enable = false;
-    systemd.user.services."drkonqi-coredump-launcher@".enable = false;
-    systemd.user.services."drkonqi-coredump-pickup".enable = false;
-    systemd.user.timers."drkonqi-coredump-cleanup".enable = false;
-    systemd.user.services."drkonqi-sentry-postman".enable = false;
-    systemd.user.paths."drkonqi-sentry-postman".enable = false;
-    systemd.user.timers."drkonqi-sentry-postman".enable = false;
+    systemd = {
+        services."drkonqi-coredump-processor@".enable = false;
+        user = {
+            sockets."drkonqi-coredump-launcher".enable = false;
+            services = {
+                "drkonqi-coredump-launcher@".enable = false;
+                "drkonqi-coredump-pickup".enable = false;
+                "drkonqi-sentry-postman".enable = false;
+            };
+            timers = {
+                "drkonqi-coredump-cleanup".enable = false;
+                "drkonqi-sentry-postman".enable = false;
+            };
+            paths."drkonqi-sentry-postman".enable = false;
+        };
+    };
 }

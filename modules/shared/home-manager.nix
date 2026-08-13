@@ -14,11 +14,8 @@
             inherit inputs vars;
         };
         users.${vars.username} = {
-            # stateVersion tracks when this config was created, not the
-            # current nixpkgs release (unstable is now 26.11), so the release
-            # check is disabled to keep the older value warning-free.
+            # Preserve the defaults from when this Home Manager config was created.
             home.stateVersion = "26.05";
-            home.enableNixpkgsReleaseCheck = false;
         };
     };
 }

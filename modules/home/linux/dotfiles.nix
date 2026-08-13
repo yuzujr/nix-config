@@ -1,29 +1,18 @@
 # Linux (NixOS)-only config files.
 {
-    config,
     lib,
-    vars,
+    dot,
+    hasSecret,
+    mkSymlink,
     osConfig ? { },
     ...
 }:
-let
-    mkSymlink = config.lib.file.mkOutOfStoreSymlink;
-    dot = path: {
-        source = mkSymlink "${vars.repoRoot}/dotfiles/${path}";
-    };
-    hasSecret =
-        name:
-        lib.hasAttrByPath [
-            "sops"
-            "secrets"
-            name
-        ] osConfig;
-in
 {
+    home.file.".local/bin" = dot "local/bin";
+
     xdg.configFile =
         lib.genAttrs [
             "kitty"
-            "niri"
             "noctalia"
             "chrome-flags.conf"
             "feh"
@@ -41,6 +30,19 @@ in
             "fcitx5/conf/notifications.conf"
             "fcitx5/conf/rime.conf"
         ] dot
+        // lib.genAttrs [
+            "niri/animation.kdl"
+            "niri/binds.kdl"
+            "niri/config.kdl"
+            "niri/layout.kdl"
+            "niri/noctalia.kdl"
+            "niri/rule.kdl"
+            "niri/profiles/normal"
+            "niri/profiles/travel"
+        ] dot
+        // lib.optionalAttrs (hasSecret "network/drcom-jlu") {
+            "drcom-client-cpp/drcom-jlu.conf".source = mkSymlink osConfig.sops.secrets."network/drcom-jlu".path;
+        }
         // lib.optionalAttrs (hasSecret "apps/gold-price-history") {
             "gold-price/gold-price-history.conf".source =
                 mkSymlink
@@ -52,7 +54,9 @@ in
         "fcitx5/rime"
     ] dot;
 
-    home.activation.niriProfileLinks = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    # These links are mutable profile state, so create them only after Home
+    # Manager has installed the stable Niri files above.
+    home.activation.niriProfileLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
         profiles_dir="$HOME/.config/niri/profiles"
         mkdir -p "$profiles_dir"
 

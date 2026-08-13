@@ -106,17 +106,20 @@
 
             devShells = forAllSystems (system: devshellsFor.${system}.devShells);
 
-            # Evaluation checks for both hosts. The system derivation is only
-            # forced by name (never built), so `nix flake check` proves the
-            # host configurations evaluate without building either machine.
+            # Evaluation checks for both hosts. Discarding the string context
+            # keeps the systems out of the build graph while forcing their
+            # complete derivation paths to evaluate.
             checks = forAllSystems (
                 system:
                 let
                     pkgs = nixpkgs.legacyPackages.${system};
                     mkEvalCheck =
                         name: drv:
+                        let
+                            drvPath = builtins.unsafeDiscardStringContext drv.drvPath;
+                        in
                         pkgs.runCommand "eval-check-${name}" { } ''
-                            echo "evaluated: ${drv.name}" > $out
+                            echo "evaluated: ${drvPath}" > $out
                         '';
                 in
                 {

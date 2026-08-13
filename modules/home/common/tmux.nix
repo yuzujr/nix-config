@@ -1,4 +1,3 @@
-{ ... }:
 {
     programs.tmux = {
         enable = true;
@@ -14,9 +13,6 @@
         prefix = "C-b";
         sensibleOnTop = false;
         terminal = "tmux-256color";
-
-        # Prefer tmux's native OSC 52 clipboard integration.
-        plugins = [ ];
 
         extraConfig = ''
             set -g renumber-windows on

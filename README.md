@@ -4,10 +4,11 @@
 
 NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 
-CI checks formatting, dead code, and that both host configurations evaluate
-(now via the flake's `checks` output, so `nix flake check` covers the same
-locally). The placeholder secrets under `secrets/placeholder` keep the flake
-fully evaluable without the private repo, so CI needs no secrets.
+CI checks formatting, workflow/Nix/shell style, dead code, and that both host
+configurations evaluate (now via the flake's `checks` output, so
+`nix flake check` covers the host evaluations locally). The placeholder secrets
+under `secrets/placeholder` keep the flake fully evaluable without the private
+repo, so CI needs no secrets.
 
 ## Outputs
 
@@ -77,8 +78,14 @@ meant to be a no-op should produce the same system derivation.
 nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
 nix eval .#darwinConfigurations.macbook.system.drvPath
 
-# Full local check suite — formatting, dev shells, and (via `checks`) the
-# evaluation of both hosts above. This is what CI's `checks` job runs.
+# Run the same checks as CI. The flake check covers dev shells and, through
+# `checks`, evaluates both hosts above.
+nix fmt
+git diff --exit-code
+nix run nixpkgs#actionlint -- .github/workflows/ci.yml
+nix run nixpkgs#statix -- check --ignore hosts/laptop-nixos/hardware-configuration.nix .
+nix run nixpkgs#deadnix -- --fail --exclude hosts/laptop-nixos/hardware-configuration.nix -- .
+nix run nixpkgs#shellcheck -- dotfiles/local/bin/*
 nix flake check
 ```
 

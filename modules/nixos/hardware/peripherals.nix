@@ -1,6 +1,8 @@
 {
-    hardware.bluetooth.enable = true;
-    # DDC monitor control via ddcutil.
-    hardware.i2c.enable = true;
-    hardware.steam-hardware.enable = true;
+    hardware = {
+        bluetooth.enable = true;
+        # DDC monitor control via ddcutil.
+        i2c.enable = true;
+        steam-hardware.enable = true;
+    };
 }

@@ -1,15 +1,5 @@
 # macOS-only config files.
-{
-    config,
-    vars,
-    ...
-}:
-let
-    mkSymlink = config.lib.file.mkOutOfStoreSymlink;
-    dot = path: {
-        source = mkSymlink "${vars.repoRoot}/dotfiles/${path}";
-    };
-in
+{ dot, ... }:
 {
     xdg.configFile.kitty = dot "kitty-darwin";
 

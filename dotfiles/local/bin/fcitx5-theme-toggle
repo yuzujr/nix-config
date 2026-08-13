@@ -109,12 +109,12 @@ apply_preset() {
     local preset="$1"
 
     busctl --user call "$FCITX_DBUS" "$FCITX_CONTROLLER" "$FCITX_IFACE" SetConfig sv \
-        "fcitx://config/addon/classicui" a{sv} 2 \
+        "fcitx://config/addon/classicui" 'a{sv}' 2 \
         "Vertical Candidate List" s "${PRESET_VERTICAL[$preset]}" \
         "Theme" s "${PRESET_THEME[$preset]}" >/dev/null
 
     busctl --user call "$FCITX_DBUS" "$FCITX_CONTROLLER" "$FCITX_IFACE" SetConfig sv \
-        "fcitx://config/addon/rime" a{sv} 1 \
+        "fcitx://config/addon/rime" 'a{sv}' 1 \
         "PreeditMode" s "${PRESET_PREEDIT[$preset]}" >/dev/null
 
     busctl --user call "$FCITX_DBUS" "$FCITX_CONTROLLER" "$FCITX_IFACE" Save >/dev/null

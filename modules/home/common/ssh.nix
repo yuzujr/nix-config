@@ -1,12 +1,4 @@
-{
-    osConfig ? { },
-    ...
-}:
-let
-    # Resolve identity files from the OS sops declarations, falling back to the
-    # sops-nix default layout when evaluated without an OS config.
-    secretPath = name: osConfig.sops.secrets.${name}.path or "/run/secrets/${name}";
-in
+{ secretPath, ... }:
 {
     programs.ssh = {
         enable = true;

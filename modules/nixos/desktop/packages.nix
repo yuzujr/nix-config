@@ -7,7 +7,6 @@ let
 
     hardware = with pkgs; [
         brightnessctl
-        dconf
         ddcutil
         pciutils
     ];
@@ -19,9 +18,7 @@ let
     ];
 
     network = with pkgs; [
-        curl
         inetutils
-        openssh
         wget
     ];
 
@@ -31,7 +28,6 @@ let
     ];
 
     utility = with pkgs; [
-        git
         glib
         jq
         tree

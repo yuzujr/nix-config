@@ -21,6 +21,8 @@ in
             }
         );
 
+        "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
+
         "apps/gold-price-history" = mkSecret "apps.yaml" "gold-price-history" userSecret;
 
         "users/${vars.username}/password-hash" = mkSecret "users.yaml" "${vars.username}-password-hash" (
