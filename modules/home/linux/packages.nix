@@ -16,6 +16,7 @@ let
         fastfetch
         fd
         fzf
+        herdr
         nyancat
         ripgrep
         starship
@@ -66,8 +67,6 @@ let
     media = with pkgs; [
         ffmpeg
         gpu-screen-recorder
-        # Drop the CEF/Chromium browser source (~2 GB) from the closure; kept
-        # for everything else (recording, replay buffer, streaming).
         (obs-studio.override { browserSupport = false; })
         playerctl
     ];

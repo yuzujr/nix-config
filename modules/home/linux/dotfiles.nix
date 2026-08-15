@@ -13,6 +13,7 @@
     xdg.configFile =
         lib.genAttrs [
             "kitty"
+            "niri"
             "noctalia"
             "chrome-flags.conf"
             "feh"
@@ -30,16 +31,6 @@
             "fcitx5/conf/notifications.conf"
             "fcitx5/conf/rime.conf"
         ] dot
-        // lib.genAttrs [
-            "niri/animation.kdl"
-            "niri/binds.kdl"
-            "niri/config.kdl"
-            "niri/layout.kdl"
-            "niri/noctalia.kdl"
-            "niri/rule.kdl"
-            "niri/profiles/normal"
-            "niri/profiles/travel"
-        ] dot
         // lib.optionalAttrs (hasSecret "network/drcom-jlu") {
             "drcom-client-cpp/drcom-jlu.conf".source = mkSymlink osConfig.sops.secrets."network/drcom-jlu".path;
         }
@@ -54,11 +45,11 @@
         "fcitx5/rime"
     ] dot;
 
-    # These links are mutable profile state, so create them only after Home
-    # Manager has installed the stable Niri files above.
+    # These mutable profile links live in the out-of-store Niri directory and
+    # are ignored by Git.
     home.activation.niriProfileLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
         profiles_dir="$HOME/.config/niri/profiles"
-        mkdir -p "$profiles_dir"
+        run mkdir -p $VERBOSE_ARG "$profiles_dir"
 
         create_if_missing() {
           local target="$1"
@@ -66,7 +57,7 @@
           if [ -e "$link" ] || [ -L "$link" ]; then
             return 0
           fi
-          ln -s "$target" "$link"
+          run ln -s $VERBOSE_ARG "$target" "$link"
         }
 
         create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
