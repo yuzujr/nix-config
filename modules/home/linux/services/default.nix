@@ -6,6 +6,7 @@
         ./gold-price-history-daily.nix
         ./gold-price-watch.nix
         ./mpris-proxy.nix
+        ./nixloom.nix
         ./sunshine.nix
         ./wl-clip-persist.nix
     ];
