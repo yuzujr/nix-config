@@ -355,7 +355,8 @@
         "plasma-manager": "plasma-manager",
         "rose-pine-doom-emacs": "rose-pine-doom-emacs",
         "secrets": "secrets",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "termway": "termway"
       }
     },
     "rose-pine-doom-emacs": {
@@ -403,6 +404,26 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "termway": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786894285,
+        "narHash": "sha256-V6yWDnYsofoWmVEnCAQIdwQHVJAJjQbiL2M9EPVOCkE=",
+        "owner": "yuzujr",
+        "repo": "termway",
+        "rev": "4acde5999f97a184a8ea7b9c036a2d68af78d8a2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yuzujr",
+        "repo": "termway",
         "type": "github"
       }
     },

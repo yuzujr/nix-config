@@ -51,6 +51,11 @@
 
         nixloom.url = "github:yuzujr/nixloom";
 
+        termway = {
+            url = "github:yuzujr/termway";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+
         rose-pine-doom-emacs = {
             url = "github:donniebreve/rose-pine-doom-emacs";
             flake = false;

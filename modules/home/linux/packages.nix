@@ -29,6 +29,7 @@ let
         inputs.drcom-client-cpp.packages.${system}.default
         inputs.ani2xcursor.packages.${system}.default
         inputs.noctalia.packages.${system}.default
+        inputs.termway.packages.${system}.default
     ];
 
     development = with pkgs; [
