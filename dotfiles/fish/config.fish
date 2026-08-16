@@ -71,9 +71,11 @@ if status is-interactive
 
         if test (uname) = Darwin
             nh darwin $mode --show-activation-logs $argv /Users/yuzujr/Documents/nix-config#macbook \
+                -o /Users/yuzujr/.cache/nh/result \
                 -- --override-input secrets path:$HOME/Documents/nix-secret
         else
             nh os $mode $argv /home/yuzujr/nix-config#laptop-nixos \
+                -o /home/yuzujr/.cache/nh/result \
                 -- --override-input secrets path:/home/yuzujr/nix-secret
         end
     end

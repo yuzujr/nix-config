@@ -24,4 +24,6 @@
 
         optimise.automatic = true;
     };
+
+    boot.tmp.cleanOnBoot = true;
 }
