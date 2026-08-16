@@ -414,11 +414,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786894285,
-        "narHash": "sha256-V6yWDnYsofoWmVEnCAQIdwQHVJAJjQbiL2M9EPVOCkE=",
+        "lastModified": 1786895219,
+        "narHash": "sha256-5WXvaFuSxuZVKJQC3FaTQutkW6I97BfbK9yuWE9aEaI=",
         "owner": "yuzujr",
         "repo": "termway",
-        "rev": "4acde5999f97a184a8ea7b9c036a2d68af78d8a2",
+        "rev": "dc26d106df39b71c9de0f1a512285d9b57f89169",
         "type": "github"
       },
       "original": {
