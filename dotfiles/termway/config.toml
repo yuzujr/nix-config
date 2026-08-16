@@ -51,6 +51,31 @@ description = "Toggle the maximized niri column"
 command = ["niri", "msg", "action", "maximize-column"]
 
 [[actions]]
+name = "focus-window-previous"
+description = "Focus the previously focused niri window"
+command = ["niri", "msg", "action", "focus-window-previous"]
+
+[[actions]]
+name = "focus-column-left"
+description = "Focus the niri column to the left"
+command = ["niri", "msg", "action", "focus-column-left"]
+
+[[actions]]
+name = "focus-column-right"
+description = "Focus the niri column to the right"
+command = ["niri", "msg", "action", "focus-column-right"]
+
+[[actions]]
+name = "focus-window-up"
+description = "Focus the niri window above"
+command = ["niri", "msg", "action", "focus-window-up"]
+
+[[actions]]
+name = "focus-window-down"
+description = "Focus the niri window below"
+command = ["niri", "msg", "action", "focus-window-down"]
+
+[[actions]]
 name = "workspace-up"
 description = "Focus the niri workspace above"
 command = ["niri", "msg", "action", "focus-workspace-up"]
