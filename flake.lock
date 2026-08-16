@@ -153,15 +153,15 @@
       "locked": {
         "lastModified": 1786865576,
         "narHash": "sha256-xewD/8vpB9CebW6czsUyIT/6Q7r6CVRG6OnfTAyjA4k=",
-        "ref": "refs/heads/main",
+        "owner": "yuzujr",
+        "repo": "nixloom",
         "rev": "db40ff5bba96e79df84d642fcfce028afc2b6e4c",
-        "revCount": 4,
-        "type": "git",
-        "url": "file:///home/yuzujr/Projects/nixloom"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/yuzujr/Projects/nixloom"
+        "owner": "yuzujr",
+        "repo": "nixloom",
+        "type": "github"
       }
     },
     "nixpkgs": {

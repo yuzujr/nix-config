@@ -49,11 +49,7 @@
             url = "github:noctalia-dev/noctalia";
         };
 
-        nixloom = {
-            # A git source excludes ignored model/state files before Nix copies
-            # the input; a path source would unnecessarily ingest tens of GiB.
-            url = "git+file:///home/yuzujr/Projects/nixloom";
-        };
+        nixloom.url = "github:yuzujr/nixloom";
 
         rose-pine-doom-emacs = {
             url = "github:donniebreve/rose-pine-doom-emacs";
