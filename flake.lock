@@ -151,11 +151,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1786862616,
-        "narHash": "sha256-HsI06m/4kX7/NCYQF38JwvBi0fC0U1HNXYZlPDZj97c=",
+        "lastModified": 1786864733,
+        "narHash": "sha256-mOBX19TJCZe1eRHbptMJtE1fMFWdZalIETBredlm51A=",
         "ref": "refs/heads/main",
-        "rev": "2c6db9ca85445290b9703b829c30affcf2a50a39",
-        "revCount": 2,
+        "rev": "2082bd81c127805dcd3c3b9b5094dcaac1021b9b",
+        "revCount": 3,
         "type": "git",
         "url": "file:///home/yuzujr/Projects/nixloom"
       },
