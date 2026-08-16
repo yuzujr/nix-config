@@ -25,8 +25,6 @@ in
 
         "apps/gold-price-history" = mkSecret "apps.yaml" "gold-price-history" userSecret;
 
-        # The whole NixLoom runtime config (credentials included) is encrypted
-        # and decrypted directly into the config path the service reads.
         "nixloom/config" = mkSecret "nixloom.yaml" "config" (
             userSecret
             // {
