@@ -21,6 +21,14 @@
             IdentitiesOnly = true;
         };
 
+        "optimizer" = {
+            HostName = "21.130.252.210";
+            User = "root";
+            Port = 36000;
+            IdentityFile = secretPath "ssh/dtm";
+            IdentitiesOnly = true;
+        };
+
         "home" = {
             HostName = "laptop-nixos";
             ProxyJump = "vps";
