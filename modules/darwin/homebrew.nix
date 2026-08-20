@@ -44,7 +44,7 @@
             "clash-verge-rev"
             "cc-switch"
             "codex"
-            "codex-app"
+            "chatgpt"
             "codebuddy-cn"
             "cursor"
             "claude-code"
