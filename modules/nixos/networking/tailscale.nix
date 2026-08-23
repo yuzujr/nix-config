@@ -18,7 +18,6 @@
     };
 
     networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-        3000 # Open WebUI
         8000 # SillyTavern
     ];
 }
