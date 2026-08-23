@@ -127,11 +127,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1787501884,
-        "narHash": "sha256-mzg2i35s6R/vMHthr1uL2uvcNY0FtJI3uMM3XohgGvE=",
+        "lastModified": 1787502011,
+        "narHash": "sha256-KsmU3UQMW57aCzZnIZo3Ed6Ql0VhoK84pUVi8+3Zsqo=",
         "owner": "yuzujr",
         "repo": "nixloom",
-        "rev": "a8ad1c9a8e9b93490fdc0dce03c9acd1a3b87b9c",
+        "rev": "ae693fe7e40a9fa245e852ea024631a9de2b4ab4",
         "type": "github"
       },
       "original": {
