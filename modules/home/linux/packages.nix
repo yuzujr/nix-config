@@ -59,7 +59,7 @@ let
         splayer
         sunshine
         typora
-        wechat
+        (callPackage ../../../packages/wechat { })
         xwayland-satellite
         zathura
         zathuraPkgs.zathura_pdf_poppler
