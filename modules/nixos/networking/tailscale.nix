@@ -1,7 +1,9 @@
+{ vars, ... }:
 {
     services.tailscale = {
         enable = true;
         openFirewall = true;
+        extraSetFlags = [ "--operator=${vars.username}" ];
 
         # Keep Tailscale as a private-device overlay only. Do not enable
         # subnet-router or exit-node routing here; mihomo already manages a TUN.
@@ -16,8 +18,4 @@
             HTTPS_PROXY = "http://127.0.0.1:8907";
         };
     };
-
-    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
-        8000 # SillyTavern
-    ];
 }
