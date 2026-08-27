@@ -9,6 +9,7 @@ light_name = "rose-pine-dawn"
 [ui]
 prompt_new_tab_name = false
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "spaces"
 
 [ui.sound]
 enabled = false
