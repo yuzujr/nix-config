@@ -56,7 +56,7 @@ let
         pavucontrol
         qq
         seahorse
-        splayer
+        splayer-next
         sunshine
         typora
         (callPackage ../../../packages/wechat { })

@@ -46,7 +46,6 @@
             "codex"
             "chatgpt"
             "codebuddy-cn"
-            "cursor"
             "claude-code"
             "visual-studio-code"
             "antigravity-cli"
