@@ -6,7 +6,8 @@
                 "flakes"
             ];
             substituters = [
-                "https://unicom.mirrors.ustc.edu.cn/nix-channels/store?priority=10"
+                "https://cache.nixos.org?priority=10"
+                "https://unicom.mirrors.ustc.edu.cn/nix-channels/store?priority=30"
                 "https://noctalia.cachix.org"
             ];
             extra-trusted-public-keys = [
