@@ -1,6 +1,5 @@
 binds {
-    // #"应用启动"
-    Mod+Shift+Slash hotkey-overlay-title="切换快捷键速查面板" { show-hotkey-overlay; }
+    // #"启动与工具"
     Mod+Return hotkey-overlay-title="终端（Kitty）" { spawn "kitty" "--single-instance"; }
     Mod+E hotkey-overlay-title="文件管理器（Dolphin）" { spawn "dolphin"; }
     Mod+B hotkey-overlay-title="浏览器（Chrome）" { spawn "google-chrome"; }
@@ -8,23 +7,13 @@ binds {
     Alt+Space hotkey-overlay-title="应用启动器" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Mod+Alt+V hotkey-overlay-title="剪贴板" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
 
-    // #"截图与录屏"
-    Alt+Shift+3 hotkey-overlay-title="全屏截图" { screenshot-screen; }
-    Alt+Shift+4 hotkey-overlay-title="选取区域截图" { screenshot; }
-    Alt+Shift+5 hotkey-overlay-title="当前窗口截图" { screenshot-window; }
-    Print hotkey-overlay-title="全屏截图" { screenshot-screen; }
-    Alt+R hotkey-overlay-title="开始/停止录屏" { spawn "noctalia" "msg" "scripted-widget" "screen_recorder" "focused" "toggle"; }
+    // #"焦点导航"
+    Mod+H hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
+    Mod+L hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
+    Mod+J hotkey-overlay-title="焦点向下（窗口/工作区）" { focus-window-or-workspace-down; }
+    Mod+K hotkey-overlay-title="焦点向上（窗口/工作区）" { focus-window-or-workspace-up; }
 
-    // #"系统"
-    Pause hotkey-overlay-title="播放/暂停" { spawn "playerctl" "play-pause"; }
-    Mod+Shift+E hotkey-overlay-title="退出niri" { quit; }
-    Mod+Alt+I hotkey-overlay-title="切换输入法主题预设" { spawn "~/.local/bin/fcitx5-theme-toggle"; }
-
-    // #"壁纸"
-    Mod+Ctrl+W hotkey-overlay-title="打开壁纸选择" { spawn "noctalia" "msg" "panel-toggle" "wallpaper"; }
-    Mod+Shift+W hotkey-overlay-title="随机切换壁纸" { spawn "noctalia" "msg" "wallpaper-random"; }
-
-    // #"窗口与概览"
+    // #"窗口布局"
     Mod+G repeat=false hotkey-overlay-title="切换概览" { toggle-overview; }
     Mod+Q repeat=false hotkey-overlay-title="关闭窗口" { close-window; }
     Mod+V hotkey-overlay-title="窗口浮动/平铺切换" { toggle-window-floating; }
@@ -33,14 +22,9 @@ binds {
     Mod+Alt+F hotkey-overlay-title="窗口贴边最大化" { maximize-window-to-edges; }
     Mod+M hotkey-overlay-title="全屏" { fullscreen-window; }
     Mod+C hotkey-overlay-title="居中当前列" { center-column; }
+    Mod+Alt+T hotkey-overlay-title="当前列切换标签堆叠" { toggle-column-tabbed-display; }
 
-    // #"焦点移动"
-    Mod+H hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
-    Mod+L hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
-    Mod+J hotkey-overlay-title="焦点向下（窗口/工作区）" { focus-window-or-workspace-down; }
-    Mod+K hotkey-overlay-title="焦点向上（窗口/工作区）" { focus-window-or-workspace-up; }
-
-    // #"窗口/列移动"
+    // #"移动窗口与列"
     Mod+Ctrl+H hotkey-overlay-title="列向左移动" { move-column-left; }
     Mod+Ctrl+L hotkey-overlay-title="列向右移动" { move-column-right; }
     Mod+Ctrl+J hotkey-overlay-title="窗口向下移动（或到下方工作区）" { move-window-down-or-to-workspace-down; }
@@ -50,44 +34,25 @@ binds {
     Mod+S hotkey-overlay-title="窗口向下移动" { move-window-down; }
     Mod+W hotkey-overlay-title="窗口向上移动" { move-window-up; }
 
-    // #"标签堆叠"
-    Mod+Alt+T hotkey-overlay-title="当前列切换标签堆叠" { toggle-column-tabbed-display; }
-
-    // #"显示器焦点"
+    // #"多显示器"
     Mod+Shift+H hotkey-overlay-title="焦点到左侧显示器" { focus-monitor-left; }
     Mod+Shift+J hotkey-overlay-title="焦点到下方显示器" { focus-monitor-down; }
     Mod+Shift+K hotkey-overlay-title="焦点到上方显示器" { focus-monitor-up; }
     Mod+Shift+L hotkey-overlay-title="焦点到右侧显示器" { focus-monitor-right; }
-
-    // #"跨显示器移动列"
     Mod+Shift+Ctrl+H hotkey-overlay-title="列移动到左侧显示器" { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+J hotkey-overlay-title="列移动到下方显示器" { move-column-to-monitor-down; }
     Mod+Shift+Ctrl+K hotkey-overlay-title="列移动到上方显示器" { move-column-to-monitor-up; }
     Mod+Shift+Ctrl+L hotkey-overlay-title="列移动到右侧显示器" { move-column-to-monitor-right; }
-
-    // #"跨显示器移动工作区"
     Mod+Shift+Alt+H hotkey-overlay-title="工作区移动到左侧显示器" { move-workspace-to-monitor-left; }
     Mod+Shift+Alt+J hotkey-overlay-title="工作区移动到下方显示器" { move-workspace-to-monitor-down; }
     Mod+Shift+Alt+K hotkey-overlay-title="工作区移动到上方显示器" { move-workspace-to-monitor-up; }
     Mod+Shift+Alt+L hotkey-overlay-title="工作区移动到右侧显示器" { move-workspace-to-monitor-right; }
 
-    // #"滚轮切换工作区/移动列"
+    // #"工作区"
     Mod+Shift+WheelScrollDown cooldown-ms=150 hotkey-overlay-title="切换到下一个工作区" { focus-workspace-down; }
     Mod+Shift+WheelScrollUp cooldown-ms=150 hotkey-overlay-title="切换到上一个工作区" { focus-workspace-up; }
     Mod+Ctrl+Shift+WheelScrollDown cooldown-ms=150 hotkey-overlay-title="将列移动到下一个工作区" { move-column-to-workspace-down; }
     Mod+Ctrl+Shift+WheelScrollUp cooldown-ms=150 hotkey-overlay-title="将列移动到上一个工作区" { move-column-to-workspace-up; }
-
-    // #"滚轮调整列位置"
-    Mod+WheelScrollRight hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
-    Mod+WheelScrollLeft hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
-    Mod+Ctrl+WheelScrollRight hotkey-overlay-title="列向右移动" { move-column-right; }
-    Mod+Ctrl+WheelScrollLeft hotkey-overlay-title="列向左移动" { move-column-left; }
-    Mod+WheelScrollDown hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
-    Mod+WheelScrollUp hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
-    Mod+Ctrl+WheelScrollDown hotkey-overlay-title="列向右移动" { move-column-right; }
-    Mod+Ctrl+WheelScrollUp hotkey-overlay-title="列向左移动" { move-column-left; }
-
-    // #"工作区切换"
     Mod+1 hotkey-overlay-title="切换到工作区 1" { focus-workspace 1; }
     Mod+2 hotkey-overlay-title="切换到工作区 2" { focus-workspace 2; }
     Mod+3 hotkey-overlay-title="切换到工作区 3" { focus-workspace 3; }
@@ -97,8 +62,6 @@ binds {
     Mod+7 hotkey-overlay-title="切换到工作区 7" { focus-workspace 7; }
     Mod+8 hotkey-overlay-title="切换到工作区 8" { focus-workspace 8; }
     Mod+9 hotkey-overlay-title="切换到工作区 9" { focus-workspace 9; }
-
-    // #"将列移动到指定工作区"
     Mod+Ctrl+1 hotkey-overlay-title="将列移动到工作区 1" { move-column-to-workspace 1; }
     Mod+Ctrl+2 hotkey-overlay-title="将列移动到工作区 2" { move-column-to-workspace 2; }
     Mod+Ctrl+3 hotkey-overlay-title="将列移动到工作区 3" { move-column-to-workspace 3; }
@@ -118,4 +81,30 @@ binds {
     Mod+Equal hotkey-overlay-title="列宽增加 5%" { set-column-width "+5%"; }
     Mod+Shift+Minus hotkey-overlay-title="窗口高度减少 5%" { set-window-height "-5%"; }
     Mod+Shift+Equal hotkey-overlay-title="窗口高度增加 5%" { set-window-height "+5%"; }
+
+    // #"鼠标滚轮"
+    Mod+WheelScrollRight hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
+    Mod+WheelScrollLeft hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
+    Mod+Ctrl+WheelScrollRight hotkey-overlay-title="列向右移动" { move-column-right; }
+    Mod+Ctrl+WheelScrollLeft hotkey-overlay-title="列向左移动" { move-column-left; }
+    Mod+WheelScrollDown hotkey-overlay-title="焦点到右侧列" { focus-column-right; }
+    Mod+WheelScrollUp hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
+    Mod+Ctrl+WheelScrollDown hotkey-overlay-title="列向右移动" { move-column-right; }
+    Mod+Ctrl+WheelScrollUp hotkey-overlay-title="列向左移动" { move-column-left; }
+
+    // #"截图与录屏"
+    Alt+Shift+3 hotkey-overlay-title="全屏截图" { screenshot-screen; }
+    Alt+Shift+4 hotkey-overlay-title="选取区域截图" { screenshot; }
+    Alt+Shift+5 hotkey-overlay-title="当前窗口截图" { screenshot-window; }
+    Print hotkey-overlay-title="全屏截图" { screenshot-screen; }
+    Alt+R hotkey-overlay-title="开始/停止录屏" { spawn "noctalia" "msg" "scripted-widget" "screen_recorder" "focused" "toggle"; }
+
+    // #"音量与亮度"
+    Pause hotkey-overlay-title="播放/暂停" { spawn "playerctl" "play-pause"; }
+
+    // #"外观与主题"
+    Mod+Alt+I hotkey-overlay-title="切换输入法主题预设" { spawn "~/.local/bin/fcitx5-theme-toggle"; }
+    Mod+Ctrl+W hotkey-overlay-title="打开壁纸选择" { spawn "noctalia" "msg" "panel-toggle" "wallpaper"; }
+    Mod+Shift+W hotkey-overlay-title="随机切换壁纸" { spawn "noctalia" "msg" "wallpaper-random"; }
+
 }

@@ -54,6 +54,11 @@
             url = "github:noctalia-dev/noctalia";
         };
 
+        umbriel = {
+            url = "github:noctalia-dev/umbriel";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+
         nixloom.url = "github:yuzujr/nixloom";
 
         termway = {

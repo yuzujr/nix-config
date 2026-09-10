@@ -48,13 +48,13 @@ clipboard_auto_paste = "off"
 
     [shell.panel]
     open_near_click_control_center = true
-    transparency_mode = "soft"
+    transparency_mode = "solid"
 
 [system.monitor]
 enabled = false
 
 [plugins]
-enabled = [ "noctalia/screen_recorder", "noctalia/translator" ]
+enabled = [ "noctalia/screen_recorder", "kenn/keybind-cheatsheet", "noctalia/translator" ]
 
     [[plugins.source]]
     kind = "git"
@@ -142,7 +142,7 @@ type = "dark_mode"
 enabled = true
 
 [location]
-address = "Shenzhen, CN"
+address = "Changchun, CN"
 
 [notification]
 background_opacity = 0.93

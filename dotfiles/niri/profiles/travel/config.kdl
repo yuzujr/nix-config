@@ -8,11 +8,15 @@ xwayland-satellite {
 }
 
 binds {
-    // #"系统"
+    // #"音量与亮度"
     XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="音量降低" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="音量提高" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
     XF86AudioMute allow-when-locked=true hotkey-overlay-title="静音输出" { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     XF86AudioMicMute allow-when-locked=true hotkey-overlay-title="静音麦克风" { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
     XF86MonBrightnessUp allow-when-locked=true hotkey-overlay-title="亮度提高" { spawn "brightnessctl" "set" "5%+" "--device" "amdgpu_bl2"; }
     XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="亮度降低" { spawn "brightnessctl" "set" "5%-" "--device" "amdgpu_bl2"; }
+
+    // #"会话与帮助"
+    Mod+Shift+E hotkey-overlay-title="退出niri" { quit; }
+    Mod+Shift+Slash hotkey-overlay-title="快捷键帮助" { show-hotkey-overlay; }
 }

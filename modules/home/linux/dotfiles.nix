@@ -5,6 +5,7 @@
     hasSecret,
     mkSymlink,
     osConfig ? { },
+    vars,
     ...
 }:
 {
@@ -63,5 +64,17 @@
         create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
         create_if_missing "normal/outputs.kdl" "$profiles_dir/current-outputs.kdl"
         create_if_missing "normal/startup.kdl" "$profiles_dir/current-startup.kdl"
+    '';
+
+    # The keybind-cheatsheet plugin keeps its presentation preferences under
+    # XDG_STATE_HOME. Seed that mutable file from the repository on every
+    # activation so the compact keymap is reproducible after a rebuild.
+    home.activation.noctaliaKeybindCheatsheet = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        state_home="''${XDG_STATE_HOME:-$HOME/.local/state}"
+        preferences_dir="$state_home/noctalia/plugins/data/kenn/keybind-cheatsheet"
+        run mkdir -p $VERBOSE_ARG "$preferences_dir"
+        run install $VERBOSE_ARG -m 0644 \
+            "${vars.repoRoot}/dotfiles/niri/cheatsheet-preferences.json" \
+            "$preferences_dir/preferences.json"
     '';
 }

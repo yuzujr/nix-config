@@ -7,12 +7,16 @@ switch-events {
 }
 
 binds {
-    // #"系统"
+    // #"音量与亮度"
     XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="音量降低" { spawn "noctalia" "msg" "volume-down"; }
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="音量提高" { spawn "noctalia" "msg" "volume-up"; }
     XF86AudioMute allow-when-locked=true hotkey-overlay-title="静音输出" { spawn "noctalia" "msg" "volume-mute"; }
     XF86AudioMicMute allow-when-locked=true hotkey-overlay-title="静音麦克风" { spawn "noctalia" "msg" "mic-mute"; }
     XF86MonBrightnessUp allow-when-locked=true hotkey-overlay-title="亮度提高" { spawn "noctalia" "msg" "brightness-up"; }
     XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="亮度降低" { spawn "noctalia" "msg" "brightness-down"; }
+
+    // #"会话与帮助"
     Mod+Alt+L hotkey-overlay-title="锁屏" { spawn "noctalia" "msg" "session" "lock"; }
+    Mod+Shift+E hotkey-overlay-title="电源与会话" { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+Shift+Slash hotkey-overlay-title="快捷键帮助" { spawn "noctalia" "msg" "panel-toggle" "kenn/keybind-cheatsheet:cheatsheet"; }
 }
