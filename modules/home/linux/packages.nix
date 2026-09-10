@@ -26,6 +26,7 @@ let
 
     custom = [
         inputs.coomer.packages.${system}.default
+        inputs.codex-desktop-linux.packages.${system}.default
         inputs.drcom-client-cpp.packages.${system}.default
         inputs.ani2xcursor.packages.${system}.default
         inputs.noctalia.packages.${system}.default

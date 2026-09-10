@@ -9,9 +9,9 @@ binds {
     Mod+Alt+V hotkey-overlay-title="剪贴板" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
 
     // #"截图与录屏"
-    Ctrl+F1 hotkey-overlay-title="选取区域截图" { screenshot; }
-    Mod+Shift+S hotkey-overlay-title="选取区域截图" { screenshot; }
-    Mod+Alt+S hotkey-overlay-title="当前窗口截图" { screenshot-window; }
+    Alt+Shift+3 hotkey-overlay-title="全屏截图" { screenshot-screen; }
+    Alt+Shift+4 hotkey-overlay-title="选取区域截图" { screenshot; }
+    Alt+Shift+5 hotkey-overlay-title="当前窗口截图" { screenshot-window; }
     Print hotkey-overlay-title="全屏截图" { screenshot-screen; }
     Alt+R hotkey-overlay-title="开始/停止录屏" { spawn "noctalia" "msg" "scripted-widget" "screen_recorder" "focused" "toggle"; }
 

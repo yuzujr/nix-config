@@ -35,6 +35,11 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
+        codex-desktop-linux = {
+            url = "github:ilysenko/codex-desktop-linux";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+
         drcom-client-cpp = {
             url = "github:yuzujr/drcom-client-cpp";
             inputs.nixpkgs.follows = "nixpkgs";
