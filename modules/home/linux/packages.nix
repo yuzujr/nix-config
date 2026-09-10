@@ -7,21 +7,11 @@ let
     system = pkgs.stdenv.hostPlatform.system;
 
     terminal = with pkgs; [
-        btop
         cmatrix
         csvlens
         duf
         dust
-        eza
-        fastfetch
-        fd
-        fzf
-        herdr
         nyancat
-        ripgrep
-        starship
-        yazi
-        zoxide
     ];
 
     custom = [
@@ -41,7 +31,6 @@ let
         claude-code
         gcc
         gnumake
-        neovim
         nodejs
         python3
     ];
@@ -51,7 +40,6 @@ let
         feh
         google-chrome
         gparted
-        kitty
         libnotify
         networkmanagerapplet
         pavucontrol

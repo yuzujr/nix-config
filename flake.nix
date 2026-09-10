@@ -14,6 +14,8 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
+        nixvim.url = "github:nix-community/nixvim";
+
         sops-nix = {
             url = "github:Mic92/sops-nix";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -51,7 +53,12 @@
         };
 
         noctalia = {
-            url = "github:noctalia-dev/noctalia";
+            url = "github:noctalia-dev/noctalia/cachix";
+        };
+
+        noctalia-greeter = {
+            url = "github:noctalia-dev/noctalia-greeter";
+            inputs.nixpkgs.follows = "nixpkgs";
         };
 
         umbriel = {

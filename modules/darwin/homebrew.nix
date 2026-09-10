@@ -7,24 +7,13 @@
         };
         brews = [
             "aria2"
-            "btop"
             "cmake"
             "duf"
             "dust"
-            "fd"
-            "herdr"
-            "ripgrep"
             "rustup"
-            "starship"
-            "zoxide"
-            "eza"
-            "git-delta"
-            "yazi"
-            "fastfetch"
             "tree"
             "prettier"
             "node"
-            "neovim"
             "xcodes"
             "xcodegen"
 
@@ -36,7 +25,6 @@
         ];
         casks = [
             "adrive"
-            "kitty"
             "font-maple-mono-nf-cn"
             "font-lxgw-wenkai"
             "squirrel-app"

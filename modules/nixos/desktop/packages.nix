@@ -23,7 +23,6 @@ let
     ];
 
     nixTools = with pkgs; [
-        nh
         nix-tree
     ];
 

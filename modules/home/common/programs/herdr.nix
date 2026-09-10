@@ -1,0 +1,22 @@
+{
+    programs.herdr = {
+        enable = true;
+        settings = {
+            onboarding = false;
+            theme = {
+                name = "rose-pine";
+                auto_switch = true;
+                dark_name = "rose-pine";
+                light_name = "rose-pine-dawn";
+            };
+            ui = {
+                prompt_new_tab_name = false;
+                show_agent_labels_on_pane_borders = true;
+                agent_panel_sort = "spaces";
+                sound.enabled = false;
+                toast.delivery = "herdr";
+            };
+            update.version_check = false;
+        };
+    };
+}

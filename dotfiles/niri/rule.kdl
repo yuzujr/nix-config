@@ -41,13 +41,14 @@ layer-rule {
 
 // SPlayer桌面歌词
 window-rule {
-    match app-id="SPlayer" title="SPlayer - 桌面歌词"
+    match app-id="^top\\.imsyy\\.splayer_next$" title="^SPlayer-Next - Desktop Lyric$"
     open-floating true
     open-maximized false
     open-focused false
+    open-on-output "HDMI-A-1"
     default-floating-position x=0 y=0 relative-to="top"
     background-effect {
         blur false
+        xray false
     }
 }
-

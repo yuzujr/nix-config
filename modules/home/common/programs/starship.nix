@@ -1,0 +1,37 @@
+{
+    programs.starship = {
+        enable = true;
+        settings = {
+            format = "$directory$git_branch$git_state$git_status$cmd_duration$line_break$character";
+            directory = {
+                truncation_length = 4;
+                style = "bold blue";
+            };
+            character = {
+                success_symbol = "[[❯](green)](yellow)";
+                error_symbol = "[[❯](red)](yellow)";
+                vimcmd_symbol = "[❮](cyan)";
+            };
+            git_branch.style = "bold magenta";
+            git_state = {
+                format = ''\([$state( $progress_current/$progress_total)]($style)\) '';
+                style = "bright-black";
+            };
+            git_status = {
+                format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](cyan) ($ahead_behind$stashed)]($style)";
+                style = "blue";
+                conflicted = "​";
+                untracked = "​";
+                modified = "​";
+                staged = "​";
+                renamed = "​";
+                deleted = "​";
+                stashed = "≡";
+            };
+            cmd_duration = {
+                format = " [$duration]($style)";
+                style = "yellow";
+            };
+        };
+    };
+}

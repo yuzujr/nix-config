@@ -1,0 +1,110 @@
+{
+    programs.fastfetch = {
+        enable = true;
+        settings = {
+            logo = {
+                type = "auto";
+                width = 25;
+                padding = {
+                    top = 1;
+                    left = 2;
+                    right = 2;
+                };
+            };
+            display = {
+                separator = " ";
+                color = {
+                    title = "default";
+                    output = "default";
+                };
+            };
+            modules = [
+                "break"
+                {
+                    type = "os";
+                    key = "OS";
+                    keyColor = "blue";
+                }
+                {
+                    type = "kernel";
+                    key = " ├ 󰒋  KER ";
+                    keyColor = "blue";
+                }
+                {
+                    type = "title";
+                    key = " ├   USR ";
+                    keyColor = "blue";
+                }
+                {
+                    type = "uptime";
+                    key = " └   UPT ";
+                    keyColor = "blue";
+                }
+                "break"
+                "break"
+                {
+                    type = "wm";
+                    key = "WM";
+                    keyColor = "magenta";
+                }
+                {
+                    type = "de";
+                    key = " ├ 󱈹  DES ";
+                    keyColor = "magenta";
+                }
+                {
+                    type = "shell";
+                    key = " ├   SHE ";
+                    keyColor = "magenta";
+                }
+                {
+                    type = "terminal";
+                    key = " ├   TER ";
+                    keyColor = "magenta";
+                }
+                {
+                    type = "terminalfont";
+                    key = " └   TFO ";
+                    keyColor = "magenta";
+                }
+                "break"
+                "break"
+                {
+                    type = "host";
+                    key = "HW";
+                    keyColor = "cyan";
+                }
+                {
+                    type = "cpu";
+                    key = " ├   CPU ";
+                    keyColor = "cyan";
+                }
+                {
+                    type = "memory";
+                    key = " ├   MEM ";
+                    keyColor = "cyan";
+                }
+                {
+                    type = "gpu";
+                    key = " ├ 󰢮  GPU ";
+                    format = "{1} {2}";
+                    keyColor = "cyan";
+                }
+                {
+                    type = "display";
+                    key = " ├   MON ";
+                    format = "{name} {width}x{height}@{refresh-rate} ";
+                    keyColor = "cyan";
+                }
+                {
+                    type = "disk";
+                    key = " └ 󰋊  DIS ";
+                    keyColor = "cyan";
+                }
+                "break"
+                "break"
+                "colors"
+            ];
+        };
+    };
+}

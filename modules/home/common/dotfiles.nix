@@ -12,13 +12,7 @@
 {
     xdg.configFile =
         lib.genAttrs [
-            "fish"
-            "nvim"
             "emacs"
-            "starship.toml"
-            "fastfetch"
-            "btop"
-            "herdr/config.toml"
         ] dot
         // lib.optionalAttrs (hasSecret "nix/user-conf") {
             "nix/nix.conf".source = mkSymlink osConfig.sops.secrets."nix/user-conf".path;

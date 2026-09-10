@@ -10,10 +10,8 @@ let
 in
 {
     imports = [
-        ./direnv.nix
         ./dotfiles.nix
-        ./emacs.nix
-        ./git.nix
+        ./programs
         ./ssh.nix
     ];
 
