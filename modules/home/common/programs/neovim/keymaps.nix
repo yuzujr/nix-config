@@ -1,13 +1,16 @@
 { lib, ... }:
 let
-    map = mode: key: action: desc:
+    map =
+        mode: key: action: desc:
         {
             inherit mode key action;
         }
         // lib.optionalAttrs (desc != null) {
             options.desc = desc;
         };
-    lua = mode: key: body: desc: map mode key { __raw = "function() ${body} end"; } desc;
+    lua =
+        mode: key: body: desc:
+        map mode key { __raw = "function() ${body} end"; } desc;
     normal = map "n";
     normalLua = lua "n";
 in
@@ -30,8 +33,12 @@ in
         (normal "]b" "<cmd>bnext<cr>" "Next buffer")
         (normal "[b" "<cmd>bprevious<cr>" "Previous buffer")
         (map "t" "<Esc><Esc>" "<C-\\><C-n>" null)
-        (map [ "n" "t" ] "]]" { __raw = "function() Snacks.words.jump(vim.v.count1) end"; } "Next reference")
-        (map [ "n" "t" ] "[[" { __raw = "function() Snacks.words.jump(-vim.v.count1) end"; } "Previous reference")
+        (map [ "n" "t" ] "]]" {
+            __raw = "function() Snacks.words.jump(vim.v.count1) end";
+        } "Next reference")
+        (map [ "n" "t" ] "[[" {
+            __raw = "function() Snacks.words.jump(-vim.v.count1) end";
+        } "Previous reference")
 
         (normalLua "<leader><space>" "Snacks.picker.smart()" "Smart find")
         (normalLua "<leader>ff" "Snacks.picker.files()" "Find files")
@@ -55,9 +62,14 @@ in
         (normalLua "<leader>bd" "Snacks.bufdelete()" "Delete buffer")
         (normalLua "<leader>cR" "Snacks.rename.rename_file()" "Rename file")
 
-        (normalLua "<leader>us" ''Snacks.toggle.option("spell", { name = "Spelling" }):toggle()'' "Toggle spelling")
+        (normalLua "<leader>us" ''Snacks.toggle.option("spell", { name = "Spelling" }):toggle()''
+            "Toggle spelling"
+        )
         (normalLua "<leader>uw" ''Snacks.toggle.option("wrap", { name = "Wrap" }):toggle()'' "Toggle wrap")
-        (normalLua "<leader>uL" ''Snacks.toggle.option("relativenumber", { name = "Relative number" }):toggle()'' "Toggle relative number")
+        (normalLua "<leader>uL"
+            ''Snacks.toggle.option("relativenumber", { name = "Relative number" }):toggle()''
+            "Toggle relative number"
+        )
         (normalLua "<leader>ul" "Snacks.toggle.line_number():toggle()" "Toggle line numbers")
         (normalLua "<leader>ud" "Snacks.toggle.diagnostics():toggle()" "Toggle diagnostics")
         (normalLua "<leader>uh" "Snacks.toggle.inlay_hints():toggle()" "Toggle inlay hints")
