@@ -1,0 +1,8 @@
+[theme]
+builtin = "Rosé Pine"
+mode = "auto"
+source = "builtin"
+
+[theme.templates]
+builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "niri", "qt" ]
+community_ids = [ "yazi" ]

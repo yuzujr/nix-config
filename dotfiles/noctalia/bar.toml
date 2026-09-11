@@ -1,0 +1,44 @@
+[bar]
+order = [ "default" ]
+
+[bar.default]
+thickness = 45
+scale = 1.10
+margin_edge = 10
+margin_ends = 10
+radius = 20
+background_opacity = 0.93
+capsule = true
+shadow = true
+start = [ "workspaces", "active_window", "media" ]
+end = [ "recorder", "tray", "network", "bluetooth", "notifications", "volume", "brightness", "battery", "control-center" ]
+
+[widget.workspaces]
+empty_color = "on_surface"
+occupied_color = "on_surface"
+
+[widget.active_window]
+show_empty_label = true
+icon_size = 18.0
+min_length = 0.0
+max_length = 200.0
+title_scroll = "on_hover"
+
+[widget.media]
+hide_when_no_media = true
+title_scroll = "on_hover"
+
+[widget.tray]
+drawer = true
+
+[widget.brightness]
+show_label = false
+
+[widget.network]
+show_label = false
+
+[widget.volume]
+show_label = false
+
+[widget.recorder]
+type = "noctalia/screen_recorder:recorder"

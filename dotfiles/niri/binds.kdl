@@ -97,7 +97,7 @@ binds {
     Ctrl+Alt+Shift+4 hotkey-overlay-title="选取区域截图" { screenshot show-pointer=false; }
     Ctrl+Alt+Shift+5 hotkey-overlay-title="当前窗口截图" { screenshot-window show-pointer=false; }
     Print hotkey-overlay-title="全屏截图" { screenshot-screen show-pointer=false; }
-    Alt+R hotkey-overlay-title="开始/停止录屏" { spawn "noctalia" "msg" "scripted-widget" "screen_recorder" "focused" "toggle"; }
+    Alt+R hotkey-overlay-title="开始/停止录屏" { spawn "noctalia" "msg" "plugin" "noctalia/screen_recorder:service" "all" "toggle"; }
 
     // #"音量与亮度"
     Pause hotkey-overlay-title="播放/暂停" { spawn "playerctl" "play-pause"; }

@@ -1,0 +1,15 @@
+[plugins]
+enabled = [ "noctalia/screen_recorder", "kenn/keybind-cheatsheet", "noctalia/translator" ]
+
+[[plugins.source]]
+kind = "git"
+location = "https://github.com/noctalia-dev/official-plugins"
+name = "official"
+
+[[plugins.source]]
+kind = "git"
+location = "https://github.com/noctalia-dev/community-plugins"
+name = "community"
+
+[plugin_settings."noctalia/screen_recorder"]
+restore_portal = true

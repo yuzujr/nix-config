@@ -1,0 +1,27 @@
+[shell]
+avatar_path = "/var/lib/AccountsService/icons/yuzujr"
+font_family = "Noto Sans CJK SC"
+polkit_agent = true
+settings_show_advanced = false
+clipboard_auto_paste = "off"
+
+[shell.greeter_sync]
+auto_sync = true
+
+[shell.panel]
+open_near_click_control_center = true
+transparency_mode = "solid"
+
+[desktop_widgets]
+enabled = false
+
+# Widget placement is machine-specific and remains in Noctalia's state layer.
+[lockscreen_widgets]
+enabled = true
+
+[backdrop]
+enabled = true
+
+[osd]
+background_opacity = 0.93
+position = "top_right"

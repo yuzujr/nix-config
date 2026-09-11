@@ -1,0 +1,34 @@
+[brightness]
+enable_ddcutil = true
+
+[idle]
+pre_action_fade_seconds = 5
+behavior_order = [ "lock", "screen-off", "suspend" ]
+
+[idle.behavior.lock]
+action = "lock"
+enabled = true
+timeout = 600
+
+[idle.behavior.screen-off]
+action = "screen_off"
+enabled = true
+timeout = 660
+
+[idle.behavior.suspend]
+action = "suspend"
+enabled = false
+lock_before_suspend = true
+timeout = 900
+
+[system.monitor]
+enabled = false
+
+[weather]
+enabled = true
+
+[location]
+address = "Changchun, CN"
+
+[notification]
+background_opacity = 0.93
