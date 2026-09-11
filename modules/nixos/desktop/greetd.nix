@@ -21,16 +21,21 @@
             appearance = {
                 scheme = "Synced";
                 password_style = "default";
-                hide_logo = false;
+                hide_logo = true;
                 power_buttons_position = "bottom-right";
                 scheme_selector_position = "top-right";
+            };
+
+            output = {
+                name = "eDP-1";
+                scale = 2;
             };
 
             idle.timeout = 300;
 
             cursor = {
                 theme = "BreezeX-RosePine-Linux";
-                size = 32;
+                size = 20;
                 path = "${pkgs.rose-pine-cursor}/share/icons";
             };
 

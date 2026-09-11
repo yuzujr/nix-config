@@ -8,6 +8,7 @@ output "SKYDATA S.P.A. F27G10U F27G10U07158"{
    // off
    mode "3840x2160@143.999"
    scale 1.5
+   focus-at-startup
 }
 
 // home
@@ -21,4 +22,5 @@ output "SKYDATA S.P.A. F24G30F 0x01010101"{
     mode "1920x1080@179.998"
     scale 1
     position x=0 y=0
+    focus-at-startup
 }

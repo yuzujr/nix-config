@@ -61,11 +61,6 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        umbriel = {
-            url = "github:noctalia-dev/umbriel";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-
         nixloom.url = "github:yuzujr/nixloom";
 
         termway = {

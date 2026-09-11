@@ -122,28 +122,6 @@ sudo nixos-rebuild switch \
   --override-input secrets path:/path/to/nix-secret
 ```
 
-## Umbriel trial session (NixOS)
-
-Umbriel is installed alongside Niri and Plasma using its upstream flake module.
-Niri remains the boot auto-login session. After rebuilding with the private
-secrets override above, log out of Niri and select **Umbriel** in tuigreet's
-session selector (F2), then log in.
-
-The Home Manager configuration in `modules/home/linux/umbriel.nix` includes the
-pinned package's example configuration, starts Noctalia, and uses scrolling.
-Useful native-session bindings:
-
-- Super: Noctalia launcher; Super+Enter: Kitty.
-- Super+Q: close window; Super+F: fullscreen; Super+O: overview.
-- Super+arrow keys: focus; Super+Shift+arrow keys: move windows/columns.
-- Super+1–9: workspace; Super+R: cycle width.
-- Super+Ctrl+T: cycle scrolling/dwindle/master.
-- Super+Alt+L: lock; Super+Escape: exit back to the login screen.
-
-Choose Niri at the login screen to return. Run `umbriel outputs` inside Umbriel
-to inspect display names before adding output scaling/mode settings. Validate
-configuration changes with `umbriel validate`.
-
 ## Development Shells
 
 The named shells are Linux-only (`x86_64-linux`); the default shell works on

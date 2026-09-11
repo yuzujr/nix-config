@@ -9,6 +9,5 @@
         ./plasma.nix
         ./services
         ./xdg.nix
-        ./umbriel.nix
     ];
 }
