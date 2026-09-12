@@ -2,6 +2,8 @@
     appimageTools,
     fetchurl,
     lib,
+    makeWrapper,
+    scaleFactor ? "1.5",
 }:
 let
     pname = "wechat";
@@ -31,6 +33,24 @@ appimageTools.wrapAppImage {
         cp ${appimageContents}/wechat.png $out/share/icons/hicolor/256x256/apps/
 
         substituteInPlace $out/share/applications/wechat.desktop --replace-fail AppRun wechat
+
+        # WeChat 4.1.1.8 still creates X11/XCB windows.  When WAYLAND_DISPLAY is
+        # visible it nevertheless tries the Wayland input-method path, which is
+        # broken under niri/xwayland-satellite.  Keep this application entirely
+        # on XWayland so Fcitx can use XIM, and set its scale explicitly because
+        # the proprietary UI does not consume xwayland-satellite's XSettings.
+        wechatRunner="$(readlink -f $out/bin/wechat)"
+        rm $out/bin/wechat
+        source ${makeWrapper}/nix-support/setup-hook
+        makeWrapper "$wechatRunner" $out/bin/wechat \
+            --unset WAYLAND_DISPLAY \
+            --set XMODIFIERS @im=fcitx \
+            --set GTK_IM_MODULE fcitx \
+            --set QT_IM_MODULE fcitx \
+            --set QT_QPA_PLATFORM xcb \
+            --set QT_AUTO_SCREEN_SCALE_FACTOR 0 \
+            --set QT_ENABLE_HIGHDPI_SCALING 0 \
+            --set QT_SCALE_FACTOR ${lib.escapeShellArg scaleFactor}
     '';
 
     meta = {
