@@ -47,6 +47,10 @@ in
             packages = [
                 pkgs.nixd
                 nixfmt
+                pkgs.actionlint
+                pkgs.deadnix
+                pkgs.shellcheck
+                pkgs.statix
             ];
         };
     }

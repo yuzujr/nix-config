@@ -4,11 +4,13 @@
 
 NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
 
-CI checks formatting, workflow/Nix/shell style, dead code, and that both host
-configurations evaluate (now via the flake's `checks` output, so
-`nix flake check` covers the host evaluations locally). The placeholder secrets
-under `secrets/placeholder` keep the flake fully evaluable without the private
-repo, so CI needs no secrets.
+CI runs `scripts/lint.sh` (formatting, workflow/Nix/shell style, dead code) and
+then `nix flake check`, which covers the dev shells and — via the flake's
+`checks` output — the evaluation of both host configurations. Those are the
+same two commands you run locally, so there is nothing to reproduce by hand;
+`scripts/lint.sh` also takes file arguments for a millisecond check while
+editing. The placeholder secrets under `secrets/placeholder` keep the flake
+fully evaluable without the private repo, so CI needs no secrets.
 
 ## Outputs
 
@@ -78,14 +80,14 @@ meant to be a no-op should produce the same system derivation.
 nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
 nix eval .#darwinConfigurations.macbook.system.drvPath
 
-# Run the same checks as CI. The flake check covers dev shells and, through
-# `checks`, evaluates both hosts above.
+# The lint half of CI: nixfmt, statix, deadnix, shellcheck, actionlint. Pass
+# file paths to check only those, or nothing to check the whole repo.
+bash scripts/lint.sh
+
+# Rewrite the files the lint would reject.
 nix fmt
-git diff --exit-code
-nix run nixpkgs#actionlint -- .github/workflows/ci.yml
-nix run nixpkgs#statix -- check --ignore hosts/laptop-nixos/hardware-configuration.nix .
-nix run nixpkgs#deadnix -- --fail --exclude hosts/laptop-nixos/hardware-configuration.nix -- .
-nix run nixpkgs#shellcheck -- dotfiles/local/bin/*
+
+# The rest of CI: dev shells and, through `checks`, both host evaluations above.
 nix flake check
 ```
 
@@ -128,7 +130,7 @@ The named shells are Linux-only (`x86_64-linux`); the default shell works on
 both platforms.
 
 ```bash
-nix develop                  # nixd + nixfmt
+nix develop                  # nixd, nixfmt, and the scripts/lint.sh tools
 nix develop .#gcc-cpp
 nix develop .#clang-cpp
 nix develop .#qt
