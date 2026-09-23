@@ -101,6 +101,26 @@ in
                 command nvim "$root/$selection"
             '';
         };
+        completions.v = {
+            body = ''
+                function __v_candidates
+                    set -l query (commandline --current-token)
+                    set -l root $PWD
+
+                    if set -l git_root (command git rev-parse --show-toplevel 2>/dev/null)
+                        set root $git_root
+                    end
+
+                    fd --base-directory $root --type f --hidden --exclude .git --strip-cwd-prefix \
+                        | fzf --scheme=path --filter="$query" \
+                        | while read -l candidate
+                            printf '%s\t%s\n' "$candidate" 'v candidate'
+                        end
+                end
+
+                complete -c v -f -a '(__v_candidates)'
+            '';
+        };
         interactiveShellInit = ''
             set fish_greeting
             ${
