@@ -5,6 +5,10 @@
 }:
 let
     system = pkgs.stdenv.hostPlatform.system;
+    legacyPkgs = import inputs.nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+    };
 
     terminal = with pkgs; [
         cmatrix
@@ -39,6 +43,7 @@ let
         bluetui
         feh
         google-chrome
+        (legacyPkgs.callPackage ../../../packages/baidunetdisk { })
         gparted
         libnotify
         networkmanagerapplet

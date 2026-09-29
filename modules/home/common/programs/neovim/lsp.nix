@@ -122,6 +122,20 @@
         ];
     };
 
+    diagnostic.settings = {
+        severity_sort = true;
+        underline = true;
+        update_in_insert = false;
+        virtual_text = {
+            source = "if_many";
+            spacing = 2;
+        };
+        float = {
+            border = "rounded";
+            source = "if_many";
+        };
+    };
+
     plugins = {
         blink-cmp = {
             enable = true;
