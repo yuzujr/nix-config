@@ -16,9 +16,7 @@ in
         settings = {
             confirm_os_window_close = 0;
             cursor_trail = 0;
-            pixel_scroll = true;
             scrollback_lines = 1000;
-            wheel_scroll_min_lines = 1;
             enable_audio_bell = false;
             window_padding_width = 4;
             tab_bar_edge = "bottom";
