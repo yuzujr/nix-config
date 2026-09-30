@@ -19,6 +19,7 @@
             save-position-on-quit = true;
             slang = "zh-CN,zh-Hans,zh";
             sub-auto = "fuzzy";
+            watch-later-options-remove = "sub-pos,osd-margin-y";
             ytdl-format = "bestvideo[height<=2160]+bestaudio/best[height<=2160]";
         };
 

@@ -17,6 +17,7 @@
             "chrome-flags.conf"
             "feh"
             "gold-price/gold-price-watch.conf"
+            "mpv/scripts/nfo.lua"
             "nwg-look"
             "plasma-workspace/env/10-unset-qt-platformtheme.sh"
             "qt6ct"

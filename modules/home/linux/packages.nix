@@ -42,7 +42,7 @@ let
         bluetui
         feh
         google-chrome
-        (legacyPkgs.callPackage ../../../packages/baidunetdisk { })
+        (legacyPkgs.callPackage (inputs.self + /packages/baidunetdisk) { })
         gparted
         libnotify
         networkmanagerapplet
@@ -52,7 +52,7 @@ let
         splayer-next
         sunshine
         typora
-        (callPackage ../../../packages/wechat { })
+        (callPackage (inputs.self + /packages/wechat) { })
         xwayland-satellite
         zathura
         zathuraPkgs.zathura_pdf_poppler
