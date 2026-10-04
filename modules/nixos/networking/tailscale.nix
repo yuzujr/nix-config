@@ -1,5 +1,7 @@
 { vars, ... }:
 {
+    networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3080 ];
+
     services.tailscale = {
         enable = true;
         openFirewall = true;
