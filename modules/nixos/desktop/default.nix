@@ -7,7 +7,6 @@
         ./input.nix
         ./niri.nix
         ./packages.nix
-        ./plasma.nix
         ./services.nix
     ];
 }

@@ -4,6 +4,7 @@
     dot,
     hasSecret,
     mkSymlink,
+    pkgs,
     osConfig ? { },
     ...
 }:
@@ -19,7 +20,6 @@
             "gold-price/gold-price-watch.conf"
             "mpv/scripts/nfo.lua"
             "nwg-look"
-            "plasma-workspace/env/10-unset-qt-platformtheme.sh"
             "qt6ct"
             "termway"
             "zathura"
@@ -41,28 +41,43 @@
         };
 
     xdg.dataFile = lib.genAttrs [
-        "konsole"
         "fcitx5/rime"
     ] dot;
 
-    # These mutable profile links live in the out-of-store Niri directory and
-    # are ignored by Git.
-    home.activation.niriProfileLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-        profiles_dir="$HOME/.config/niri/profiles"
-        run mkdir -p $VERBOSE_ARG "$profiles_dir"
+    home.activation = {
+        kdeTextEditorTheme = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+            for config in kwriterc katerc; do
+                run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+                    --file "$config" \
+                    --group "KTextEditor Renderer" \
+                    --key "Auto Color Theme Selection" \
+                    --type bool false
+                run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+                    --file "$config" \
+                    --group "KTextEditor Renderer" \
+                    --key "Color Theme" Noctalia
+            done
+        '';
 
-        create_if_missing() {
-          local target="$1"
-          local link="$2"
-          if [ -e "$link" ] || [ -L "$link" ]; then
-            return 0
-          fi
-          run ln -s $VERBOSE_ARG "$target" "$link"
-        }
+        # These mutable profile links live in the out-of-store Niri directory and
+        # are ignored by Git.
+        niriProfileLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+            profiles_dir="$HOME/.config/niri/profiles"
+            run mkdir -p $VERBOSE_ARG "$profiles_dir"
 
-        create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
-        create_if_missing "normal/outputs.kdl" "$profiles_dir/current-outputs.kdl"
-        create_if_missing "normal/startup.kdl" "$profiles_dir/current-startup.kdl"
-    '';
+            create_if_missing() {
+              local target="$1"
+              local link="$2"
+              if [ -e "$link" ] || [ -L "$link" ]; then
+                return 0
+              fi
+              run ln -s $VERBOSE_ARG "$target" "$link"
+            }
+
+            create_if_missing "normal/config.kdl" "$profiles_dir/current-config.kdl"
+            create_if_missing "normal/outputs.kdl" "$profiles_dir/current-outputs.kdl"
+            create_if_missing "normal/startup.kdl" "$profiles_dir/current-startup.kdl"
+        '';
+    };
 
 }

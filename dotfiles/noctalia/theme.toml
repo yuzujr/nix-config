@@ -6,3 +6,7 @@ source = "builtin"
 [theme.templates]
 builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "niri", "qt" ]
 community_ids = [ "yazi" ]
+
+[theme.templates.user.ktexteditor]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/ktexteditor.theme"
+output_path = "$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/Noctalia.theme"

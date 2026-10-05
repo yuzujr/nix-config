@@ -1,5 +1,5 @@
 [plugins]
-enabled = [ "noctalia/screen_recorder", "kenn/keybind-cheatsheet", "noctalia/translator" ]
+enabled = [ "noctalia/screen_recorder", "kenn/keybind-cheatsheet" ]
 
 [[plugins.source]]
 kind = "git"

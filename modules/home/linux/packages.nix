@@ -42,8 +42,21 @@ let
         bluetui
         feh
         google-chrome
-        (legacyPkgs.callPackage (inputs.self + /packages/baidunetdisk) { })
+        (pkgs.callPackage (inputs.self + /packages/baidunetdisk) {
+            inherit (legacyPkgs)
+                atkmm
+                cairomm
+                glibmm
+                gtk2
+                gtkmm2
+                libsigcxx
+                pangomm
+                ;
+        })
         gparted
+        kdePackages.ark
+        kdePackages.dolphin
+        kdePackages.kate
         libnotify
         networkmanagerapplet
         pavucontrol
@@ -68,8 +81,9 @@ let
     theming = with pkgs; [
         adw-gtk3
         bibata-cursors
-        rose-pine-cursor
+        kdePackages.breeze
         kdePackages.qt6ct
+        rose-pine-cursor
         nwg-look
         tela-circle-icon-theme
     ];
