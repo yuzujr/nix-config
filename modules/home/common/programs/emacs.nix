@@ -1,19 +1,20 @@
 {
     pkgs,
     inputs,
+    dot,
     ...
 }:
-let
-    emacsPkg = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
-in
 {
     home.packages = [ pkgs.cmark-gfm ];
 
-    xdg.dataFile."emacs/themes/rose-pine-doom-emacs".source = inputs.rose-pine-doom-emacs;
+    xdg = {
+        configFile.emacs = dot "emacs";
+        dataFile."emacs/themes/rose-pine-doom-emacs".source = inputs.rose-pine-doom-emacs;
+    };
 
     programs.emacs = {
         enable = true;
-        package = emacsPkg;
+        package = if pkgs.stdenv.hostPlatform.isDarwin then pkgs.emacs else pkgs.emacs-pgtk;
         extraPackages =
             epkgs: with epkgs; [
                 ace-window

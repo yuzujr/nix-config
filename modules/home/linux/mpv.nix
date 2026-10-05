@@ -1,5 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, dot, ... }:
 {
+    xdg.configFile."mpv/scripts/nfo.lua" = dot "mpv/scripts/nfo.lua";
+
     programs.mpv = {
         enable = true;
 

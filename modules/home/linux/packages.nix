@@ -1,14 +1,11 @@
 {
     inputs,
     pkgs,
+    localPackages,
     ...
 }:
 let
     system = pkgs.stdenv.hostPlatform.system;
-    legacyPkgs = import inputs.nixpkgs-stable {
-        inherit system;
-        config.allowUnfree = true;
-    };
 
     terminal = with pkgs; [
         cmatrix
@@ -22,7 +19,6 @@ let
         inputs.coomer.packages.${system}.default
         inputs.drcom-client-cpp.packages.${system}.default
         inputs.ani2xcursor.packages.${system}.default
-        inputs.noctalia.packages.${system}.default
         inputs.termway.packages.${system}.default
     ];
 
@@ -42,17 +38,7 @@ let
         bluetui
         feh
         google-chrome
-        (pkgs.callPackage (inputs.self + /packages/baidunetdisk) {
-            inherit (legacyPkgs)
-                atkmm
-                cairomm
-                glibmm
-                gtk2
-                gtkmm2
-                libsigcxx
-                pangomm
-                ;
-        })
+        localPackages.baidunetdisk
         gparted
         kdePackages.ark
         kdePackages.dolphin
@@ -63,10 +49,8 @@ let
         qq
         seahorse
         splayer-next
-        sunshine
         typora
-        (callPackage (inputs.self + /packages/wechat) { })
-        xwayland-satellite
+        localPackages.wechat
         zathura
         zathuraPkgs.zathura_pdf_poppler
     ];

@@ -88,17 +88,16 @@
             # module tree, so no system argument is passed to the builders here.
             mkHost =
                 {
-                    hostname,
-                    repoSubdir,
-                    isDarwin ? false,
+                    name,
+                    builder,
                 }:
                 let
-                    builder = if isDarwin then darwin.lib.darwinSystem else nixpkgs.lib.nixosSystem;
-                    homeDirectory = "${if isDarwin then "/Users" else "/home"}/${vars.username}";
-                    hostVars = vars // {
-                        inherit homeDirectory;
-                        repoRoot = "${homeDirectory}/${repoSubdir}";
-                    };
+                    hostVars =
+                        vars
+                        // (import ./hosts/${name}/vars.nix { inherit vars; })
+                        // {
+                            flakeHost = name;
+                        };
                 in
                 builder {
                     specialArgs = {
@@ -109,7 +108,7 @@
                             vars = hostVars;
                         };
                     };
-                    modules = [ ./hosts/${hostname} ];
+                    modules = [ ./hosts/${name} ];
                 };
 
             devshellsFor = forAllSystems (system: import ./devshells { inherit nixpkgs system; });
@@ -118,6 +117,14 @@
             formatter = forAllSystems (system: devshellsFor.${system}.formatter);
 
             devShells = forAllSystems (system: devshellsFor.${system}.devShells);
+
+            packages.x86_64-linux = import ./packages {
+                inherit inputs;
+                pkgs = import nixpkgs {
+                    system = "x86_64-linux";
+                    config.allowUnfree = true;
+                };
+            };
 
             # Evaluation checks for both hosts. Discarding the string context
             # keeps the systems out of the build graph while forcing their
@@ -142,14 +149,13 @@
             );
 
             nixosConfigurations.laptop-nixos = mkHost {
-                hostname = "laptop-nixos";
-                repoSubdir = "nix-config";
+                name = "laptop-nixos";
+                builder = nixpkgs.lib.nixosSystem;
             };
 
             darwinConfigurations.macbook = mkHost {
-                hostname = "macbook";
-                repoSubdir = "Documents/nix-config";
-                isDarwin = true;
+                name = "macbook";
+                builder = darwin.lib.darwinSystem;
             };
         };
 }

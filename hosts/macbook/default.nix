@@ -1,7 +1,10 @@
+{ vars, ... }:
 {
     imports = [
         ../../modules/darwin
     ];
+
+    home-manager.users.${vars.username}.imports = [ ../../modules/home/darwin ];
 
     nixpkgs.hostPlatform = "aarch64-darwin";
 

@@ -5,7 +5,7 @@
     ...
 }:
 let
-    inherit (secretsLib) mkSecret userSecret rootSecret;
+    inherit (secretsLib) mkSecret rootSecret;
 in
 {
     imports = [
@@ -14,25 +14,6 @@ in
     ];
 
     sops.secrets = {
-        "network/mihomo" = mkSecret "network.yaml" "mihomo" (
-            rootSecret
-            // {
-                restartUnits = [ "mihomo.service" ];
-            }
-        );
-
-        "network/drcom-jlu" = mkSecret "network.yaml" "drcom-jlu" userSecret;
-
-        "apps/gold-price-history" = mkSecret "apps.yaml" "gold-price-history" userSecret;
-
-        "nixloom/config" = mkSecret "nixloom.yaml" "config" (
-            userSecret
-            // {
-                path = "${vars.homeDirectory}/.config/nixloom/config.yaml";
-                mode = "0600";
-            }
-        );
-
         "users/${vars.username}/password-hash" = mkSecret "users.yaml" "${vars.username}-password-hash" (
             rootSecret
             // {

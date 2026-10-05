@@ -27,16 +27,33 @@ children wants one set, `home.file` and `home.activation` included.
 
 ## Conventions
 
-- `default.nix` files are pure `imports` lists. A new module loads only once it
-  is listed in the nearest one, and forgetting fails silently.
-- Platform differences are directory splits (`modules/{nixos,darwin,shared}`,
-  `modules/home/{common,linux,darwin}`), never conditionals. `lib.mkIf` and
-  `mkEnableOption` have no presence in this repo.
+- Prefer fewer file jumps when changing a feature. `default.nix` can contain
+  both imports and settings; split a file when its contents have a useful
+  independent responsibility, not just to keep an entrypoint empty.
+- Hosts select complete groups such as the base system, desktop, and networking,
+  plus optional services. Host settings and Home Manager choices live together
+  in `hosts/<name>/default.nix`; hardware details stay in `hardware.nix`.
+  Imports are explicit: adding a file to a directory does not enable it.
+- Keep a feature's package, file links, and service together within its module
+  layer. NixOS integration modules can declare secrets and import the matching
+  Home Manager feature. `packages/default.nix` owns local package assembly;
+  install-only applications belong in a platform's `packages.nix`.
+- Keep NixOS, nix-darwin, and Home Manager at their respective module layers.
+  Small platform differences belong in the same feature file with a simple
+  condition. Use platform directories for substantial or platform-only config.
+  Add abstractions for actual reuse, not hypothetical future hosts.
 - A module signature lists the arguments it uses and no others; `deadnix` fails
   on the rest.
-- `vars` is host-specific: `repoRoot` is `~/nix-config` on one host and
-  `~/Documents/nix-config` on the other. Reach for `config.home.homeDirectory`
-  or `vars.repoRoot`; `modules/home/linux/noctalia.nix` is the reference.
+- `vars/default.nix` holds shared identity data; `hosts/<name>/vars.nix` selects
+  the Git identity and declares `homeDirectory`, `repoRoot`, and `secretsRoot`.
+  The flake adds `flakeHost`, which is the output name, not the OS hostname.
+  Reach for these values or `config.home.homeDirectory` rather than embedding
+  host names and paths in shared modules.
+- `dot` links editable files into the working checkout; their contents do not
+  roll back with a generation. Background services should use store executables
+  with declared dependencies. Gold Price packages the existing script sources
+  under `dotfiles/local/bin`; changing them requires rebuilding the service's
+  package, while direct invocations of the checkout scripts remain live.
 - `hosts/laptop-nixos/hardware-configuration.nix` comes from
   `nixos-generate-config` and every tool skips it.
 - `secrets/placeholder` exists only so the flake evaluates without the private
@@ -52,4 +69,5 @@ reason, the comment goes with it.
 ## Boundaries
 
 `main` is the deployed branch, so commit and push only when asked. CI builds
-nothing: a green run does not mean a machine boots.
+small evaluation checks, not complete host systems: a green run does not mean
+a machine boots.

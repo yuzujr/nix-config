@@ -3,10 +3,16 @@
     config,
     lib,
     vars,
+    dot,
+    pkgs,
+    inputs,
     ...
 }:
 {
+    xdg.configFile.noctalia = dot "noctalia";
+
     home = {
+        packages = [ inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default ];
         # These two files are intentionally mutable: Noctalia adds/removes its
         # integration lines when templates are toggled.
         file = {
@@ -14,44 +20,60 @@
             "${config.home.homeDirectory}/.config/btop/btop.conf".force = lib.mkForce true;
         };
 
-        activation.noctaliaWritableConfigs = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-            detach_store_path() {
-              local path="$1" target resolved tmp
-              [ -L "$path" ] || return 0
+        activation = {
+            kdeTextEditorTheme = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+                for config in kwriterc katerc; do
+                    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+                        --file "$config" \
+                        --group "KTextEditor Renderer" \
+                        --key "Auto Color Theme Selection" \
+                        --type bool false
+                    run ${pkgs.kdePackages.kconfig}/bin/kwriteconfig6 \
+                        --file "$config" \
+                        --group "KTextEditor Renderer" \
+                        --key "Color Theme" Noctalia
+                done
+            '';
 
-              target="$(readlink "$path")"
-              case "$target" in
-                /nix/store/*)
-                  resolved="$(readlink -f "$path")"
-                  if [ -d "$path" ]; then
-                    tmp="$(mktemp -d "''${path}.tmp.XXXXXX")"
-                    run cp -a -- "$resolved/." "$tmp/"
-                  else
-                    tmp="$(mktemp "''${path}.tmp.XXXXXX")"
-                    run cp -L -- "$path" "$tmp"
-                  fi
-                  run rm -- "$path"
-                  run mv -- "$tmp" "$path"
-                  ;;
-              esac
-            }
+            noctaliaWritableConfigs = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+                detach_store_path() {
+                  local path="$1" target resolved tmp
+                  [ -L "$path" ] || return 0
 
-            detach_store_path "$HOME/.config/kitty"
-            detach_store_path "$HOME/.config/btop"
-            detach_store_path "$HOME/.config/kitty/kitty.conf"
-            detach_store_path "$HOME/.config/btop/btop.conf"
-            run mkdir -p $VERBOSE_ARG \
-                "$HOME/.config/kitty/themes" \
-                "$HOME/.config/btop/themes"
-        '';
+                  target="$(readlink "$path")"
+                  case "$target" in
+                    /nix/store/*)
+                      resolved="$(readlink -f "$path")"
+                      if [ -d "$path" ]; then
+                        tmp="$(mktemp -d "''${path}.tmp.XXXXXX")"
+                        run cp -a -- "$resolved/." "$tmp/"
+                      else
+                        tmp="$(mktemp "''${path}.tmp.XXXXXX")"
+                        run cp -L -- "$path" "$tmp"
+                      fi
+                      run rm -- "$path"
+                      run mv -- "$tmp" "$path"
+                      ;;
+                  esac
+                }
 
-        activation.noctaliaKeybindCheatsheet = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            state_home="''${XDG_STATE_HOME:-$HOME/.local/state}"
-            preferences_dir="$state_home/noctalia/plugins/data/kenn/keybind-cheatsheet"
-            run mkdir -p $VERBOSE_ARG "$preferences_dir"
-            run install $VERBOSE_ARG -m 0644 \
-                "${vars.repoRoot}/dotfiles/niri/cheatsheet-preferences.json" \
-                "$preferences_dir/preferences.json"
-        '';
+                detach_store_path "$HOME/.config/kitty"
+                detach_store_path "$HOME/.config/btop"
+                detach_store_path "$HOME/.config/kitty/kitty.conf"
+                detach_store_path "$HOME/.config/btop/btop.conf"
+                run mkdir -p $VERBOSE_ARG \
+                    "$HOME/.config/kitty/themes" \
+                    "$HOME/.config/btop/themes"
+            '';
+
+            noctaliaKeybindCheatsheet = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+                state_home="''${XDG_STATE_HOME:-$HOME/.local/state}"
+                preferences_dir="$state_home/noctalia/plugins/data/kenn/keybind-cheatsheet"
+                run mkdir -p $VERBOSE_ARG "$preferences_dir"
+                run install $VERBOSE_ARG -m 0644 \
+                    "${vars.repoRoot}/dotfiles/niri/cheatsheet-preferences.json" \
+                    "$preferences_dir/preferences.json"
+            '';
+        };
     };
 }

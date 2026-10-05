@@ -1,5 +1,11 @@
-{ lib, pkgs, ... }:
+{
+    lib,
+    pkgs,
+    vars,
+    ...
+}:
 let
+    isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
     useThemeAwareDelta = pkgs.stdenv.hostPlatform.isLinux;
     deltaCommand = if useThemeAwareDelta then "delta-auto-theme" else "delta";
 in
@@ -10,6 +16,7 @@ in
             settings = {
                 core.quotepath = false;
                 init.defaultBranch = "main";
+                user = vars.gitIdentity;
             }
             // lib.optionalAttrs useThemeAwareDelta {
                 pager = lib.genAttrs [
@@ -19,6 +26,11 @@ in
                     "show"
                 ] (_: deltaCommand);
             };
+        }
+        // lib.optionalAttrs isDarwin {
+            # Use system Git on macOS.
+            package = null;
+            lfs.enable = true;
         };
 
         delta = {

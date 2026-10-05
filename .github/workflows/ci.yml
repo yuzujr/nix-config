@@ -20,5 +20,5 @@ jobs:
         run: bash scripts/lint.sh
       - name: Flake check
         # Evaluates both host configurations via the `checks` output, then
-        # builds the checks and dev shells.
+        # builds the small evaluation checks without building either host.
         run: nix flake check

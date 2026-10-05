@@ -1,33 +1,29 @@
 {
     config,
+    lib,
     pkgs,
     vars,
     ...
 }:
 let
     isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
-    rebuild =
+    rebuildCommand =
         if isDarwin then
-            "nh darwin $mode --show-activation-logs $argv ${vars.repoRoot}#macbook -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.homeDirectory}/Documents/nix-secret"
+            "nh darwin $mode --show-activation-logs $argv ${vars.repoRoot}#${vars.flakeHost} -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.secretsRoot}"
         else
-            "nh os $mode $argv ${vars.repoRoot}#laptop-nixos -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.homeDirectory}/nix-secret";
+            "nh os $mode $argv ${vars.repoRoot}#${vars.flakeHost} -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.secretsRoot}";
 in
 {
     home = {
         sessionPath = [
             "${vars.homeDirectory}/.local/bin"
         ]
-        ++ (
-            if isDarwin then
-                [
-                    "/opt/homebrew/opt/rustup/bin"
-                    "/opt/homebrew/bin"
-                    "/opt/homebrew/sbin"
-                    "${vars.homeDirectory}/background_agent_cli/bin"
-                ]
-            else
-                [ ]
-        );
+        ++ lib.optionals isDarwin [
+            "/opt/homebrew/opt/rustup/bin"
+            "/opt/homebrew/bin"
+            "/opt/homebrew/sbin"
+            "${vars.homeDirectory}/background_agent_cli/bin"
+        ];
         sessionVariables.SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";
     };
 
@@ -51,7 +47,7 @@ in
                         set mode $argv[1]
                         set -e argv[1]
                 end
-                ${rebuild}
+                ${rebuildCommand}
             '';
         };
         functions.v = {

@@ -1,9 +1,9 @@
 {
     imports = [
-        ./drcom-client.nix
-        ./mihomo.nix
         ./networkmanager.nix
         ./sshd.nix
+        ./drcom-client.nix
+        ./mihomo.nix
         ./tailscale.nix
     ];
 }

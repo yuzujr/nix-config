@@ -19,6 +19,7 @@ fully evaluable without the private repo, so CI needs no secrets.
 - `checks.<system>.{nixos,darwin}` (evaluation checks for both hosts, run by `nix flake check`)
 - `devShells.<system>.default` (cross-platform: nixd + nixfmt wrapper)
 - `devShells.x86_64-linux.{android-studio,clang-cpp,gcc-cpp,python,qt,rust}`
+- `packages.x86_64-linux.{baidunetdisk,gold-price,wechat}`
 - `formatter.{x86_64-linux,aarch64-darwin}` (nixfmt --indent 4, used by `nix fmt`)
 
 ## Layout
@@ -28,8 +29,8 @@ fully evaluable without the private repo, so CI needs no secrets.
 ├── devshells/               # Flake dev shells and the nixfmt formatter
 ├── dotfiles/                # Files linked by Home Manager
 ├── hosts/
-│   ├── laptop-nixos/        # NixOS host entrypoint and hardware config
-│   └── macbook/             # Darwin host entrypoint
+│   ├── laptop-nixos/        # Feature selection, host data, hardware, and home
+│   └── macbook/             # Feature selection, host data, and home
 ├── lib/                     # Shared helper functions (sops secret helpers)
 ├── modules/
 │   ├── darwin/              # nix-darwin modules
@@ -39,15 +40,52 @@ fully evaluable without the private repo, so CI needs no secrets.
 │   │   └── linux/           # Home Manager modules for NixOS
 │   ├── nixos/               # NixOS modules
 │   └── shared/              # Modules shared by NixOS and nix-darwin
+├── packages/                # Local package definitions and dependency assembly
+├── scripts/                 # Repository maintenance tools
 ├── secrets/placeholder/     # Public placeholder for the private secrets input
 ├── vars/                    # Shared user identity variables
 ├── flake.lock
 └── flake.nix
 ```
 
-Each platform wires its own Home Manager entrypoint in
-`modules/{nixos,darwin}/home.nix`; user-level modules live under
-`modules/home/` split by platform.
+`hosts/<name>/default.nix` holds host settings and selects complete groups:
+the base system, desktop, networking, and optional personal services. Home
+Manager choices are in that same file; hardware details live in `hardware.nix`.
+The networking group includes the laptop's campus login, proxy, and Tailscale
+integration, which are used together on this machine.
+
+Host data lives in `hosts/<name>/vars.nix`: home and repository paths, the
+private secrets checkout, and the selected Git identity. The flake passes this
+data to both module layers and adds `flakeHost`, the flake output name. This
+can differ from the system hostname, as it does on the MacBook.
+
+Within each layer, a feature owns its package, config links, and service or
+activation logic. For example, the NixOS Gold Price integration declares its
+secret and imports the Home Manager service; that service installs its local
+package and config links. `packages.nix` lists applications that only need
+installation. Small platform differences, such as the Emacs package or Kitty
+font size, stay in the program's own file. Platform directories hold substantial
+or platform-only settings, such as the Linux desktop and macOS SSH integration.
+
+`default.nix` can contain both imports and settings. Split files when that
+makes a feature easier to maintain independently, rather than adding layers
+for directory symmetry. There is no automatic directory discovery: import a
+feature from its owning module or host to enable it.
+
+## Editable files and runtime state
+
+The Home Manager `dot` helper links into the working checkout so desktop and
+editor changes apply without rebuilding. These files are not snapshots of a
+Nix generation: rolling back a generation does not restore their contents.
+Runtime files created alongside them, such as Emacs caches, Rime databases,
+and Niri's current-profile links, are ignored by Git. Use `tree --gitignore`
+to inspect the source layout without this local state.
+
+Background services use executables from the Nix store. Gold Price packages
+the existing sources in `dotfiles/local/bin/` with their runtime dependencies;
+editing a script updates direct checkout invocations immediately, while the
+service receives the change on rebuild. Its configuration and data paths stay
+the same. Noctalia's writable theme integration remains in its own module.
 
 ## Secrets
 
@@ -60,8 +98,9 @@ usually override it:
 
 The public placeholder at `secrets/placeholder` only keeps the flake evaluable
 without the private repo. Secrets shared by both platforms are declared in
-`modules/shared/secrets.nix`; platform-specific ones in
-`modules/{nixos,darwin}/secrets.nix`.
+`modules/shared/secrets.nix`; platform baseline secrets live in
+`modules/{nixos,darwin}/secrets.nix`. Optional network and service integrations
+declare their own secrets alongside the feature.
 
 ## Package Policy
 
@@ -69,6 +108,11 @@ without the private repo. Secrets shared by both platforms are declared in
 - macOS: applications and CLI tools are managed with Homebrew where practical.
 - Home Manager is shared across platforms for dotfiles and user configuration such as Git and SSH.
 - Emacs on macOS remains managed by Nix/Home Manager so its plugin set stays declarative.
+
+`packages/default.nix` assembles local packages, including the stable-library
+compatibility inputs for Baidu Netdisk. Home Manager and the flake's package
+outputs use the same definitions. Build a package independently with
+`nix build .#gold-price` (or `.#wechat` / `.#baidunetdisk`).
 
 ## Verification
 
@@ -87,7 +131,7 @@ bash scripts/lint.sh
 # Rewrite the files the lint would reject.
 nix fmt
 
-# The rest of CI: dev shells and, through `checks`, both host evaluations above.
+# The rest of CI: validate outputs and build the small host evaluation checks.
 nix flake check
 ```
 

@@ -1,5 +1,5 @@
-# Home Manager settings shared by both platforms. The platform module import
-# and the per-platform entrypoint are wired in modules/{nixos,darwin}/home.nix.
+# Home Manager settings shared by both platforms. Platform integration lives
+# in modules/{nixos,darwin}/home.nix; hosts select their user modules.
 {
     inputs,
     vars,

@@ -2,9 +2,14 @@
     config,
     lib,
     pkgs,
+    secretsLib,
     ...
 }:
 {
+    sops.secrets."network/mihomo" = secretsLib.mkSecret "network.yaml" "mihomo" (
+        secretsLib.rootSecret // { restartUnits = [ "mihomo.service" ]; }
+    );
+
     services.mihomo = {
         enable = true;
         tunMode = true;
