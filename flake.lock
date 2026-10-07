@@ -87,11 +87,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791366812,
-        "narHash": "sha256-MRBEmBgVosF4btGFXeYd636uK8+YE87XqqcscABkaTk=",
+        "lastModified": 1791366952,
+        "narHash": "sha256-+0VxoDzhfrdpYGkNepk9aRRddTpopbE+iKu69COojCY=",
         "owner": "yuzujr",
         "repo": "drcom-client-cpp",
-        "rev": "e0b420249c118ddd1ee76cf7d302936071794f7e",
+        "rev": "d2a52d5d7d9d0c6798c4b2ff72f695ae58e919cf",
         "type": "github"
       },
       "original": {
