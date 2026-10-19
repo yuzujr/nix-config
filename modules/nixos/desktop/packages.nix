@@ -2,7 +2,6 @@
 let
     audio = with pkgs; [
         alsa-firmware
-        alsa-ucm-conf
     ];
 
     hardware = with pkgs; [

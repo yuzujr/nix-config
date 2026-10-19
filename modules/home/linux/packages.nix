@@ -44,6 +44,7 @@ let
         kdePackages.dolphin
         kdePackages.kate
         libnotify
+        libreoffice
         networkmanagerapplet
         pavucontrol
         qq

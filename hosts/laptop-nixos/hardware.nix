@@ -1,6 +1,19 @@
-{ config, ... }:
 {
-    services.xserver.videoDrivers = [ "nvidia" ];
+    config,
+    pkgs,
+    vars,
+    ...
+}:
+{
+    services = {
+        xserver.videoDrivers = [ "nvidia" ];
+        udev.packages = [ pkgs.openocd ];
+    };
+
+    users = {
+        groups.plugdev = { };
+        users.${vars.username}.extraGroups = [ "dialout" ];
+    };
 
     hardware.nvidia = {
         open = true;

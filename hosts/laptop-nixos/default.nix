@@ -12,6 +12,7 @@
     ];
 
     networking.hostName = "laptop-nixos";
+    services.power-profiles-daemon.enable = true;
     home-manager.users.${vars.username} = {
         imports = [
             ../../modules/home/linux
