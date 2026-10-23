@@ -21,6 +21,8 @@
             save-position-on-quit = true;
             slang = "zh-CN,zh-Hans,zh";
             sub-auto = "fuzzy";
+            demuxer-mkv-subtitle-preroll = true;
+            demuxer-mkv-subtitle-preroll-secs = 10;
             watch-later-options-remove = "sub-pos,osd-margin-y";
             ytdl-format = "bestvideo[height<=2160]+bestaudio/best[height<=2160]";
         };

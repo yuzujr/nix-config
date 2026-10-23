@@ -14,7 +14,7 @@
                 IdentityFile = secretPath "ssh/aur";
                 IdentitiesOnly = true;
             };
-       };
+        };
     };
 
     home.file.".ssh/config".force = true;

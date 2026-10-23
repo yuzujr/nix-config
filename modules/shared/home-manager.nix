@@ -10,6 +10,7 @@
         useGlobalPkgs = true;
         useUserPackages = true;
         backupFileExtension = "home-manager.backup";
+        overwriteBackup = true;
         extraSpecialArgs = {
             inherit inputs vars;
         };
