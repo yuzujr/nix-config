@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790746326,
-        "narHash": "sha256-DoJ0ZVhDjIjGFRHSV/b9QP6WVoKhMf2GcJeZZFK0ncg=",
+        "lastModified": 1792570168,
+        "narHash": "sha256-YKuoSN0+3KrfuZTUqU8zs0fj77BvihL7mQey0N5eu4g=",
         "owner": "yuzujr",
         "repo": "coomer",
-        "rev": "ae14eee0010be39f75169c4aeb5fb3d97e4a53b7",
+        "rev": "d662a95f6ebd4a6bb355696d88c5cdd464a1c19c",
         "type": "github"
       },
       "original": {

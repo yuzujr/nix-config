@@ -2,38 +2,10 @@
 { secretPath, ... }:
 {
     programs.ssh.settings = {
-        # devcloud (managed by Tencent devcloud tooling, see ~/.ssh/devcloud_config)
-        "*.devcloud.woa.com" = {
-            Include = "~/.ssh/devcloud_config";
-        };
-
-        "git.woa.com" = {
-            User = "git";
-            IdentityFile = secretPath "ssh/gongfeng";
-            IdentitiesOnly = true;
-        };
-
-        "dtm" = {
-            User = "jasonxzhai";
-            HostName = "21.214.137.243";
-            Port = 36000;
-            IdentityFile = secretPath "ssh/dtm";
-            IdentitiesOnly = true;
-        };
-
-        "optimizer" = {
-            HostName = "21.130.252.210";
-            User = "root";
-            Port = 36000;
-            IdentityFile = secretPath "ssh/dtm";
-            IdentitiesOnly = true;
-        };
-
-        "home" = {
+        "nixos" = {
             HostName = "laptop-nixos";
-            ProxyJump = "vps";
             User = "yuzujr";
-            IdentityFile = secretPath "ssh/home";
+            IdentityFile = secretPath "ssh/nixos";
             IdentitiesOnly = true;
         };
     };

@@ -13,8 +13,6 @@ in
     ];
 
     sops.secrets = {
-        "ssh/gongfeng" = mkSecret "ssh.yaml" "gongfeng" userSecret;
-        "ssh/dtm" = mkSecret "ssh.yaml" "dtm" userSecret;
-        "ssh/home" = mkSecret "ssh.yaml" "home" userSecret;
+        "ssh/nixos" = mkSecret "ssh.yaml" "home" userSecret;
     };
 }

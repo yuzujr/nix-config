@@ -1,48 +1,34 @@
-{ config, ... }:
+{ config, lib, ... }:
+let
+    languageServers = {
+        nixd = "nixd";
+        clangd = "clangd";
+        rust_analyzer = "rust-analyzer";
+        basedpyright = "basedpyright-langserver";
+        bashls = "bash-language-server";
+        cssls = "vscode-css-language-server";
+        jsonls = "vscode-json-language-server";
+        yamlls = "yaml-language-server";
+        taplo = "taplo";
+        marksman = "marksman";
+    };
+in
 {
     lsp = {
-        servers = {
-            nixd = {
-                enable = true;
-                package = null;
-            };
-            clangd = {
-                enable = true;
-                package = null;
-            };
-            rust_analyzer = {
-                enable = true;
-                package = null;
-            };
-            basedpyright = {
-                enable = true;
-                package = null;
-            };
-            bashls = {
-                enable = true;
-                package = null;
-            };
-            cssls = {
-                enable = true;
-                package = null;
-            };
-            jsonls = {
-                enable = true;
-                package = null;
-            };
-            yamlls = {
-                enable = true;
-                package = null;
-            };
-            taplo = {
-                enable = true;
-                package = null;
-            };
-            marksman = {
-                enable = true;
-                package = null;
-            };
-        };
+        servers = lib.mapAttrs (_name: _command: {
+            enable = true;
+            activate = false;
+            package = null;
+        }) languageServers;
+        luaConfig.content = lib.mkAfter ''
+            local language_servers = ${lib.nixvim.toLuaObject languageServers}
+
+            for name, command in pairs(language_servers) do
+                if vim.fn.executable(command) == 1 then
+                    vim.lsp.enable(name)
+                end
+            end
+        '';
         keymaps = [
             {
                 mode = "n";

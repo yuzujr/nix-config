@@ -20,7 +20,7 @@ in
         secrets = {
             "ssh/github" = mkSecret "ssh.yaml" "github" userSecret;
 
-            "ssh/vps" = mkSecret "ssh.yaml" "vps" userSecret;
+            "ssh/aur" = mkSecret "ssh.yaml" "aur" userSecret;
 
             "nix/user-conf" = mkSecret "nix.yaml" "user-conf" userSecret;
         };
