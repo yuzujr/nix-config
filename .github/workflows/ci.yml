@@ -12,7 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: DeterminateSystems/nix-installer-action@v23
+        with:
+          determinate: false
       - uses: DeterminateSystems/magic-nix-cache-action@v15
+        with:
+          use-flakehub: false
       - name: Lint
         # Formatting, Nix lint, dead code, shell, and workflow checks. This is
         # the same script developers and agents run locally, so `nix fmt` +
