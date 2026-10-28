@@ -8,6 +8,9 @@ CURRENT_CONFIG="$PROFILES_DIR/current-config.kdl"
 CURRENT_OUTPUTS="$PROFILES_DIR/current-outputs.kdl"
 CURRENT_STARTUP="$PROFILES_DIR/current-startup.kdl"
 
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/niri-mode"
+ASPM_POLICY=/sys/module/pcie_aspm/parameters/policy
+
 mode="${1:-}"
 
 die() {
@@ -51,20 +54,116 @@ set_power_profile() {
   fi
 }
 
-apply_mode() {
-  local profile="$1"
+save_once() {
+  [[ -f "$1" ]] || printf '%s\n' "$2" >"$1"
+}
 
-  if [[ "$profile" == "normal" ]]; then
-    set_power_profile balanced
-
-  elif [[ "$profile" == "travel" ]]; then
-    set_power_profile power-saver
-
+set_aspm() {
+  local profile="$1" policy
+  [[ -r "$ASPM_POLICY" ]] || return 0
+  policy=$(sed -n 's/.*\[\([^]]*\)\].*/\1/p' "$ASPM_POLICY")
+  if [[ "$profile" == travel ]]; then
+    save_once "$STATE_DIR/aspm" "$policy"
+    policy=powersupersave
+  elif [[ -f "$STATE_DIR/aspm" ]]; then
+    policy=$(cat "$STATE_DIR/aspm")
   else
-    die "unknown profile: $profile"
+    return 0
   fi
 
+  if grep -qF "[$policy]" "$ASPM_POLICY" ||
+    { command -v sudo >/dev/null && printf '%s\n' "$policy" | sudo -n tee "$ASPM_POLICY" >/dev/null; }; then
+    log "PCIe ASPM -> $policy"
+    if [[ "$profile" == normal ]]; then rm -f "$STATE_DIR/aspm"; fi
+  else
+    log "PCIe ASPM unchanged: root permission required (sudo -v before switching)"
+  fi
+}
+
+set_bluetooth() {
+  local profile="$1" adapter name powered saved
+  command -v busctl >/dev/null || return 0
+  for adapter in /sys/class/bluetooth/hci*; do
+    [[ -e "$adapter" ]] || continue
+    name=${adapter##*/}
+    saved="$STATE_DIR/bluetooth-$name"
+    powered=$(busctl --system --timeout=5 get-property org.bluez "/org/bluez/$name" org.bluez.Adapter1 Powered) || continue
+    powered=${powered#b }
+    if [[ "$profile" == travel ]]; then
+      save_once "$saved" "$powered"
+      powered=false
+    elif [[ -f "$saved" ]]; then
+      powered=$(cat "$saved")
+    else
+      continue
+    fi
+    if busctl --system --timeout=5 set-property org.bluez "/org/bluez/$name" org.bluez.Adapter1 Powered b "$powered"; then
+      log "Bluetooth $name powered -> $powered"
+      if [[ "$profile" == normal ]]; then rm -f "$saved"; fi
+    else
+      log "failed to change Bluetooth $name"
+    fi
+  done
+}
+
+set_background_services() {
+  local profile="$1" unit saved state
+  local -a units=()
+  if [[ "$profile" == travel ]]; then
+    while read -r unit _; do
+      [[ -n "$unit" ]] || continue
+      state=$(systemctl --user show "$unit" -p ActiveState --value) || continue
+      case "$state" in active | activating | reloading) ;; *) continue ;; esac
+      saved="$STATE_DIR/services/$unit"
+      save_once "$saved" active
+      units+=("$unit")
+    done < <(systemctl --user list-unit-files --no-legend --no-pager \
+      gold-price-history-daily.timer gold-price-watch.service gold-price-history-daily.service \
+      sunshine.service 'nixloom*.target' 'nixloom*.service')
+    # Snapshot all units before stopping targets and their dependent services.
+    if ((${#units[@]} > 0)); then
+      if systemctl --user stop "${units[@]}"; then
+        log "paused background units: ${units[*]}"
+      else
+        log "some background units could not be paused"
+      fi
+    fi
+  else
+    for saved in "$STATE_DIR"/services/*; do
+      [[ -f "$saved" ]] || continue
+      unit=${saved##*/}
+      if systemctl --user start "$unit"; then
+        rm -f "$saved"
+        log "resumed $unit"
+      else
+        log "failed to resume $unit; will retry on next normal mode application"
+      fi
+    done
+  fi
+}
+
+apply_power_policy() {
+  local profile="$1"
+  umask 077
+  mkdir -p "$STATE_DIR/services"
+  exec 9>"$STATE_DIR/lock"
+  flock 9
+
+  case "$profile" in
+  normal) set_power_profile balanced ;;
+  travel) set_power_profile power-saver ;;
+  *) die "unknown profile: $profile" ;;
+  esac
+  set_background_services "$profile"
+  set_bluetooth "$profile"
+  set_aspm "$profile"
+  flock -u 9
+}
+
+apply_mode() {
+  local profile="$1"
   set_links "$profile"
+  apply_power_policy "$profile"
   quit_niri
 }
 
@@ -90,7 +189,8 @@ show_status() {
 
 usage() {
   cat <<EOF
-Usage: $0 normal|travel|switch|status
+Usage: $0 normal|travel|switch|status|power
+  power  Reapply the current mode's power policy without restarting Niri.
 EOF
   exit 2
 }
@@ -107,6 +207,7 @@ switch)
   *) die "cannot switch: current mode is unknown. Run 'status' first." ;;
   esac
   ;;
+power) apply_power_policy "$(get_current_mode)" ;;
 status) show_status ;;
 *) usage ;;
 esac

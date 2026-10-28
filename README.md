@@ -2,15 +2,9 @@
 
 [![CI](https://github.com/yuzujr/nix-config/actions/workflows/ci.yml/badge.svg)](https://github.com/yuzujr/nix-config/actions/workflows/ci.yml)
 
-NixOS, nix-darwin, Home Manager, dotfiles, and development shells.
-
-CI runs `scripts/lint.sh` (formatting, workflow/Nix/shell style, dead code) and
-then `nix flake check`, which covers the dev shells and — via the flake's
-`checks` output — the evaluation of both host configurations. Those are the
-same two commands you run locally, so there is nothing to reproduce by hand;
-`scripts/lint.sh` also takes file arguments for a millisecond check while
-editing. The placeholder secrets under `secrets/placeholder` keep the flake
-fully evaluable without the private repo, so CI needs no secrets.
+NixOS, nix-darwin, Home Manager, dotfiles, and development shells. CI runs the
+repository lint and `nix flake check`; placeholder secrets keep the flake
+evaluable without the private secrets repo.
 
 ## Outputs
 
@@ -48,44 +42,28 @@ fully evaluable without the private repo, so CI needs no secrets.
 └── flake.nix
 ```
 
-`hosts/<name>/default.nix` holds host settings and selects complete groups:
-the base system, desktop, networking, and optional personal services. Home
-Manager choices are in that same file; hardware details live in `hardware.nix`.
-The networking group includes the laptop's campus login, proxy, and Tailscale
-integration, which are used together on this machine.
+Each `hosts/<name>/default.nix` selects feature groups and keeps host and Home
+Manager settings together; hardware details live in `hardware.nix`. Host data
+such as paths and Git identity lives in `vars.nix`. The flake passes it to both
+module layers and adds `flakeHost`, the output name, which may differ from the
+system hostname.
 
-Host data lives in `hosts/<name>/vars.nix`: home and repository paths, the
-private secrets checkout, and the selected Git identity. The flake passes this
-data to both module layers and adds `flakeHost`, the flake output name. This
-can differ from the system hostname, as it does on the MacBook.
-
-Within each layer, a feature owns its package, config links, and service or
-activation logic. For example, the NixOS Gold Price integration declares its
-secret and imports the Home Manager service; that service installs its local
-package and config links. `packages.nix` lists applications that only need
-installation. Small platform differences, such as the Emacs package or Kitty
-font size, stay in the program's own file. Platform directories hold substantial
-or platform-only settings, such as the Linux desktop and macOS SSH integration.
-
-`default.nix` can contain both imports and settings. Split files when that
-makes a feature easier to maintain independently, rather than adding layers
-for directory symmetry. There is no automatic directory discovery: import a
-feature from its owning module or host to enable it.
+Features own their packages, config links, and services. Keep small platform
+differences in the feature, and use platform directories for substantial or
+platform-only settings. Imports are explicit: a file is enabled only when its
+owning module or host imports it. `default.nix` may hold both imports and
+settings; split files when a feature has an independent responsibility.
 
 ## Editable files and runtime state
 
-The Home Manager `dot` helper links into the working checkout so desktop and
-editor changes apply without rebuilding. These files are not snapshots of a
-Nix generation: rolling back a generation does not restore their contents.
-Runtime files created alongside them, such as Emacs caches, Rime databases,
-and Niri's current-profile links, are ignored by Git. Use `tree --gitignore`
-to inspect the source layout without this local state.
+The Home Manager `dot` helper links editable desktop and editor files into the
+working checkout, so changes apply without rebuilding. Generation rollbacks do
+not restore their contents. Runtime files such as Emacs caches and Rime
+databases are ignored by Git; use `tree --gitignore` to omit them from listings.
 
-Background services use executables from the Nix store. Gold Price packages
-the existing sources in `dotfiles/local/bin/` with their runtime dependencies;
-editing a script updates direct checkout invocations immediately, while the
-service receives the change on rebuild. Its configuration and data paths stay
-the same. Noctalia's writable theme integration remains in its own module.
+Background services use Nix store executables. Gold Price packages the scripts
+in `dotfiles/local/bin/` with their runtime dependencies, so direct checkout
+invocations see edits immediately and the service picks them up on rebuild.
 
 ## Secrets
 
@@ -110,34 +88,29 @@ declare their own secrets alongside the feature.
 - Emacs on macOS remains managed by Nix/Home Manager so its plugin set stays declarative.
 
 `packages/default.nix` assembles local packages, including the stable-library
-compatibility inputs for Baidu Netdisk. Home Manager and the flake's package
-outputs use the same definitions. Build a package independently with
-`nix build .#gold-price` (or `.#wechat` / `.#baidunetdisk`).
+compatibility inputs for Baidu Netdisk. Home Manager and flake package outputs
+use the same definitions.
 
 ## Verification
 
-Both configurations should evaluate before a rebuild, and a refactor that is
-meant to be a no-op should produce the same system derivation.
+Run the repository lint and flake checks before rebuilding. The lint script
+accepts file paths for a quick check of edited files. `nix flake check` also
+evaluates both host configurations.
 
 ```bash
-# Evaluate both hosts (pure eval: proves the config is consistent, builds nothing).
-nix eval .#nixosConfigurations.laptop-nixos.config.system.build.toplevel.drvPath
-nix eval .#darwinConfigurations.macbook.system.drvPath
-
-# The lint half of CI: nixfmt, statix, deadnix, shellcheck, actionlint. Pass
-# file paths to check only those, or nothing to check the whole repo.
+# Check the whole repository, or pass file paths to check only those files.
 bash scripts/lint.sh
 
-# Rewrite the files the lint would reject.
+# Format Nix files.
 nix fmt
 
-# The rest of CI: validate outputs and build the small host evaluation checks.
+# Validate flake outputs and evaluate both hosts.
 nix flake check
 ```
 
-For a no-op refactor, diff the system derivation hashes before and after.
-Because `git+file:` flake refs use the working copy when the tree is dirty,
-evaluate a baseline from a clean worktree:
+For a refactor intended to preserve behavior, compare system derivations before
+and after. Evaluate the baseline from a clean worktree because dirty `git+file:`
+flake refs use the working copy:
 
 ```bash
 git worktree add /tmp/nix-config-baseline HEAD
@@ -170,8 +143,8 @@ sudo nixos-rebuild switch \
 
 ## Development Shells
 
-The named shells are Linux-only (`x86_64-linux`); the default shell works on
-both platforms.
+The default shell works on both platforms; named shells are Linux-only
+(`x86_64-linux`).
 
 ```bash
 nix develop                  # nixd, nixfmt, and the scripts/lint.sh tools
@@ -182,3 +155,6 @@ nix develop .#python
 nix develop .#android-studio
 nix develop .#rust
 ```
+
+Build a local package with `nix build .#gold-price` (or `.#wechat` /
+`.#baidunetdisk`).
