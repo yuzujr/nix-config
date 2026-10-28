@@ -8,6 +8,9 @@ xwayland-satellite {
 }
 
 binds {
+    // #"启动与工具"
+    Alt+Space hotkey-overlay-title="应用启动器" { spawn-sh "pkill fuzzel || fuzzel"; }
+
     // #"音量与亮度"
     XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="音量降低" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="音量提高" { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }

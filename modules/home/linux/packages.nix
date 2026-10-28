@@ -37,6 +37,7 @@ let
     desktop = with pkgs; [
         bluetui
         feh
+        fuzzel
         google-chrome
         localPackages.baidunetdisk
         gparted

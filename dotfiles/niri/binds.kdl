@@ -4,8 +4,12 @@ binds {
     Mod+E hotkey-overlay-title="文件管理器（Dolphin）" { spawn "dolphin"; }
     Mod+B hotkey-overlay-title="浏览器（Chrome）" { spawn "google-chrome"; }
     Alt+Shift+W hotkey-overlay-title="Coomer聚焦" { spawn "sh" "-c" "coomer --overlay --monitor \"$(niri msg -j focused-output | jq -r '.name')\""; }
-    Alt+Space hotkey-overlay-title="应用启动器" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
     Mod+Alt+V hotkey-overlay-title="剪贴板" { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
+
+    // #"会话与帮助"
+    Mod+Alt+L hotkey-overlay-title="锁屏" { spawn "noctalia" "msg" "session" "lock"; }
+    Mod+Shift+E hotkey-overlay-title="电源与会话" { spawn "noctalia" "msg" "panel-toggle" "session"; }
+    Mod+Shift+Slash hotkey-overlay-title="快捷键帮助" { spawn "noctalia" "msg" "panel-toggle" "kenn/keybind-cheatsheet:cheatsheet"; }
 
     // #"焦点导航"
     Mod+H hotkey-overlay-title="焦点到左侧列" { focus-column-left; }
@@ -106,5 +110,4 @@ binds {
     Mod+Alt+I hotkey-overlay-title="切换输入法主题预设" { spawn "~/.local/bin/fcitx5-theme-toggle"; }
     Mod+Ctrl+W hotkey-overlay-title="打开壁纸选择" { spawn "noctalia" "msg" "panel-toggle" "wallpaper"; }
     Mod+Shift+W hotkey-overlay-title="随机切换壁纸" { spawn "noctalia" "msg" "wallpaper-random"; }
-
 }

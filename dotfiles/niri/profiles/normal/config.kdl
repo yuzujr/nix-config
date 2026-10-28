@@ -2,11 +2,10 @@ debug {
   render-drm-device "/dev/dri/by-path/pci-0000:01:00.0-render"
 }
 
-switch-events {
-    lid-close { spawn "noctalia" "msg" "session" "lock"; }
-}
-
 binds {
+    // #"启动与工具"
+    Alt+Space hotkey-overlay-title="应用启动器" { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+
     // #"音量与亮度"
     XF86AudioLowerVolume allow-when-locked=true hotkey-overlay-title="音量降低" { spawn "noctalia" "msg" "volume-down"; }
     XF86AudioRaiseVolume allow-when-locked=true hotkey-overlay-title="音量提高" { spawn "noctalia" "msg" "volume-up"; }
@@ -14,9 +13,4 @@ binds {
     XF86AudioMicMute allow-when-locked=true hotkey-overlay-title="静音麦克风" { spawn "noctalia" "msg" "mic-mute"; }
     XF86MonBrightnessUp allow-when-locked=true hotkey-overlay-title="亮度提高" { spawn "noctalia" "msg" "brightness-up"; }
     XF86MonBrightnessDown allow-when-locked=true hotkey-overlay-title="亮度降低" { spawn "noctalia" "msg" "brightness-down"; }
-
-    // #"会话与帮助"
-    Mod+Alt+L hotkey-overlay-title="锁屏" { spawn "noctalia" "msg" "session" "lock"; }
-    Mod+Shift+E hotkey-overlay-title="电源与会话" { spawn "noctalia" "msg" "panel-toggle" "session"; }
-    Mod+Shift+Slash hotkey-overlay-title="快捷键帮助" { spawn "noctalia" "msg" "panel-toggle" "kenn/keybind-cheatsheet:cheatsheet"; }
 }

@@ -5,6 +5,7 @@
     xdg.configFile = lib.genAttrs [
         "chrome-flags.conf"
         "feh"
+        "fuzzel"
         "nwg-look"
         "qt6ct"
         "termway"
