@@ -1,6 +1,7 @@
 { vars, ... }:
 {
     networking.firewall.interfaces.tailscale0.allowedTCPPorts = [
+        443
         3080
         8188
     ];
