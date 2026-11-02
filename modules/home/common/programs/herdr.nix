@@ -14,7 +14,7 @@
                 show_agent_labels_on_pane_borders = true;
                 agent_panel_sort = "spaces";
                 sound.enabled = false;
-                toast.delivery = "herdr";
+                toast.delivery = "terminal";
             };
             update.version_check = false;
         };
