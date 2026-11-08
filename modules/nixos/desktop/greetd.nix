@@ -9,6 +9,8 @@
 {
     imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
+    security.pam.services.login.enableGnomeKeyring = lib.mkForce false;
+
     services.displayManager.noctalia-greeter = {
         enable = true;
         package = inputs.noctalia-greeter.packages.${pkgs.stdenv.hostPlatform.system}.default;
