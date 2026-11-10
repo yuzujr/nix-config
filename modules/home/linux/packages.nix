@@ -24,8 +24,7 @@ let
 
     development = with pkgs; [
         binutils
-        cc-switch
-        codex
+        # codex # Broken in nixpkgs 0.167.0
         antigravity-cli
         claude-code
         gcc
@@ -39,7 +38,7 @@ let
         feh
         fuzzel
         google-chrome
-        localPackages.baidunetdisk
+        baidupcs-go
         gparted
         kdePackages.ark
         kdePackages.dolphin
@@ -50,7 +49,7 @@ let
         pavucontrol
         qq
         seahorse
-        splayer-next
+        # splayer-next # Broken by nixpkgs cargoSetupHook AWS_LC_SYS_USE_SYSTEM=1
         typora
         localPackages.wechat
         zathura

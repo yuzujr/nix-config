@@ -6,6 +6,7 @@
         enable = true;
         defaultEditor = true;
         vimAlias = true;
+        nixpkgs.source = inputs.nixpkgs;
 
         imports = [
             ./base.nix

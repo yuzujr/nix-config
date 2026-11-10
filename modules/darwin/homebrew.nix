@@ -30,7 +30,6 @@
             "squirrel-app"
             "google-chrome"
             "clash-verge-rev"
-            "cc-switch"
             "codex"
             "chatgpt"
             "codebuddy-cn"

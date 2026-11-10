@@ -7,18 +7,15 @@
 }:
 let
     pname = "wechat";
-    version = "4.1.13.23";
+    version = "4.1.13.26";
 
     src = fetchurl {
-        url = "https://github.com/trouter-ai/wechat-linux-versions/releases/download/v4.1.13.23/WeChatLinux_4.1.13.23_x86_64.AppImage";
-        hash = "sha256-T1StKQLs1vb9xWgLc1R/gNVCO/RwsBI3pXmi5bPK7us=";
+        url = "https://github.com/trouter-ai/wechat-linux-versions/releases/download/v4.1.13.26/WeChatLinux_4.1.13.26_x86_64.AppImage";
+        hash = "sha256-RSYYC8qYASh5FZmvEi/0eVACpXFaUQ9qZUgOK+aHQkQ=";
     };
 
     appimageContents = appimageTools.extract {
         inherit pname version src;
-        postExtract = ''
-            patchelf --replace-needed libtiff.so.5 libtiff.so $out/opt/wechat/wechat
-        '';
     };
 in
 appimageTools.wrapAppImage {
@@ -34,7 +31,7 @@ appimageTools.wrapAppImage {
 
         substituteInPlace $out/share/applications/wechat.desktop --replace-fail AppRun wechat
 
-        # WeChat 4.1.13.23 still creates X11/XCB windows.  When WAYLAND_DISPLAY is
+        # WeChat 4.1.13.26 still creates X11/XCB windows.  When WAYLAND_DISPLAY is
         # visible it nevertheless tries the Wayland input-method path, which is
         # broken under niri/xwayland-satellite.  Keep this application entirely
         # on XWayland so Fcitx can use XIM, and set its scale explicitly because

@@ -4,11 +4,6 @@
     inputs = {
         nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-        nixpkgs-stable = {
-            url = "github:NixOS/nixpkgs/nixos-25.11";
-            flake = false;
-        };
-
         darwin = {
             url = "github:nix-darwin/nix-darwin";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -19,7 +14,10 @@
             inputs.nixpkgs.follows = "nixpkgs";
         };
 
-        nixvim.url = "github:nix-community/nixvim";
+        nixvim = {
+            url = "github:nix-community/nixvim";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
 
         sops-nix = {
             url = "github:Mic92/sops-nix";
