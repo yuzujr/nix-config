@@ -24,7 +24,11 @@ let
 
     development = with pkgs; [
         binutils
-        # codex # Broken in nixpkgs 0.167.0
+        # Workaround: nixpkgs cc-switch 3.16.5 misses sqlite in buildInputs
+        (cc-switch.overrideAttrs (old: {
+            buildInputs = (old.buildInputs or [ ]) ++ [ sqlite ];
+        }))
+        codex
         antigravity-cli
         claude-code
         gcc

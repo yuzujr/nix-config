@@ -20,7 +20,7 @@
         linebreak = true;
         mouse = "a";
         number = true;
-        relativenumber = true;
+        relativenumber = false;
         scrolloff = 8;
         shiftwidth = 4;
         showmode = false;
