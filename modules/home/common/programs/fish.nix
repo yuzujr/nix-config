@@ -7,22 +7,23 @@
 }:
 let
     isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
+    homeDirectory = config.home.homeDirectory;
     rebuildCommand =
         if isDarwin then
-            "nh darwin $mode --show-activation-logs $argv ${vars.repoRoot}#${vars.flakeHost} -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.secretsRoot}"
+            "nh darwin $mode --show-activation-logs $argv ${vars.repoRoot}#${vars.flakeHost} -o ${config.xdg.cacheHome}/nh/result -- --override-input secrets path:${vars.secretsRoot}"
         else
-            "nh os $mode $argv ${vars.repoRoot}#${vars.flakeHost} -o ${vars.homeDirectory}/.cache/nh/result -- --override-input secrets path:${vars.secretsRoot}";
+            "nh os $mode $argv ${vars.repoRoot}#${vars.flakeHost} -o ${config.xdg.cacheHome}/nh/result -- --override-input secrets path:${vars.secretsRoot}";
 in
 {
     home = {
         sessionPath = [
-            "${vars.homeDirectory}/.local/bin"
+            "${homeDirectory}/.local/bin"
         ]
         ++ lib.optionals isDarwin [
             "/opt/homebrew/opt/rustup/bin"
             "/opt/homebrew/bin"
             "/opt/homebrew/sbin"
-            "${vars.homeDirectory}/background_agent_cli/bin"
+            "${homeDirectory}/background_agent_cli/bin"
         ];
         sessionVariables.SOPS_AGE_KEY_FILE = "${config.xdg.configHome}/sops/age/keys.txt";
     };

@@ -1,7 +1,8 @@
 {
     imports = [
         ./boot.nix
-        ./graphics.nix
         ./peripherals.nix
     ];
+
+    hardware.graphics.enable = true;
 }

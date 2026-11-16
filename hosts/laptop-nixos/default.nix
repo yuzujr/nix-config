@@ -6,7 +6,11 @@
         ../../modules/nixos
         ../../modules/nixos/desktop
         ../../modules/nixos/hardware
-        ../../modules/nixos/networking
+        ../../modules/nixos/networking/drcom-client.nix
+        ../../modules/nixos/networking/mihomo.nix
+        ../../modules/nixos/networking/networkmanager.nix
+        ../../modules/nixos/networking/sshd.nix
+        ../../modules/nixos/networking/tailscale.nix
         ../../modules/nixos/services/gold-price.nix
         ../../modules/nixos/services/nixloom.nix
     ];
