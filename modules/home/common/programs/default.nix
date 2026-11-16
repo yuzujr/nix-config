@@ -1,6 +1,7 @@
 {
     imports = [
         ./btop.nix
+        ./comma.nix
         ./direnv.nix
         ./emacs.nix
         ./fastfetch.nix
