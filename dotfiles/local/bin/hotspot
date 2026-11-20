@@ -1,0 +1,159 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONN_NAME="${HOTSPOT_CONN:-Hotspot}"
+
+usage() {
+    cat <<'EOF'
+Usage: hotspot [toggle|on|off|status|edit]
+
+Commands:
+  toggle    Toggle hotspot on or off (default)
+  on        Enable Wi-Fi radio, start hotspot, and ensure IPv4 forwarding
+  off       Stop hotspot
+  status    Show hotspot state, SSID, IPv4 forwarding, and connected clients
+  edit      Open nm-connection-editor to edit hotspot SSID/password/band
+EOF
+}
+
+notify() {
+    if command -v notify-send >/dev/null 2>&1; then
+        notify-send -a "Hotspot" "$1" "${2:-}" >/dev/null 2>&1 || true
+    fi
+}
+
+is_active() {
+    nmcli -t -f NAME connection show --active | grep -Fxq "$CONN_NAME"
+}
+
+conn_exists() {
+    nmcli -t -f NAME connection show | grep -Fxq "$CONN_NAME"
+}
+
+wifi_device() {
+    local dev
+    dev="$(nmcli -t -f DEVICE,TYPE device status | awk -F: '$2 == "wifi" { print $1; exit }')"
+    printf '%s\n' "$dev"
+}
+
+ensure_ip_forward() {
+    local current
+    current="$(cat /proc/sys/net/ipv4/ip_forward 2>/dev/null || echo 0)"
+    if [[ "$current" != "1" ]]; then
+        echo "net.ipv4.ip_forward is 0; enabling via sudo sysctl..."
+        sudo sysctl -w net.ipv4.ip_forward=1 >/dev/null
+    fi
+}
+
+wait_wifi_ready() {
+    local dev="$1"
+    local i state
+    for ((i = 0; i < 20; i++)); do
+        state="$(nmcli -t -f DEVICE,STATE device status | awk -F: -v d="$dev" '$1 == d { print $2; exit }')"
+        if [[ -n "$state" && "$state" != "unavailable" && "$state" != "不可用" ]]; then
+            return 0
+        fi
+        sleep 0.25
+    done
+}
+
+cmd_on() {
+    if ! conn_exists; then
+        echo "Error: NetworkManager connection '$CONN_NAME' not found." >&2
+        echo "Create it once with:" >&2
+        echo "  nmcli device wifi hotspot ssid \"Switch2-AP\" password \"your-password\"" >&2
+        exit 1
+    fi
+
+    if is_active; then
+        ensure_ip_forward
+        echo "Hotspot '$CONN_NAME' is already active."
+        return 0
+    fi
+
+    local radio dev ssid
+    radio="$(nmcli -t -f WIFI radio)"
+    if [[ "$radio" != "enabled" && "$radio" != "已启用" ]]; then
+        nmcli radio wifi on
+    fi
+
+    dev="$(wifi_device)"
+    if [[ -n "$dev" ]]; then
+        wait_wifi_ready "$dev"
+    fi
+
+    ensure_ip_forward
+    nmcli connection up "$CONN_NAME" >/dev/null
+
+    ssid="$(nmcli -g 802-11-wireless.ssid connection show "$CONN_NAME" 2>/dev/null || echo "$CONN_NAME")"
+    echo "Hotspot started: $ssid (${dev:-wifi})"
+    notify "热点已开启" "SSID: $ssid"
+}
+
+cmd_off() {
+    if ! is_active; then
+        echo "Hotspot '$CONN_NAME' is not active."
+        return 0
+    fi
+
+    nmcli connection down "$CONN_NAME" >/dev/null
+    echo "Hotspot stopped."
+    notify "热点已关闭" "$CONN_NAME"
+}
+
+cmd_status() {
+    local dev ssid ip_fwd
+    dev="$(wifi_device)"
+    ip_fwd="$(cat /proc/sys/net/ipv4/ip_forward 2>/dev/null || echo unknown)"
+
+    if is_active; then
+        ssid="$(nmcli -g 802-11-wireless.ssid connection show "$CONN_NAME" 2>/dev/null || echo "$CONN_NAME")"
+        echo "Status:      active ($CONN_NAME)"
+        echo "SSID:        $ssid"
+        echo "Interface:   ${dev:-unknown}"
+        echo "IP forward:  $ip_fwd"
+        if [[ -n "$dev" ]]; then
+            echo "Clients:"
+            ip -4 neigh show dev "$dev" | awk '$NF != "FAILED" { printf "  %s (%s) [%s]\n", $1, $3, $NF }'
+        fi
+    else
+        echo "Status:      inactive ($CONN_NAME)"
+        echo "Interface:   ${dev:-unknown}"
+        echo "IP forward:  $ip_fwd"
+    fi
+}
+
+cmd_edit() {
+    exec nm-connection-editor
+}
+
+action="${1:-toggle}"
+case "$action" in
+    toggle)
+        if is_active; then
+            cmd_off
+        else
+            cmd_on
+        fi
+        ;;
+    on | up | start)
+        cmd_on
+        ;;
+    off | down | stop)
+        cmd_off
+        ;;
+    status | st)
+        cmd_status
+        ;;
+    edit)
+        cmd_edit
+        ;;
+    -h | --help | help)
+        usage
+        ;;
+    *)
+        echo "Unknown command: $action" >&2
+        usage >&2
+        exit 1
+        ;;
+esac

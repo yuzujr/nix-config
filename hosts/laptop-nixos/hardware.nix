@@ -24,6 +24,13 @@
         nvidiaSettings = false;
     };
 
-    # Pin KWin to this laptop's iGPU + dGPU DRM devices.
-    environment.sessionVariables.KWIN_DRM_DEVICES = "/dev/dri/by-path/pci-0000\\:01\\:00.0-card:/dev/dri/by-path/pci-0000\\:06\\:00.0-card";
+    # Allow DHCP, DNS, and forwarding across external TUN interfaces (e.g. mihomo) when sharing internet via Wi-Fi hotspot.
+    boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+    networking.firewall.interfaces.wlp3s0 = {
+        allowedUDPPorts = [
+            53
+            67
+        ];
+        allowedTCPPorts = [ 53 ];
+    };
 }

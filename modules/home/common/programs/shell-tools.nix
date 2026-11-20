@@ -5,13 +5,10 @@
     ...
 }:
 {
-    imports = [
-        inputs.nix-index-database.homeModules.default
-    ];
-
-    home.packages = with pkgs; [
-        duf
-        dust
+    home.packages = [
+        inputs.nix-index-database.packages.${pkgs.stdenv.hostPlatform.system}.comma-with-db
+        pkgs.duf
+        pkgs.dust
     ];
 
     programs = {
@@ -41,7 +38,6 @@
             enable = true;
             flake = vars.repoRoot;
         };
-        nix-index-database.comma.enable = true;
         ripgrep.enable = true;
         yazi = {
             enable = true;
