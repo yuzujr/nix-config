@@ -1,8 +1,6 @@
 {
     imports = [
         ./btop.nix
-        ./comma.nix
-        ./direnv.nix
         ./emacs.nix
         ./fastfetch.nix
         ./fish.nix
@@ -10,9 +8,7 @@
         ./herdr.nix
         ./kitty.nix
         ./neovim
-        ./nh.nix
         ./shell-tools.nix
         ./starship.nix
-        ./yazi.nix
     ];
 }

@@ -12,6 +12,9 @@
         fontconfig.defaultFonts = {
             monospace = [
                 "Maple Mono NF CN"
+                "Noto Sans Symbols"
+                "Noto Sans Symbols 2"
+                "Noto Sans Mono CJK SC"
                 "Noto Color Emoji"
             ];
             sansSerif = [

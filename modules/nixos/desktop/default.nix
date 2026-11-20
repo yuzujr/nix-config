@@ -6,7 +6,6 @@
         ./greetd.nix
         ./input.nix
         ./niri.nix
-        ./packages.nix
         ./services.nix
     ];
 }

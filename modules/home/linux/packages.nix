@@ -1,3 +1,4 @@
+# User-level Linux packages: everyday CLI tools, desktop apps, theming, and development tools.
 {
     inputs,
     pkgs,
@@ -10,9 +11,10 @@ let
     terminal = with pkgs; [
         cmatrix
         csvlens
-        duf
-        dust
+        jq
+        nix-tree
         nyancat
+        tree
     ];
 
     custom = [
@@ -75,9 +77,12 @@ let
     utilities = with pkgs; [
         appimage-run
         file
+        glib
         poppler-utils
         unrar
+        unzip
         wl-clipboard
+        zip
     ];
 
 in

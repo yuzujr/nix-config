@@ -8,8 +8,6 @@
     home = {
         packages = [ pkgs.xwayland-satellite ];
         activation = {
-            # These mutable profile links live in the out-of-store Niri directory and
-            # are ignored by Git.
             niriProfileLinks = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
                 profiles_dir="$HOME/.config/niri/profiles"
                 run mkdir -p $VERBOSE_ARG "$profiles_dir"

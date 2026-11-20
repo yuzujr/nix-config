@@ -8,8 +8,6 @@
         brews = [
             "aria2"
             "cmake"
-            "duf"
-            "dust"
             "rustup"
             "tree"
             "prettier"

@@ -32,11 +32,9 @@ in
         enable = true;
         shellAliases = {
             cls = "clear && printf '\\e[3J'";
-            ls = "eza --icons -F -H --group-directories-first --git -1";
-            ll = "eza --icons -F -H --group-directories-first --git -1 -l";
             du = "dust";
             df = "duf -only local";
-            diff = "delta";
+            diff = if isDarwin then "delta" else "delta-auto-theme";
             ff = "fastfetch";
         };
         functions.nhs = {
@@ -81,13 +79,17 @@ in
                 set -l selection
                 if test $interactive = true
                     set selection (
-                        cd -- $root
-                        and fd --type f --hidden --exclude .git --strip-cwd-prefix | fzf --scheme=path --query=$query --select-1 --exit-0
+                        fd --base-directory $root --type f --hidden --exclude .git --strip-cwd-prefix \
+                            | fzf --scheme=path --query=$query --select-1 --exit-0
                     )
+                    if test $status -eq 130
+                        return 130
+                    end
                 else
                     set selection (
-                        cd -- $root
-                        and fd --type f --hidden --exclude .git --strip-cwd-prefix | fzf --scheme=path --filter=$query | head -n 1
+                        fd --base-directory $root --type f --hidden --exclude .git --strip-cwd-prefix \
+                            | fzf --scheme=path --filter=$query \
+                            | head -n 1
                     )
                 end
 
@@ -115,6 +117,7 @@ in
                         end
                 end
 
+                complete -c v -s i -l interactive -d 'Pick file interactively with fzf'
                 complete -c v -f -a '(__v_candidates)'
             '';
         };

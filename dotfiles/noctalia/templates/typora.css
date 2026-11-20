@@ -1,0 +1,374 @@
+/* Noctalia dynamic theme for Typora */
+
+:root {
+  --noctalia-surface: {{ colors.surface.default.hex }};
+  --noctalia-surface-low: {{ colors.surface_container_low.default.hex }};
+  --noctalia-surface-container: {{ colors.surface_container.default.hex }};
+  --noctalia-text: {{ colors.on_surface.default.hex }};
+  --noctalia-subtle: {{ colors.on_surface_variant.default.hex }};
+  --noctalia-outline: {{ colors.outline_variant.default.hex }};
+  --noctalia-primary: {{ colors.primary.default.hex }};
+  --noctalia-primary-container: {{ colors.primary_container.default.hex }};
+  --noctalia-on-primary-container: {{ colors.on_primary_container.default.hex }};
+  --noctalia-secondary: {{ colors.secondary.default.hex }};
+  --noctalia-secondary-container: {{ colors.secondary_container.default.hex }};
+  --noctalia-tertiary: {{ colors.tertiary.default.hex }};
+  --noctalia-tertiary-container: {{ colors.tertiary_container.default.hex }};
+  --noctalia-error: {{ colors.error.default.hex }};
+  --noctalia-error-container: {{ colors.error_container.default.hex }};
+
+  --bg-color: var(--noctalia-surface);
+  --text-color: var(--noctalia-text);
+  --side-bar-bg-color: var(--noctalia-surface-low);
+  --control-text-color: var(--noctalia-subtle);
+  --control-text-hover-color: var(--noctalia-text);
+  --active-file-bg-color: var(--noctalia-surface-container);
+  --active-file-text-color: var(--noctalia-text);
+  --active-file-border-color: var(--noctalia-primary);
+  --item-hover-bg-color: var(--noctalia-surface-container);
+  --item-hover-text-color: var(--noctalia-text);
+  --primary-color: var(--noctalia-primary);
+  --primary-btn-border-color: var(--noctalia-primary);
+  --primary-btn-text-color: var(--noctalia-on-primary-container);
+  --select-text-bg-color: var(--noctalia-primary-container);
+  --select-text-font-color: var(--noctalia-on-primary-container);
+  --search-select-bg-color: var(--noctalia-primary);
+  --search-select-text-color: var(--noctalia-surface);
+  --window-border: 1px solid var(--noctalia-outline);
+  --rawblock-edit-panel-bd: var(--noctalia-surface-container);
+  --monospace: "Maple Mono NF CN", "JetBrains Mono", "Fira Code", monospace;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: "Noto Sans CJK SC", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.65;
+}
+
+#write {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 30px 30px 100px;
+}
+
+@media only screen and (min-width: 1400px) {
+  #write {
+    max-width: 1024px;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  #write {
+    max-width: 1200px;
+  }
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--noctalia-text);
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: 2rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--noctalia-outline);
+}
+
+h2 {
+  font-size: 1.6rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--noctalia-surface-container);
+}
+
+h3 {
+  font-size: 1.35rem;
+  color: var(--noctalia-secondary);
+}
+
+h4 {
+  font-size: 1.15rem;
+  color: var(--noctalia-tertiary);
+}
+
+h5,
+h6 {
+  font-size: 1rem;
+  color: var(--noctalia-subtle);
+}
+
+/* Links & emphasis */
+a {
+  color: var(--noctalia-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+a:hover {
+  color: var(--noctalia-primary);
+  border-bottom-color: var(--noctalia-primary);
+}
+
+strong {
+  color: var(--noctalia-text);
+  font-weight: 700;
+}
+
+em {
+  color: var(--noctalia-tertiary);
+}
+
+del {
+  color: var(--noctalia-subtle);
+}
+
+mark {
+  background-color: var(--noctalia-tertiary-container);
+  color: var(--noctalia-text);
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+/* Horizontal rule */
+hr {
+  height: 1px;
+  border: none;
+  background-color: var(--noctalia-outline);
+  margin: 1.5rem 0;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 4px solid var(--noctalia-primary);
+  background-color: var(--noctalia-surface-low);
+  color: var(--noctalia-subtle);
+  padding: 0.6rem 1rem;
+  margin: 1rem 0;
+  border-radius: 0 6px 6px 0;
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Lists & task lists */
+ul,
+ol {
+  padding-left: 1.75rem;
+}
+
+.task-list-item input[type="checkbox"] {
+  accent-color: var(--noctalia-primary);
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+table tr {
+  border-top: 1px solid var(--noctalia-outline);
+  background-color: var(--noctalia-surface);
+}
+
+table tr:nth-child(2n) {
+  background-color: var(--noctalia-surface-low);
+}
+
+table thead tr {
+  background-color: var(--noctalia-surface-container);
+}
+
+table th,
+table td {
+  border: 1px solid var(--noctalia-outline);
+  padding: 6px 12px;
+}
+
+table th {
+  font-weight: 600;
+  color: var(--noctalia-text);
+}
+
+/* Inline code */
+code,
+tt {
+  font-family: var(--monospace);
+  font-size: 0.9em;
+  background-color: var(--noctalia-surface-container);
+  color: var(--noctalia-error);
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+/* Fenced code blocks */
+.md-fences {
+  font-family: var(--monospace);
+  font-size: 0.9rem;
+  background-color: var(--noctalia-surface-container);
+  color: var(--noctalia-text);
+  border: 1px solid var(--noctalia-outline);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 1rem 0;
+}
+
+.code-tooltip {
+  background-color: var(--noctalia-surface-low);
+  border: 1px solid var(--noctalia-outline);
+  color: var(--noctalia-subtle);
+}
+
+/* CodeMirror syntax highlighting */
+.cm-s-inner .cm-keyword {
+  color: var(--noctalia-primary);
+}
+.cm-s-inner .cm-atom {
+  color: var(--noctalia-error);
+}
+.cm-s-inner .cm-number {
+  color: var(--noctalia-tertiary);
+}
+.cm-s-inner .cm-def {
+  color: var(--noctalia-secondary);
+}
+.cm-s-inner .cm-variable {
+  color: var(--noctalia-text);
+}
+.cm-s-inner .cm-variable-2 {
+  color: var(--noctalia-tertiary);
+}
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-type,
+.cm-s-inner .cm-property,
+.cm-s-inner .cm-tag {
+  color: var(--noctalia-secondary);
+}
+.cm-s-inner .cm-operator {
+  color: var(--noctalia-subtle);
+}
+.cm-s-inner .cm-comment {
+  color: var(--noctalia-subtle);
+  font-style: italic;
+}
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-string-2 {
+  color: var(--noctalia-tertiary);
+}
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-qualifier,
+.cm-s-inner .cm-attribute {
+  color: var(--noctalia-primary);
+}
+.cm-s-inner .cm-builtin,
+.cm-s-inner .cm-error {
+  color: var(--noctalia-error);
+}
+.cm-s-inner .cm-link {
+  color: var(--noctalia-secondary);
+}
+.cm-s-inner .CodeMirror-gutters {
+  background-color: var(--noctalia-surface-container);
+  border-right: 1px solid var(--noctalia-outline);
+}
+.cm-s-inner .CodeMirror-linenumber {
+  color: var(--noctalia-subtle);
+}
+.cm-s-inner .CodeMirror-cursor {
+  border-left: 1px solid var(--noctalia-text);
+}
+.cm-s-inner div.CodeMirror-selected {
+  background: var(--noctalia-primary-container);
+}
+
+/* Typora UI chrome */
+#typora-sidebar {
+  background-color: var(--side-bar-bg-color);
+  color: var(--noctalia-text);
+  border-right: 1px solid var(--noctalia-outline);
+}
+
+.file-list-item {
+  border-bottom: 1px solid var(--noctalia-surface-container);
+}
+
+.file-list-item.active,
+.file-tree-node.active > .file-node-background {
+  background-color: var(--active-file-bg-color);
+  border-left: 3px solid var(--active-file-border-color);
+}
+
+.outline-item:hover {
+  background-color: var(--item-hover-bg-color);
+}
+
+footer.ty-footer {
+  background-color: var(--noctalia-surface-low);
+  border-top: 1px solid var(--noctalia-outline);
+  color: var(--noctalia-subtle);
+}
+
+.dropdown-menu,
+.context-menu {
+  background-color: var(--noctalia-surface);
+  border: 1px solid var(--noctalia-outline);
+  color: var(--noctalia-text);
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background-color: var(--noctalia-surface-container);
+  color: var(--noctalia-text);
+}
+
+.megamenu-content,
+.megamenu-opened header {
+  background-color: var(--noctalia-surface);
+  color: var(--noctalia-text);
+}
+
+.megamenu-menu {
+  background-color: var(--noctalia-surface-low);
+  color: var(--noctalia-text);
+}
+
+#md-searchpanel {
+  background-color: var(--noctalia-surface-low);
+  border-bottom: 1px solid var(--noctalia-outline);
+}
+
+input,
+textarea,
+select {
+  background-color: var(--noctalia-surface);
+  color: var(--noctalia-text);
+  border-color: var(--noctalia-outline);
+}
+
+/* Source code mode */
+#typora-source {
+  font-family: var(--monospace);
+  background-color: var(--noctalia-surface);
+  color: var(--noctalia-text);
+}

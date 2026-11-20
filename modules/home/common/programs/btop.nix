@@ -1,13 +1,5 @@
+{ dot, pkgs, ... }:
 {
-    programs.btop = {
-        enable = true;
-        settings = {
-            color_theme = "noctalia";
-            theme_background = false;
-            shown_boxes = "net mem proc cpu";
-            proc_sorting = "cpu direct";
-            show_cpu_watts = true;
-            update_ms = 2000;
-        };
-    };
+    home.packages = [ pkgs.btop ];
+    xdg.configFile."btop/btop.conf" = dot "btop/btop.conf";
 }

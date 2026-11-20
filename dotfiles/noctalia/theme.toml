@@ -10,3 +10,11 @@ community_ids = [ "yazi" ]
 [theme.templates.user.ktexteditor]
 input_path = "$XDG_CONFIG_HOME/noctalia/templates/ktexteditor.theme"
 output_path = "$XDG_DATA_HOME/org.kde.syntax-highlighting/themes/Noctalia.theme"
+
+[theme.templates.user.fuzzel]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/fuzzel.ini"
+output_path = "$XDG_CACHE_HOME/noctalia/fuzzel.ini"
+
+[theme.templates.user.typora]
+input_path = "$XDG_CONFIG_HOME/noctalia/templates/typora.css"
+output_path = "$XDG_CONFIG_HOME/Typora/themes/noctalia.css"
