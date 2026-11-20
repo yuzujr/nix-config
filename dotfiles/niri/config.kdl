@@ -7,7 +7,7 @@ include "profiles/current-config.kdl"
 include "profiles/current-outputs.kdl"
 include "profiles/current-startup.kdl"
 
-screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Pictures/屏幕截图/%Y-%m-%d %H-%M-%S.png"
 
 environment {
     QT_QPA_PLATFORM "wayland"
