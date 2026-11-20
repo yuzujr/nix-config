@@ -24,10 +24,6 @@ let
 
     development = with pkgs; [
         binutils
-        # Workaround: nixpkgs cc-switch 3.16.5 misses sqlite in buildInputs
-        (cc-switch.overrideAttrs (old: {
-            buildInputs = (old.buildInputs or [ ]) ++ [ sqlite ];
-        }))
         codex
         antigravity-cli
         claude-code
@@ -53,7 +49,7 @@ let
         pavucontrol
         qq
         seahorse
-        # splayer-next # Broken by nixpkgs cargoSetupHook AWS_LC_SYS_USE_SYSTEM=1
+        splayer-next
         typora
         localPackages.wechat
         zathura
@@ -69,7 +65,6 @@ let
 
     theming = with pkgs; [
         adw-gtk3
-        bibata-cursors
         kdePackages.breeze
         kdePackages.qt6ct
         rose-pine-cursor
@@ -79,12 +74,9 @@ let
 
     utilities = with pkgs; [
         appimage-run
-        cliphist
         file
         poppler-utils
-        typst
         unrar
-        wev
         wl-clipboard
     ];
 
