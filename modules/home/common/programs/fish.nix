@@ -34,7 +34,7 @@ in
             cls = "clear && printf '\\e[3J'";
             du = "dust";
             df = "duf -only local";
-            diff = if isDarwin then "delta" else "delta-auto-theme";
+            diff = "delta";
             ff = "fastfetch";
         };
         functions.nhs = {

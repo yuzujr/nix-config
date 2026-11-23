@@ -31,6 +31,7 @@
             autoload = {
                 audio = false;
                 images = false;
+                directory_mode = "ignore";
             };
 
             modernz = {

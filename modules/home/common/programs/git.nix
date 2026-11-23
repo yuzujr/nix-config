@@ -6,8 +6,7 @@
 }:
 let
     isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
-    useThemeAwareDelta = pkgs.stdenv.hostPlatform.isLinux;
-    deltaCommand = if useThemeAwareDelta then "delta-auto-theme" else "delta";
+    lazygitDeltaBase = ''delta --{{colorScheme}} --paging=never --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"'';
 in
 {
     programs = {
@@ -15,16 +14,13 @@ in
             enable = true;
             settings = {
                 core.quotepath = false;
+                diff = {
+                    algorithm = "histogram";
+                    colorMoved = "default";
+                };
                 init.defaultBranch = "main";
+                merge.conflictStyle = "zdiff3";
                 user = vars.gitIdentity;
-            }
-            // lib.optionalAttrs useThemeAwareDelta {
-                pager = lib.genAttrs [
-                    "blame"
-                    "diff"
-                    "log"
-                    "show"
-                ] (_: deltaCommand);
             };
         }
         // lib.optionalAttrs isDarwin {
@@ -35,9 +31,11 @@ in
 
         delta = {
             enable = true;
-            enableGitIntegration = !useThemeAwareDelta;
+            enableGitIntegration = true;
             options = {
                 detect-dark-light = "always";
+                navigate = true;
+                hyperlinks = true;
                 syntax-theme = "ansi";
                 file-style = "bold magenta";
                 hunk-header-style = "bold cyan";
@@ -59,7 +57,13 @@ in
                         type = "stdinFilter";
                         name = "delta";
                         colorArg = "always";
-                        command = "${deltaCommand} --paging=never";
+                        command = lazygitDeltaBase;
+                    }
+                    {
+                        type = "stdinFilter";
+                        name = "delta (side-by-side)";
+                        colorArg = "always";
+                        command = "${lazygitDeltaBase} --side-by-side";
                     }
                 ];
                 promptToReturnFromSubprocess = false;
