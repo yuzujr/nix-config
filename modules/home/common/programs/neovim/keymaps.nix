@@ -16,14 +16,12 @@ let
 in
 {
     keymaps = [
-        (normal "<Esc>" "<cmd>nohlsearch<cr>" "Clear search highlight")
         (normal "<leader>fn" "<cmd>Noice history<cr>" "Notification history")
         (normal "<leader>un" "<cmd>Noice dismiss<cr>" "Dismiss notifications")
         (normal "Q" "<nop>" null)
         (normal "q:" ":" "Open command line")
         (map "v" ">" ">gv" null)
         (map "v" "<" "<gv" null)
-        (map [ "n" "x" ] "<leader>y" ''"+y'' "Yank to system clipboard")
         (map "x" "<leader>p" ''"_dP'' "Paste without replacing yank")
 
         (normal "<C-h>" "<C-w>h" null)
@@ -33,12 +31,8 @@ in
         (normal "]b" "<cmd>bnext<cr>" "Next buffer")
         (normal "[b" "<cmd>bprevious<cr>" "Previous buffer")
         (map "t" "<Esc><Esc>" "<C-\\><C-n>" null)
-        (map [ "n" "t" ] "]]" {
-            __raw = "function() Snacks.words.jump(vim.v.count1) end";
-        } "Next reference")
-        (map [ "n" "t" ] "[[" {
-            __raw = "function() Snacks.words.jump(-vim.v.count1) end";
-        } "Previous reference")
+        (normalLua "]]" "Snacks.words.jump(vim.v.count1)" "Next reference")
+        (normalLua "[[" "Snacks.words.jump(-vim.v.count1)" "Previous reference")
 
         (normalLua "<leader><space>" "Snacks.picker.smart()" "Smart find")
         (normalLua "<leader>ff" "Snacks.picker.files()" "Find files")

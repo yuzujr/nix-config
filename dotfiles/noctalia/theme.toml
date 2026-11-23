@@ -4,7 +4,7 @@ mode = "auto"
 source = "builtin"
 
 [theme.templates]
-builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "kitty", "niri", "qt" ]
+builtin_ids = [ "btop", "gtk3", "gtk4", "kcolorscheme", "niri", "qt" ]
 community_ids = [ "yazi" ]
 
 [theme.templates.user.ktexteditor]

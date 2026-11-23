@@ -135,7 +135,6 @@ in
                         preselect = false;
                     };
                 };
-                fuzzy.implementation = "lua";
                 keymap = {
                     preset = "default";
                     "<Tab>" = [

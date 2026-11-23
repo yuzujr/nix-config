@@ -10,7 +10,7 @@ window-rule {
 
 // 全屏打开
 window-rule {
-    match app-id="SPlayer"
+    match app-id="^top\\.imsyy\\.splayer_next$"
     match app-id="google-chrome"
     match app-id="mpv"
     open-maximized true

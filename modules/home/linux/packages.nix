@@ -55,7 +55,6 @@ let
         typora
         localPackages.wechat
         zathura
-        zathuraPkgs.zathura_pdf_poppler
     ];
 
     media = with pkgs; [

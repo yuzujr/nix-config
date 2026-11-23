@@ -16,14 +16,20 @@
     ];
 
     networking.hostName = "laptop-nixos";
-    services.power-profiles-daemon.enable = true;
+    services = {
+        gold-price.enable = false;
+        power-profiles-daemon.enable = true;
+    };
     home-manager.users.${vars.username} = {
         imports = [
             ../../modules/home/linux
             ../../modules/home/linux/services/sunshine.nix
         ];
 
-        services.nixloom.acceleration = "cuda";
+        services = {
+            nixloom.acceleration = "cuda";
+            sunshine.enable = false;
+        };
     };
     virtualisation.vmware.host.enable = false;
     system.stateVersion = "25.11";

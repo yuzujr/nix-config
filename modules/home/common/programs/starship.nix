@@ -8,8 +8,8 @@
                 style = "bold blue";
             };
             character = {
-                success_symbol = "[[❯](green)](yellow)";
-                error_symbol = "[[❯](red)](yellow)";
+                success_symbol = "[❯](green)";
+                error_symbol = "[❯](red)";
                 vimcmd_symbol = "[❮](cyan)";
             };
             git_branch.style = "bold magenta";
