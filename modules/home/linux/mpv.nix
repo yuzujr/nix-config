@@ -53,6 +53,8 @@
                 osc_fade_strength = 72;
                 osc_height = 52;
                 playpause_size = 26;
+                scalefullscreen = 0.7;
+                scalewindowed = 0.7;
                 seek_handle_border_color = "disable";
                 seek_handle_color = "#72A7E8";
                 seek_handle_size = 0.65;
@@ -62,8 +64,10 @@
                 sidebuttons_size = 20;
                 time_font_size = 14;
                 title_font_size = 20;
+                title_mbtn_left_command = "ignore";
                 truncate_title = true;
                 volumebar_match_seek_color = true;
+                window_controls = false;
             };
 
             thumbfast = {
